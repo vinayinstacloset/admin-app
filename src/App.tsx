@@ -48,10 +48,12 @@ export default function App() {
                     path="/"
                     element={<LoginScreen />}
             />
+
             <Route
                 path="/login"
                 element={<LoginScreen />}
             />
+
                 <Route
                     path="/register"
                     element={<RegistrationScreen />}
