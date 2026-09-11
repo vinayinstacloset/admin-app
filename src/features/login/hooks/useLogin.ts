@@ -1,10 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../api/authApi";
+import { useAuthStore } from "../../../store/zustand/authStore";
 import { isValidEmail, isValidPassword } from "../utils/login.utils";
 
 export function useLogin() {
     const navigate = useNavigate();
+
+    const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
+    const setAdmin = useAuthStore((state) => state.setAdmin);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -34,10 +37,19 @@ export function useLogin() {
         setError("");
 
         try {
+
             //await authService.login({ email, password });
-            navigate("/admin-dashboard");
+            setAuthenticated(true);
+
+            navigate("/admin-dashboard", {
+                replace: true,
+            });
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to login. Please try again.");
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Failed to login. Please try again.",
+            );
         } finally {
             setIsLoading(false);
         }
