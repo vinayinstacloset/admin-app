@@ -16,7 +16,6 @@ interface SidebarProps {
 export default function Sidebar({ isCollapsed, onToggleCollapse, onMobileClose }: SidebarProps) {
     const navRef = useRef<HTMLElement>(null);
 
-    // Restore scroll position on component mount / navigation
     useEffect(() => {
         const savedScrollPos = sessionStorage.getItem("sidebar_scroll_pos");
         if (navRef.current && savedScrollPos) {
@@ -24,7 +23,6 @@ export default function Sidebar({ isCollapsed, onToggleCollapse, onMobileClose }
         }
     }, []);
 
-    // Save scroll position whenever the user scrolls
     const handleScroll = () => {
         if (navRef.current) {
             sessionStorage.setItem("sidebar_scroll_pos", navRef.current.scrollTop.toString());
