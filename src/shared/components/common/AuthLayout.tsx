@@ -35,7 +35,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
                 ))}
             </div>
 
-            <div className="absolute inset-x-[-10%] top-[190px] md:top-[230px] h-[70vh] bg-cream rounded-t-[50%] opacity-95" />
+            <div className="absolute inset-x-[-10%] top-[190px] md:top-[230px] h-[70vh] bg-cream rounded-t-[50%] " />
 
             <div className="relative z-10 w-full max-w-[420px] bg-white rounded-2xl shadow-soft p-8">
                 <div className="flex items-center justify-center mb-6">

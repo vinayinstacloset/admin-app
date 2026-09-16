@@ -24,7 +24,7 @@ export default function Topbar({
     adminAvatarUrl = "https://i.pravatar.cc/64?img=68",
 }: TopbarProps) {
     return (
-        <header className="flex items-center justify-between gap-4 h-16 px-4 sm:px-6 bg-cream/90 backdrop-blur border-b border-black/5">
+        <header className="flex items-center justify-between gap-4 h-16 px-4 sm:px-6 bg-cream">
             <div className="flex items-center gap-3 min-w-0">
                 <button
                     type="button"
@@ -35,7 +35,7 @@ export default function Topbar({
                     <Menu size={20} />
                 </button>
 
-                <div className="flex items-center gap-1.5 text-[13px] text-ink/50 min-w-0 overflow-hidden">
+                <div className="flex items-center gap-1.5 text-xl text-ink/50 min-w-0 overflow-hidden">
                     {breadcrumbs.map((crumb, index) => (
                         <span
                             key={`${crumb.label}-${index}`}
@@ -67,7 +67,7 @@ export default function Topbar({
                 </div>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="bg-white rounded-xl px-2 sm:px-4 py-1.5 sm:py-2 flex items-center flex-wrap justify-end gap-2 sm:gap-4 md:gap-6 shadow-sm max-w-full0">
                 
                 <button
                     type="button"

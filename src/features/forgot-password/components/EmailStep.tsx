@@ -22,7 +22,7 @@ export default function EmailStep({ email, isLoading, error, onEmailChange, onBa
                 <ArrowLeft size={17} /> Forgot password
             </button>
 
-            <p className="text-sm text-ink/55 mb-4">Enter your email address to get OTP &ndash;</p>
+            <p className="text-sm text-ink/55 mb-4">Enter your email address to get OTP</p>
 
             <form
                 onSubmit={onSubmit}
@@ -36,6 +36,7 @@ export default function EmailStep({ email, isLoading, error, onEmailChange, onBa
                             value={email}
                             onChange={(event) => onEmailChange(event.target.value)}
                             className="pr-9"
+                            placeholder="Enter email"
                         />
                         {email && (
                             <button

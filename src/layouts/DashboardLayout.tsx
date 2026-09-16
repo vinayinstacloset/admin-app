@@ -120,7 +120,7 @@ export default function DashboardLayout() {
 
             <main
                 ref={mainScrollRef}
-                className="min-w-0 flex-1 overflow-x-hidden overflow-y-auto h-full"
+                className="min-w-0 flex-1 overflow-x-hidden overflow-y-auto h-full mt-2"
             >
                 <div className="sticky top-0 z-30">
                     <Topbar
