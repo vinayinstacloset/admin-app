@@ -25,7 +25,7 @@ export default function StatCard({ label, value, icon, tone = "purple", link, on
     const IconComponent = (Icons as unknown as Record<string, LucideIcon>)[icon] ?? Icons.Circle;
 
     return (
-        <div className="bg-white rounded-2xl border border-black/5 shadow-card p-4 flex items-center gap-3">
+        <div className="bg-white rounded-xl border border-black/5 p-4 flex items-center gap-3 min-h-[102px]">
             <span className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${toneStyles[tone]}`}>
                 <IconComponent size={18} />
             </span>

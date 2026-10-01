@@ -25,7 +25,12 @@ export default function OrderDetailsScreen() {
     useEffect(() => {
         if (!order) return;
 
-        setExtraCrumbs([{ label: order.id, badge: order.status }]);
+        setExtraCrumbs([
+            { label: "Store", to: "/admin-dashboard/store" },
+            { label: "Nike – Bandra", to: "/admin-dashboard/store/store-1" },
+            { label: "Orders", to: "/admin-dashboard/store/store-1/orders" },
+            { label: order.id, badge: order.status },
+        ]);
 
         setPageAction(
             <button

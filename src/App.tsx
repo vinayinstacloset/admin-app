@@ -5,8 +5,6 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import DashboardLayout from "./layouts/DashboardLayout";
 
 import LoginScreen from "./features/login/screens/LoginScreen";
-import RegistrationScreen from "./features/registration/screens/RegistrationScreen";
-import ForgotPasswordScreen from "./features/forgot-password/screens/ForgotPasswordScreen";
 
 import OverviewScreen from "./features/overview/screens/OverviewScreen";
 
@@ -15,6 +13,7 @@ import OrderDetailsScreen from "./features/orders/screens/OrderDetailsScreen";
 
 import CustomersScreen from "./features/customers/screens/CustomersScreen";
 import CustomerDetailsScreen from "./features/customers/screens/CustomerDetailsScreen";
+import CustomerOrderDetailsScreen from "./features/customers/screens/CustomerOrderDetailsScreen";
 
 import VendorsScreen from "./features/vendors/screens/VendorsScreen";
 import VendorDetailsScreen from "./features/vendors/screens/VendorDetailsScreen";
@@ -25,15 +24,9 @@ import RiderDetailsScreen from "./features/riders/screens/RiderDetailsScreen";
 import StoreScreen from "./features/store/screens/StoreScreen";
 import CatalogueScreen from "./features/catalogue/screens/CatalogueScreen";
 import ApprovalsScreen from "./features/approvals/screens/ApprovalsScreen";
-import AdminsScreen from "./features/admins/screens/AdminsScreen";
-import SupportScreen from "./features/support/screens/SupportScreen";
+import ApprovalDetailScreen from "./features/approvals/screens/ApprovalDetailScreen";
 import LiveDeliveryScreen from "./features/live-delivery/screens/LiveDeliveryScreen";
-import TicketIssueScreen from "./features/ticket-issue/screens/TicketIssueScreen";
-import EscalationTicketsScreen from "./features/escalation-tickets/screens/EscalationTicketsScreen";
-import AnalyticsScreen from "./features/analytics/screens/AnalyticsScreen";
 import PriceMarkupScreen from "./features/price-markup/screens/PriceMarkupScreen";
-import BrandsScreen from "./features/brands/screens/BrandsScreen";
-import BannerCampaignsScreen from "./features/banner-campaigns/screens/BannerCampaignsScreen";
 import FinanceScreen from "./features/finance/screens/FinanceScreen";
 import ReturnsScreen from "./features/returns/screens/ReturnsScreen";
 import ExchangeScreen from "./features/exchange/screens/ExchangeScreen";
@@ -54,14 +47,6 @@ export default function App() {
                 element={<LoginScreen />}
             />
 
-                <Route
-                    path="/register"
-                    element={<RegistrationScreen />}
-                />
-                <Route
-                    path="/forgot-password"
-                    element={<ForgotPasswordScreen />}
-                />
             {/* </Route> */}
 
             {/* Protected admin dashboard */}
@@ -77,6 +62,22 @@ export default function App() {
 
                     <Route
                         path="store"
+                        element={<StoreScreen />}
+                    />
+                    <Route
+                        path="store/:storeId"
+                        element={<StoreScreen />}
+                    />
+                    <Route
+                        path="store/:storeId/orders"
+                        element={<StoreScreen />}
+                    />
+                    <Route
+                        path="store/:storeId/skus"
+                        element={<StoreScreen />}
+                    />
+                    <Route
+                        path="store/:storeId/reviews"
                         element={<StoreScreen />}
                     />
 
@@ -97,6 +98,10 @@ export default function App() {
                         path="approvals"
                         element={<ApprovalsScreen />}
                     />
+                    <Route
+                        path="approvals/:approvalId"
+                        element={<ApprovalDetailScreen />}
+                    />
 
                     <Route
                         path="customers"
@@ -106,10 +111,17 @@ export default function App() {
                         path="customers/:customerId"
                         element={<CustomerDetailsScreen />}
                     />
-
                     <Route
-                        path="admins"
-                        element={<AdminsScreen />}
+                        path="customers/:customerId/orders/:orderId"
+                        element={<CustomerOrderDetailsScreen kind="order" />}
+                    />
+                    <Route
+                        path="customers/:customerId/returns/:orderId"
+                        element={<CustomerOrderDetailsScreen kind="return" />}
+                    />
+                    <Route
+                        path="customers/:customerId/exchanges/:orderId"
+                        element={<CustomerOrderDetailsScreen kind="exchange" />}
                     />
 
                     <Route
@@ -131,37 +143,12 @@ export default function App() {
                     />
 
                     <Route
-                        path="support"
-                        element={<SupportScreen />}
-                    />
-                    <Route
                         path="live-delivery"
                         element={<LiveDeliveryScreen />}
                     />
                     <Route
-                        path="ticket-issue"
-                        element={<TicketIssueScreen />}
-                    />
-                    <Route
-                        path="escalation-ticket"
-                        element={<EscalationTicketsScreen />}
-                    />
-
-                    <Route
-                        path="analytics"
-                        element={<AnalyticsScreen />}
-                    />
-                    <Route
                         path="price-markup"
                         element={<PriceMarkupScreen />}
-                    />
-                    <Route
-                        path="brands"
-                        element={<BrandsScreen />}
-                    />
-                    <Route
-                        path="banner-campaigns"
-                        element={<BannerCampaignsScreen />}
                     />
 
                     <Route
@@ -183,24 +170,6 @@ export default function App() {
                 </Route>
             {/* </Route> */}
 
-            {/* <Route
-                path="/"
-                element={
-                    <Navigate
-                        to="/admin-dashboard"
-                        replace
-                    />
-                }
-            />
-            <Route
-                path="*"
-                element={
-                    <Navigate
-                        to="/admin-dashboard"
-                        replace
-                    />
-                }
-            /> */}
         </Routes>
     );
 }

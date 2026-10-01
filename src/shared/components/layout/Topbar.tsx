@@ -12,19 +12,36 @@ interface TopbarProps {
     breadcrumbs: Breadcrumb[];
     action?: ReactNode;
     onMenuClick?: () => void;
-    adminName?: string;
-    adminAvatarUrl?: string;
+    showDefaultActions?: boolean;
+}
+
+function DefaultHeaderActions() {
+    return (
+        <div className="flex items-center gap-3 sm:gap-4">
+            <button
+                type="button"
+                aria-label="Notifications"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-ink/80 shadow-sm transition-colors hover:bg-[#f5f5f5]"
+            >
+                <Bell size={18} />
+            </button>
+            <img
+                src="https://i.pravatar.cc/64?img=68"
+                alt="User profile"
+                className="h-8 w-8 rounded-full object-cover shadow-sm ring-1 ring-black/5"
+            />
+        </div>
+    );
 }
 
 export default function Topbar({
     breadcrumbs,
     action,
     onMenuClick,
-    adminName = "Admin",
-    adminAvatarUrl = "https://i.pravatar.cc/64?img=68",
+    showDefaultActions = true,
 }: TopbarProps) {
     return (
-        <header className="flex items-center justify-between gap-4 h-16 px-4 sm:px-6 bg-cream">
+        <header className="flex items-center justify-between gap-4 h-16 px-4 sm:px-6 bg-[#eeeeee]">
             <div className="flex items-center gap-3 min-w-0">
                 <button
                     type="button"
@@ -67,24 +84,9 @@ export default function Topbar({
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl px-2 sm:px-4 py-1.5 sm:py-2 flex items-center flex-wrap justify-end gap-2 sm:gap-4 md:gap-6 shadow-sm max-w-full0">
-                
-                <button
-                    type="button"
-                    className="relative w-9 h-9 rounded-full bg-white border border-black/5 flex items-center justify-center text-ink/50 hover:text-ink shadow-card"
-                    aria-label="Notifications"
-                >
-                    <Bell size={16} />
-                    <span className="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full bg-red-500" />
-                </button>
-
-                <img
-                    src={adminAvatarUrl}
-                    alt={adminName}
-                    className="w-9 h-9 rounded-full object-cover border border-black/5"
-                />
+            <div className="bg-white rounded-xl px-2 sm:px-4 py-1.5 sm:py-2 flex items-center flex-wrap justify-end gap-2 sm:gap-3 md:gap-5 shadow-sm max-w-full">
+                { <DefaultHeaderActions />}
                 {action}
-
             </div>
         </header>
     );

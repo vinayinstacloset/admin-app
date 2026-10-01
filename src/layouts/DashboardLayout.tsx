@@ -5,7 +5,6 @@ import { Drawer } from "@mui/material";
 import Sidebar from "../shared/components/layout/Sidebar";
 import Topbar, { type Breadcrumb } from "../shared/components/layout/Topbar";
 import { useUiStore } from "../store/zustand/uiStore";
-import { useAuthStore } from "../store/zustand/authStore";
 import { ADMIN_NAV_SECTIONS } from "../shared/constants/navigation";
 
 const DRAWER_WIDTH_EXPANDED = 256;
@@ -32,8 +31,6 @@ export default function DashboardLayout() {
 
     const { isMobileSidebarOpen, isSidebarCollapsed, setMobileSidebarOpen, toggleSidebar } = useUiStore();
 
-    const admin = useAuthStore((state) => state.admin);
-
     const [pageAction, setPageAction] = useState<ReactNode>(null);
     const [extraCrumbs, setExtraCrumbs] = useState<Breadcrumb[]>([]);
 
@@ -50,13 +47,14 @@ export default function DashboardLayout() {
 
     const breadcrumbs: Breadcrumb[] = useMemo(() => {
         if (extraCrumbs.length > 0) {
-            return [{ label: "Overview", to: "/admin-dashboard" }, ...extraCrumbs];
+            return extraCrumbs;
         }
 
         return [{ label: rootLabel }];
     }, [extraCrumbs, rootLabel]);
 
     const currentDrawerWidth = isSidebarCollapsed ? DRAWER_WIDTH_COLLAPSED : DRAWER_WIDTH_EXPANDED;
+    const showDefaultTopbarActions = !location.pathname.startsWith("/admin-dashboard/store");
 
     const SidebarContent = () => (
         <Sidebar
@@ -69,7 +67,7 @@ export default function DashboardLayout() {
     return (
         <div
             className="flex h-screen overflow-hidden"
-            style={{ backgroundColor: "#F4F2EF" }}
+            style={{ backgroundColor: "#eeeeee" }}
         >
             <Drawer
                 anchor="left"
@@ -120,18 +118,18 @@ export default function DashboardLayout() {
 
             <main
                 ref={mainScrollRef}
-                className="min-w-0 flex-1 overflow-x-hidden overflow-y-auto h-full mt-2"
+                className="min-w-0 flex-1 overflow-x-hidden overflow-y-auto h-full"
             >
                 <div className="sticky top-0 z-30">
                     <Topbar
                         breadcrumbs={breadcrumbs}
                         action={pageAction}
                         onMenuClick={() => setMobileSidebarOpen(true)}
-                        adminName={admin?.name ?? "Admin"}
+                        showDefaultActions={showDefaultTopbarActions}
                     />
                 </div>
 
-                <div className="px-4 sm:px-6 pb-8 pt-5">
+                <div className="px-4 sm:px-6 pb-8 pt-4">
                     <Outlet context={{ setPageAction, setExtraCrumbs } satisfies DashboardOutletContext} />
                 </div>
             </main>

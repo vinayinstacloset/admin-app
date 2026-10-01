@@ -12,20 +12,20 @@ export default function TopVendorsPanel({ vendors, states }: TopVendorsPanelProp
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="bg-white rounded-2xl border border-black/5 shadow-card p-5">
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-sm font-semibold text-ink">Top vendors today</h2>
+        <section className="min-w-0">
+            <div className="mb-2 flex items-center justify-between gap-3">
+                <h2 className="text-[15px] font-semibold text-ink">Top vendors today</h2>
                 <div className="relative">
                     <button
                         type="button"
-                        onClick={() => setIsOpen((current) => !current)}
-                        className="flex items-center gap-1 text-[11.5px] text-ink/50 hover:text-ink"
+                        onClick={() => setIsOpen((open) => !open)}
+                        className="flex h-8 items-center gap-1 rounded-lg bg-white px-3 text-[10px] font-medium text-ink/65 shadow-sm"
                     >
-                        {stateFilter} <ChevronDown size={13} />
+                        {stateFilter}
+                        <ChevronDown size={12} />
                     </button>
-
                     {isOpen && (
-                        <div className="absolute right-0 mt-2 w-44 bg-white border border-black/5 rounded-lg shadow-soft py-1.5 z-10 max-h-56 overflow-y-auto">
+                        <div className="absolute right-0 top-9 z-20 w-40 overflow-hidden rounded-lg border border-black/5 bg-white py-1 shadow-lg">
                             {states.map((state) => (
                                 <button
                                     key={state}
@@ -34,8 +34,8 @@ export default function TopVendorsPanel({ vendors, states }: TopVendorsPanelProp
                                         setStateFilter(state);
                                         setIsOpen(false);
                                     }}
-                                    className={`w-full text-left px-3 py-1.5 text-xs hover:bg-cream ${
-                                        state === stateFilter ? "text-brand-600" : "text-ink/60"
+                                    className={`block w-full px-3 py-2 text-left text-[10px] hover:bg-cream ${
+                                        state === stateFilter ? "font-semibold text-brand-700" : "text-ink/65"
                                     }`}
                                 >
                                     {state}
@@ -46,25 +46,29 @@ export default function TopVendorsPanel({ vendors, states }: TopVendorsPanelProp
                 </div>
             </div>
 
-            <ul className="space-y-3.5">
+            <div className="overflow-hidden rounded-xl bg-white shadow-sm">
                 {vendors.map((vendor, index) => (
-                    <li
+                    <div
                         key={`${vendor.name}-${index}`}
-                        className="flex items-center justify-between gap-3"
+                        className="flex min-h-[57px] items-center justify-between gap-3 border-b border-black/5 px-3.5 last:border-b-0"
                     >
-                        <div className="flex items-center gap-3 min-w-0">
-                            <span className="w-9 h-9 rounded-lg bg-cream flex items-center justify-center font-bold text-ink/50 shrink-0">
-                                {vendor.initial}
-                            </span>
+                        <div className="flex min-w-0 items-center gap-3">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#f3f3f3]">
+                                {vendor.logoUrl ? (
+                                    <img src={vendor.logoUrl} alt="" className="h-full w-full object-contain" />
+                                ) : (
+                                    <span className="text-sm font-semibold text-ink/40">{vendor.initial ?? vendor.name.slice(0, 1)}</span>
+                                )}
+                            </div>
                             <div className="min-w-0">
-                                <p className="text-[12.5px] text-ink truncate">{vendor.name}</p>
-                                <p className="text-[11px] text-ink/40">{vendor.orders}</p>
+                                <p className="truncate text-[11.5px] font-semibold text-ink">{vendor.name}</p>
+                                <p className="text-[9.5px] text-ink/45">{vendor.orders}</p>
                             </div>
                         </div>
-                        <span className="text-[12.5px] font-semibold text-ink shrink-0">{vendor.amount}</span>
-                    </li>
+                        <span className="shrink-0 text-[11px] font-semibold text-ink/75">{vendor.amount}</span>
+                    </div>
                 ))}
-            </ul>
-        </div>
+            </div>
+        </section>
     );
 }

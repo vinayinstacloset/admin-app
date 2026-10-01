@@ -27,32 +27,23 @@ export const ADMIN_NAV_SECTIONS: NavSectionConfig[] = [
         label: "Network",
         items: [
             { key: "customers", label: "Customers", icon: "Users", path: "/admin-dashboard/customers" },
-            { key: "admins", label: "Admins", icon: "ShieldCheck", path: "/admin-dashboard/admins" },
             { key: "vendor", label: "Vendor", icon: "Store", path: "/admin-dashboard/vendor" },
             { key: "riders", label: "Riders", icon: "Bike", path: "/admin-dashboard/riders" },
-            { key: "support", label: "Support", icon: "Headphones", path: "/admin-dashboard/support" },
             { key: "live-delivery", label: "Live Delivery", icon: "Truck", path: "/admin-dashboard/live-delivery" },
-            { key: "ticket-issue", label: "Ticket Issue", icon: "Ticket", path: "/admin-dashboard/ticket-issue" },
-            {
-                key: "escalation-ticket",
-                label: "Escalation Ticket",
-                icon: "AlertTriangle",
-                path: "/admin-dashboard/escalation-ticket",
-            },
         ],
     },
     {
         label: "Growth",
         items: [
-            { key: "analytics", label: "Analytics", icon: "BarChart3", path: "/admin-dashboard/analytics" },
+            // { key: "analytics", label: "Analytics", icon: "BarChart3", path: "/admin-dashboard/analytics" },
             { key: "price-markup", label: "Price Markup", icon: "Tag", path: "/admin-dashboard/price-markup" },
-            { key: "brands", label: "Brands", icon: "Award", path: "/admin-dashboard/brands" },
-            {
-                key: "banner-campaigns",
-                label: "Banner Campaigns",
-                icon: "Image",
-                path: "/admin-dashboard/banner-campaigns",
-            },
+            // { key: "brands", label: "Brands", icon: "Award", path: "/admin-dashboard/brands" },
+            // {
+            //     key: "banner-campaigns",
+            //     label: "Banner Campaigns",
+            //     icon: "Image",
+            //     path: "/admin-dashboard/banner-campaigns",
+            // },
         ],
     },
     {

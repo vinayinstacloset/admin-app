@@ -12,7 +12,7 @@ export default function Modal({ open, onClose, children, widthClassName = "max-w
     if (!open) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
             <div className={`relative w-full ${widthClassName} bg-white rounded-2xl shadow-soft p-6`}>
                 {onClose && (
                     <button

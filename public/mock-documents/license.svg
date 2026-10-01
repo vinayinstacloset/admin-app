@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="320" viewBox="0 0 520 320">
+  <rect width="520" height="320" rx="20" fill="#eef4f7"/>
+  <rect x="18" y="18" width="484" height="284" rx="16" fill="#fff" stroke="#cbdde5" stroke-width="2"/>
+  <rect x="40" y="40" width="440" height="34" rx="8" fill="#0e94c3" opacity=".14"/>
+  <text x="260" y="62" text-anchor="middle" font-family="Arial" font-size="13" font-weight="700" fill="#0e7698">DRIVING LICENSE — SAMPLE</text>
+  <circle cx="88" cy="138" r="42" fill="#e2e9ed"/>
+  <rect x="150" y="102" width="200" height="13" rx="6" fill="#d9e2e7"/>
+  <rect x="150" y="128" width="250" height="11" rx="5" fill="#e9eef1"/>
+  <rect x="150" y="151" width="170" height="11" rx="5" fill="#e9eef1"/>
+  <rect x="40" y="208" width="250" height="12" rx="6" fill="#e3eaee"/>
+  <rect x="40" y="233" width="330" height="12" rx="6" fill="#eef2f4"/>
+  <text x="40" y="278" font-family="Arial" font-size="11" fill="#7e9099">NOT A REAL LICENSE</text>
+</svg>

@@ -6,7 +6,7 @@ export interface OverviewStat {
     tone: "green" | "purple" | "blue" | "orange" | "yellow" | "red";
 }
 
-export interface RevenuePoint {
+export interface ChartPoint {
     day: string;
     value: number;
 }
@@ -18,7 +18,7 @@ export interface RevenueSummary {
 }
 
 export interface OverviewAlert {
-    id: number;
+    id: number | string;
     tone: "orange" | "blue" | "red" | "yellow" | "purple";
     icon: string;
     title: string;
@@ -39,14 +39,26 @@ export interface TopVendorRow {
     name: string;
     orders: string;
     amount: string;
-    initial: string;
+    initial?: string;
+    logoUrl?: string | null;
+}
+
+export interface OverviewApprovalRow {
+    id: string | number;
+    name: string;
+    type: "rider" | "vendor" | string;
+    vehicleOrStore: string;
+    waiting: string;
+    avatarUrl?: string | null;
 }
 
 export interface OverviewResponse {
     stats: OverviewStat[];
-    revenueChart: RevenuePoint[];
+    revenueChart: ChartPoint[];
+    orderChart?: ChartPoint[];
     revenueSummary: RevenueSummary;
     alerts: OverviewAlert[];
-    recentOrders: RecentOrderRow[];
+    recentOrders?: RecentOrderRow[];
     topVendors: TopVendorRow[];
+    approvals?: OverviewApprovalRow[];
 }

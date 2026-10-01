@@ -1,12 +1,27 @@
 import { getApiErrorMessage } from "../../../shared/api/apiError";
 import { authClient } from "../../../shared/api/auth/authClient";
 import { useAuthStore } from "../../../store/zustand/authStore";
-import type { LoginRequest, LoginResponse } from "../types/auth.types";
+import type {
+    SendLoginOtpRequest,
+    SendLoginOtpResponse,
+    VerifyLoginOtpRequest,
+    VerifyLoginOtpResponse,
+} from "../types/auth.types";
 
 export const authService = {
-    login: async (payload: LoginRequest): Promise<LoginResponse> => {
+    sendOtp: async (payload: SendLoginOtpRequest): Promise<SendLoginOtpResponse> => {
         try {
-            const response = await authClient.post<LoginResponse>("/auth/admin/login", payload);
+            const response = await authClient.post<SendLoginOtpResponse>("/auth/admin/login/send-otp", payload);
+
+            return response.data;
+        } catch (error) {
+            throw new Error(getApiErrorMessage(error, "Failed to send OTP. Please try again."));
+        }
+    },
+
+    verifyOtp: async (payload: VerifyLoginOtpRequest): Promise<VerifyLoginOtpResponse> => {
+        try {
+            const response = await authClient.post<VerifyLoginOtpResponse>("/auth/admin/login/verify-otp", payload);
 
             const data = response.data;
             const accessToken = data?.accessToken ?? data?.token;
@@ -27,12 +42,12 @@ export const authService = {
 
             return data;
         } catch (error) {
-            throw new Error(getApiErrorMessage(error, "Failed to login. Please try again."));
+            throw new Error(getApiErrorMessage(error, "Invalid or expired OTP. Please try again."));
         }
     },
 
     logout: async (): Promise<void> => {
-        const { refreshToken, clearTokens } = useAuthStore.getState();
+        const { refreshToken, clearAuth } = useAuthStore.getState();
 
         try {
             if (refreshToken) {
@@ -41,7 +56,7 @@ export const authService = {
         } catch (error) {
             console.error("Error logging out:", error);
         } finally {
-            clearTokens();
+            clearAuth();
         }
     },
 
