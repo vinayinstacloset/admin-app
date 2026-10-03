@@ -49,6 +49,7 @@ import {
     formatCurrency,
     ratingPercent,
 } from "../utils/store.utils";
+import { storeApi } from "../api";
 
 const states = [
     "All State",
@@ -129,19 +130,88 @@ function PageTitle({ children }: { children: ReactNode }) {
     return <h1 className="text-[17px] font-bold tracking-[-0.02em] text-ink">{children}</h1>;
 }
 
+async function exportStoreDetails() {
+    const [details, products, sales] = await Promise.all([
+        storeApi.getDetails(),
+        storeApi.getProducts(),
+        storeApi.getSales(),
+    ]);
+
+    const rows = [
+        ["Field", "Value"],
+        ["Store", details.name],
+        ["Brand", details.brand],
+        ["City", details.city],
+        ["State", details.state],
+        ["Address", details.address],
+        ["Hours", details.hours],
+        ["Status", details.status],
+        ["Email", details.email],
+        ["Phone", details.phone],
+        ["Revenue", details.totalRevenue],
+        ["Orders", details.totalOrders],
+        ["SKUs", details.totalSkus],
+        ["Fulfilment Rate", `${details.fulfilmentRate}%`],
+        ["Rating", details.rating],
+        ["Ratings Count", details.ratingsCount],
+        ["Products", products.length],
+        ["Sales Points", sales.length],
+    ];
+    downloadCsv("store-details.csv", rows);
+}
+
+async function exportStoreOrders() {
+    const orders = await storeApi.getOrders();
+    const rows = [
+        ["Order", "Items", "Customer", "Location", "Rider", "Item", "Item Count", "Status", "Amount", "Age", "Action"],
+        ...orders.map((order) => [
+            order.id,
+            order.items,
+            order.customer,
+            order.customerLocation,
+            order.rider,
+            order.itemSummary,
+            order.itemCounts,
+            order.status,
+            order.amount,
+            order.age,
+            order.action,
+        ]),
+    ];
+    downloadCsv("orders.csv", rows);
+}
+
+function downloadCsv(filename: string, rows: Array<Array<string | number>>) {
+    const csv = rows
+        .map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(","))
+        .join("\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+}
+
 function StoreHeaderActions({
-    showEmail = false,
+    showStoreControls = false,
+    showMail = false,
     onToggle,
+    onExport,
     isOpen,
 }: {
-    showEmail?: boolean;
+    showStoreControls?: boolean;
+    showMail?: boolean;
     onToggle?: () => void;
+    onExport?: () => void;
     isOpen?: boolean;
 }) {
     return (
         <div className="flex items-center gap-4">
-            {showEmail && (
-                <>
+            {showStoreControls && (
+                <div className="flex items-center gap-3">
                     <div>
                         <p className="text-xs font-bold text-ink">Store</p>
                         <p className="text-[9px] text-ink/55">Open & Close</p>
@@ -162,10 +232,19 @@ function StoreHeaderActions({
                             )}
                         />
                     </button>
-                </>
+                </div>
             )}
-            
-            {showEmail && <Mail size={20} className="text-ink/80" />}
+            {onExport && (
+                <button
+                    type="button"
+                    onClick={onExport}
+                    className="flex h-9 items-center gap-2 rounded-lg bg-[#0878df] px-4 text-xs font-semibold text-white hover:bg-[#066bc7]"
+                >
+                    <Download size={14} />
+                    Export
+                </button>
+            )}
+            {showMail && <Mail size={20} className="text-ink/80" />}
         </div>
     );
 }
@@ -625,16 +704,52 @@ function statusClass(status: OrderStatus) {
     return map[status];
 }
 
-function OrdersView() {
+function OrdersDateDropdown() {
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState("Today");
+    const options = ["Today", "Yesterday", "This week"];
+    return (
+        <div className="relative">
+            <button
+                type="button"
+                onClick={() => setOpen((current) => !current)}
+                className="flex h-9 min-w-[75px] items-center justify-between gap-2 rounded-md bg-white px-3 text-[10px] font-semibold shadow-sm"
+            >
+                {value}
+                <ChevronDown size={13} className={open ? "rotate-180 transition-transform" : "transition-transform"} />
+            </button>
+            {open && (
+                <div className="absolute right-0 top-10 z-50 min-w-[120px] rounded-md bg-white p-1 shadow-xl ring-1 ring-black/5">
+                    {options.map((option) => (
+                        <button
+                            key={option}
+                            type="button"
+                            onClick={() => {
+                                setValue(option);
+                                setOpen(false);
+                            }}
+                            className={classNames("block w-full rounded px-3 py-2 text-left text-[10px]", option === value ? "bg-[#eeeae6] font-semibold" : "hover:bg-[#f7f5f2]")}
+                        >
+                            {option}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+export function OrdersView({ showTitle = true }: { showTitle?: boolean } = {}) {
     const { filteredOrders, search, setSearch, status, setStatus } = useStoreOrders();
 
     return (
         <div>
             <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                    <PageTitle>Orders</PageTitle>
-                </div>
-
+                {showTitle ? (
+                    <div className="flex items-center gap-2">
+                        <PageTitle>Orders</PageTitle>
+                    </div>
+                ) : <div />}
             </div>
 
             <div className="mt-5 flex flex-wrap items-end justify-between gap-3">
@@ -666,13 +781,7 @@ function OrdersView() {
                         />
                     </div>
                     <Filter size={17} className="text-ink/65" />
-                    <Dropdown
-                        value="Today"
-                        options={["Today", "Yesterday", "This week"]}
-                        open={false}
-                        onToggle={() => undefined}
-                        onSelect={() => undefined}
-                    />
+                    <OrdersDateDropdown />
                 </div>
             </div>
 
@@ -785,7 +894,7 @@ function ReviewCard({ review }: { review: StoreReview }) {
     );
 }
 
-function ReviewsView() {
+export function ReviewsView({ backTo, backLabel }: { backTo?: string; backLabel?: string } = {}) {
     const { filteredReviews, rating, setRating, sort, setSort } = useStoreReviews();
     const [openMenu, setOpenMenu] = useState<"rating" | "sort" | null>(null);
 
@@ -794,6 +903,17 @@ function ReviewsView() {
 
     return (
         <div>
+            {backTo && (
+                <div className="mb-2">
+                    <Link
+                        to={backTo}
+                        className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-[#76533d]"
+                    >
+                        <span aria-hidden="true">←</span>
+                        {backLabel ?? "Back"}
+                    </Link>
+                </div>
+            )}
             <div className="mt-5 grid grid-cols-1 gap-4 xl:grid-cols-[1fr_375px]">
                 <div>
                     <div className="mb-3 flex items-center justify-between gap-3">
@@ -890,12 +1010,13 @@ function ReviewsView() {
 }
 
 
-function OrdersHeaderActions() {
+function OrdersHeaderActions({ isOpen, onToggle }: { isOpen: boolean; onToggle: () => void }) {
     return (
-        <div className="flex items-center">
-            <StoreHeaderActions isOpen onToggle={() => undefined} />
+        <div className="flex items-center gap-4">
+            <StoreHeaderActions showStoreControls isOpen={isOpen} onToggle={onToggle} />
             <button
                 type="button"
+                onClick={exportStoreOrders}
                 className="flex h-9 items-center gap-2 rounded-lg bg-[#0878df] px-4 text-xs font-semibold text-white hover:bg-[#066bc7]"
             >
                 <Download size={14} />
@@ -936,7 +1057,9 @@ export default function StoreScreen() {
             ]);
             setPageAction(
                 <StoreHeaderActions
-                    showEmail
+                    showStoreControls
+                    showMail
+                    onExport={exportStoreDetails}
                     isOpen={isStoreOpen}
                     onToggle={() => setIsStoreOpen((current) => !current)}
                 />,
@@ -947,7 +1070,7 @@ export default function StoreScreen() {
                 { label: "Nike – Bandra details", to: basePath },
                 { label: "Orders" },
             ]);
-            setPageAction(<OrdersHeaderActions />);
+            setPageAction(<OrdersHeaderActions isOpen={isStoreOpen} onToggle={() => setIsStoreOpen((current) => !current)} />);
         } else if (view === "skus") {
             setExtraCrumbs([
                 { label: "Store", to: "/admin-dashboard/store" },
@@ -956,9 +1079,9 @@ export default function StoreScreen() {
             ]);
             setPageAction(
                 <StoreHeaderActions
-                    
+                    showStoreControls
                     isOpen={isStoreOpen}
-                    //onToggle={() => setIsStoreOpen((current) => !current)}
+                    onToggle={() => setIsStoreOpen((current) => !current)}
                 />,
             );
         } else {
@@ -969,7 +1092,8 @@ export default function StoreScreen() {
             ]);
             setPageAction(
                 <StoreHeaderActions
-                    showEmail
+                    showStoreControls
+                    showMail
                     isOpen={isStoreOpen}
                     onToggle={() => setIsStoreOpen((current) => !current)}
                 />,

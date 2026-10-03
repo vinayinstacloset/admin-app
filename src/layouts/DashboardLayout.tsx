@@ -54,7 +54,6 @@ export default function DashboardLayout() {
     }, [extraCrumbs, rootLabel]);
 
     const currentDrawerWidth = isSidebarCollapsed ? DRAWER_WIDTH_COLLAPSED : DRAWER_WIDTH_EXPANDED;
-    const showDefaultTopbarActions = !location.pathname.startsWith("/admin-dashboard/store");
 
     const SidebarContent = () => (
         <Sidebar
@@ -125,7 +124,6 @@ export default function DashboardLayout() {
                         breadcrumbs={breadcrumbs}
                         action={pageAction}
                         onMenuClick={() => setMobileSidebarOpen(true)}
-                        showDefaultActions={showDefaultTopbarActions}
                     />
                 </div>
 

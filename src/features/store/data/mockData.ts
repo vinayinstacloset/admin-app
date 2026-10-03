@@ -1,0 +1,81 @@
+import type {
+    SalesPoint,
+    StoreDetails,
+    StoreItem,
+    StoreOrder,
+    StoreReview,
+    TopProduct,
+} from "../types/store.types";
+
+export const image = "/store-fable-street.jpg";
+
+export const stores: StoreItem[]  = Array.from({ length: 18 }, (_, index) => {
+    const closed = [3, 5, 11, 15].includes(index);
+
+    return {
+        id: `store-${index + 1}`,
+        name: "Nike – Bandra",
+        brand: "Nike",
+        city: index % 3 === 0 ? "Mumbai" : index % 3 === 1 ? "Hyderabad" : "Pune",
+        state: index % 3 === 0 ? "Maharashtra" : index % 3 === 1 ? "Telangana" : "Maharashtra",
+        address: "Shop 14, Linking Road, Bandra West, Mumbai – 400050",
+        hours: closed ? "10:00 AM to 09:30 PM" : "10:30 AM to 09:00 PM",
+        status: closed ? "Closed" : "Open",
+        revenue: 42520,
+        orders: 37,
+        rating: 4.8,
+        image,
+    };
+});
+
+export const orders: StoreOrder[]  = [
+    { id: "#DD-5428", items: "2 items · 20 min ago", customer: "Ayan Qureshi", customerLocation: "Lingampalli, 2.8 km", rider: "-", itemSummary: "Red T-shirt (M), Alone dark blue t-shirt (L)", itemCounts: "15      8", status: "New", amount: 1709, age: "20 min ago", action: "Accept" },
+    { id: "#DD-5427", items: "1 item · 15 min ago", customer: "Mukesh Kumar", customerLocation: "Hyderabad, 5.4 km", rider: "-", itemSummary: "Blue Denim Jacket (L)", itemCounts: "12", status: "New", amount: 659, age: "15 min ago", action: "Accept" },
+    { id: "#DD-5426", items: "2 items · 23 min ago", customer: "Rahul Sharma", customerLocation: "Hyderabad, 5.4 km", rider: "-", itemSummary: "Pink Kurti (S), Leggings (28 inch)", itemCounts: "19      23", status: "Packing", amount: 890, age: "23 min ago", action: "--" },
+    { id: "#DD-5425", items: "2 items · 23 min ago", customer: "Rahul Sharma", customerLocation: "Hyderabad, 5.4 km", rider: "Nitish Kumar", itemSummary: "Pink Kurti (S), Leggings (28 inch)", itemCounts: "19      23", status: "Ready", amount: 890, age: "23 min ago", action: "ETA: 12:30 PM" },
+    { id: "#DD-5428", items: "2 items · 21st Apr", customer: "Ayan Qureshi", customerLocation: "Lingampalli, 2.8 km", rider: "Nitish Kumar", itemSummary: "Red T-shirt (M), Alone dark blue t-shirt (L)", itemCounts: "15      8", status: "On the way", amount: 1589, age: "21st Apr", action: "Reassign rider" },
+    { id: "#DD-5428", items: "2 items · 21st Apr", customer: "Ayan Qureshi", customerLocation: "Lingampalli, 2.8 km", rider: "Nitish Kumar", itemSummary: "Red T-shirt (M), Alone dark blue t-shirt (L)", itemCounts: "15      8", status: "Delivered", amount: 1589, age: "21st Apr", action: "★ 4/5 rating" },
+    { id: "#DD-5428", items: "2 items · 20 min ago", customer: "Ayan Qureshi", customerLocation: "Lingampalli, 2.8 km", rider: "-", itemSummary: "Red T-shirt (M), Alone dark blue t-shirt (L)", itemCounts: "15      8", status: "Rejected", amount: 1709, age: "20 min ago", action: "19th Mar, 12:35 PM" },
+    { id: "#DD-5425", items: "2 items · 23 min ago", customer: "Rahul Sharma", customerLocation: "Hyderabad, 5.4 km", rider: "Nitish Kumar", itemSummary: "Pink Kurti (S), Leggings (28 inch)", itemCounts: "19      23", status: "Ready", amount: 890, age: "23 min ago", action: "ETA: 12:30 PM" },
+    { id: "#DD-5426", items: "2 items · 23 min ago", customer: "Rahul Sharma", customerLocation: "Hyderabad, 5.4 km", rider: "-", itemSummary: "Pink Kurti (S), Leggings (28 inch)", itemCounts: "19      23", status: "Packing", amount: 890, age: "23 min ago", action: "--" },
+    { id: "#DD-5427", items: "1 item · 15 min ago", customer: "Mukesh Kumar", customerLocation: "Hyderabad, 5.4 km", rider: "-", itemSummary: "Blue Denim Jacket (L)", itemCounts: "12", status: "New", amount: 659, age: "15 min ago", action: "Accept" },
+];
+
+export const reviews: StoreReview[]  = [
+    { id: "r1", initials: "PM", customer: "Priya Maheshwari", date: "21st Apr, 2026", rating: 5, text: "\"Absolutely loved the Blue Kurti – material is great, stitching is perfect and delivery was super fast! Will definitely order again. Sizing was accurate to the chart.\"" },
+    { id: "r2", initials: "RS", customer: "Rahul Sharma", date: "19th Apr, 2026", rating: 5, text: "\"Shirt quality is good, but the packaging could be better — the shirt arrived slightly crumpled. Would still recommend though. Quick delivery within 45 min!\"" },
+    { id: "r3", initials: "RS", customer: "Anjali Choudhury", date: "18th Apr, 2026", rating: 2, text: "\"The palazzo pants I received are a different shade than shown in the photo. The colour looked cream online but it's quite yellow in person. Disappointed.\"", reply: "Thank you Rahul! We’ve noted the packaging feedback and are working on improved folding and protective layers. Glad the quality worked for you." },
+    { id: "r4", initials: "AQ", customer: "Ayan Qureshi", date: "18th Apr, 2026", rating: 5, text: "\"Shirt quality is good, but the packaging could be better — the shirt arrived slightly crumpled. Would still recommend though. Quick delivery within 45 min!\"" },
+    { id: "r5", initials: "RS", customer: "Rahul Sharma", date: "18th Apr, 2026", rating: 5, text: "\"Fast delivery and very good fabric quality. The fit was exactly as expected.\"" },
+];
+
+export const products: TopProduct[]  = [
+    { id: "p1", name: "Blue Cotton Kurti", variants: "Sizes S–XL · 4 Colors", unitsSold: 18, revenue: 8100, stock: 56 },
+    { id: "p2", name: "Palazzo Pants Set", variants: "Sizes S–2XL · 3 Colors", unitsSold: 14, revenue: 6870, stock: 9 },
+    { id: "p3", name: "Men's Formal Shirt", variants: "Sizes M–XXL · White/Grey", unitsSold: 11, revenue: 9750, stock: 3 },
+    { id: "p4", name: "Denim Jacket", variants: "Sizes S–L · Dark blue", unitsSold: 9, revenue: 7650, stock: 41 },
+    { id: "p5", name: "Men’s Cotton Shirt", variants: "Sizes M–L · White/Blue", unitsSold: 8, revenue: 6920, stock: 32 },
+];
+
+export const sales: SalesPoint[]  = [
+    { label: "9–10 AM", value: 950 }, { label: "10–11 AM", value: 2100 }, { label: "11–12 AM", value: 2900 },
+    { label: "12–01 PM", value: 300 }, { label: "01–02 PM", value: 3400 }, { label: "02–03 PM", value: 5600 },
+    { label: "03–04 PM", value: 4100 }, { label: "04–05 PM", value: 2100 }, { label: "05–06 PM", value: 2900 },
+    { label: "06–07 PM", value: 3300 }, { label: "07–08 PM", value: 5600 },
+];
+
+export const detail: StoreDetails  = {
+    ...stores[0],
+    description: "India’s finest ethnic & western wear",
+    email: "nikestore@gmail.com",
+    phone: "8259645722",
+    prepTime: "20 min prep",
+    deliveryNote: "Free delivery ₹999+",
+    totalRevenue: 4185450,
+    totalOrders: 4240,
+    totalSkus: 658,
+    fulfilmentRate: 95.8,
+    ratingsCount: 136,
+    ratingBreakdown: { 5: 62, 4: 22, 3: 5, 2: 3, 1: 2 },
+};
+

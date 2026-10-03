@@ -1,3 +1,22 @@
+export type VendorStatus = "Active" | "Suspended" | "Warning";
+
+export interface VendorRow {
+    id: string;
+    owner: string;
+    company: string;
+    orders: number;
+    revenue: string;
+    rating: number;
+    city: string;
+    state: string;
+    status: VendorStatus;
+}
+
+export interface VendorListResponse {
+    total: number;
+    rows: VendorRow[];
+}
+
 export interface VendorStat {
     label: string;
     value: string;

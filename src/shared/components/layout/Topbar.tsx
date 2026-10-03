@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Bell, ChevronRight, Menu } from "lucide-react";
 
 export interface Breadcrumb {
-    label: string;
+    label: ReactNode;
     to?: string;
     badge?: string;
 }
@@ -13,6 +13,7 @@ interface TopbarProps {
     action?: ReactNode;
     onMenuClick?: () => void;
     showDefaultActions?: boolean;
+    replaceDefaultActions?: boolean;
 }
 
 function DefaultHeaderActions() {
@@ -25,6 +26,7 @@ function DefaultHeaderActions() {
             >
                 <Bell size={18} />
             </button>
+
             <img
                 src="https://i.pravatar.cc/64?img=68"
                 alt="User profile"
@@ -39,53 +41,58 @@ export default function Topbar({
     action,
     onMenuClick,
     showDefaultActions = true,
+    replaceDefaultActions = false,
 }: TopbarProps) {
     return (
-        <header className="flex items-center justify-between gap-4 h-16 px-4 sm:px-6 bg-[#eeeeee]">
-            <div className="flex items-center gap-3 min-w-0">
+        <header className="flex h-16 items-center justify-between gap-4 bg-[#eeeeee] px-4 sm:px-6">
+            <div className="flex min-w-0 items-center gap-3">
                 <button
                     type="button"
                     onClick={onMenuClick}
-                    className="lg:hidden p-1.5 rounded-lg hover:bg-black/5 text-ink/60 shrink-0"
+                    className="shrink-0 rounded-lg p-1.5 text-ink/60 hover:bg-black/5 lg:hidden"
                     aria-label="Open menu"
                 >
                     <Menu size={20} />
                 </button>
 
-                <div className="flex items-center gap-1.5 text-xl text-ink/50 min-w-0 overflow-hidden">
+                <div className="flex min-w-0 items-center gap-1.5 overflow-hidden text-xl text-ink/50">
                     {breadcrumbs.map((crumb, index) => (
-                        <span
-                            key={`${crumb.label}-${index}`}
-                            className="flex items-center gap-1.5 min-w-0"
+                        <div
+                            key={`${index}-${typeof crumb.label === "string" ? crumb.label : "breadcrumb"}`}
+                            className="flex min-w-0 items-center gap-1.5"
                         >
                             {index > 0 && (
                                 <ChevronRight
                                     size={13}
-                                    className="text-ink/25 shrink-0"
+                                    className="shrink-0 text-ink/25"
                                 />
                             )}
+
                             {crumb.to ? (
                                 <Link
                                     to={crumb.to}
-                                    className="truncate hover:text-ink transition-colors"
+                                    className="truncate transition-colors hover:text-ink"
                                 >
                                     {crumb.label}
                                 </Link>
                             ) : (
-                                <span className="truncate font-semibold text-ink">{crumb.label}</span>
+                                <div className="min-w-0 font-semibold text-ink">
+                                    {crumb.label}
+                                </div>
                             )}
+
                             {crumb.badge && (
-                                <span className="ml-1 px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[11px] shrink-0">
+                                <span className="ml-1 shrink-0 rounded-full bg-orange-100 px-2 py-0.5 text-[11px] text-orange-700">
                                     {crumb.badge}
                                 </span>
                             )}
-                        </span>
+                        </div>
                     ))}
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl px-2 sm:px-4 py-1.5 sm:py-2 flex items-center flex-wrap justify-end gap-2 sm:gap-3 md:gap-5 shadow-sm max-w-full">
-                { <DefaultHeaderActions />}
+            <div className="flex max-w-full flex-wrap items-center justify-end gap-2 rounded-xl bg-white px-2 py-1.5 shadow-sm sm:gap-3 sm:px-4 sm:py-2 md:gap-5">
+                {showDefaultActions && <DefaultHeaderActions />}
                 {action}
             </div>
         </header>

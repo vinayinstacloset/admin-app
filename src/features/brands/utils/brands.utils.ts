@@ -1,3 +1,3 @@
-// Placeholder utils for the Brands module — add formatting / mapping
-// helpers here once the real API contract is available.
-export const brandsPlaceholder = true;
+export function isValidBrandName(name: string) {
+    return name.trim().length >= 2;
+}

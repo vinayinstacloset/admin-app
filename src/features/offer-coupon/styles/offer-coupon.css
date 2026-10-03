@@ -1,0 +1,1056 @@
+.oc-page {
+  --oc-brand: #76523b;
+  --oc-brand-dark: #694831;
+  --oc-ink: #24201d;
+  --oc-muted: #76716d;
+  --oc-line: #dedbd8;
+  --oc-soft: #f1f0ee;
+  --oc-green: #27bd64;
+  --oc-purple: #a63bff;
+  --oc-danger: #e8797d;
+  font-family: inherit;
+  color: var(--oc-ink);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding-bottom: 24px;
+}
+.oc-page button,
+.oc-page input {
+  font-family: inherit;
+}
+.oc-tabs-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2px 0 0;
+}
+.oc-tabs {
+  display: flex;
+  width: 280px;
+  background: #e8e7e6;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.oc-tab {
+  height: 31px;
+  flex: 1;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #59534f;
+  font-size: 11px;
+  cursor: pointer;
+}
+.oc-tab.is-active {
+  border-color: var(--oc-brand);
+  background: #efedeb;
+  color: var(--oc-brand);
+  font-weight: 700;
+  border-radius: 4px;
+}
+.oc-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.oc-toolbar h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.oc-toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.oc-toolbar-controls > svg {
+  color: #3f3935;
+}
+.oc-primary,
+.oc-secondary,
+.oc-danger {
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.oc-primary {
+  background: var(--oc-brand);
+  color: #fff;
+}
+.oc-primary:hover:not(:disabled) {
+  background: var(--oc-brand-dark);
+}
+.oc-primary:disabled {
+  background: #d8d8d8;
+  color: #aaa;
+  cursor: not-allowed;
+}
+.oc-secondary {
+  background: #fff;
+  border-color: #2e2a27;
+  color: #5d5752;
+}
+.oc-secondary:hover {
+  background: #f6f4f2;
+}
+.oc-danger {
+  background: #eb7a7d;
+  color: #fff;
+}
+.oc-toolbar-button {
+  height: 36px;
+  padding: 0 16px;
+}
+.oc-dropdown {
+  position: relative;
+  min-width: 82px;
+}
+.oc-dropdown-trigger {
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+}
+.oc-field {
+  box-sizing: border-box;
+  width: 100%;
+  height: 36px;
+  border: 1px solid #a9a6a3;
+  background: #fff;
+  border-radius: 5px;
+  padding: 0 12px;
+  outline: none;
+  color: #2b2724;
+  font-size: 12px;
+}
+.oc-field:focus {
+  border-color: var(--oc-brand);
+}
+.oc-field::placeholder {
+  color: #aaa6a2;
+}
+.oc-dropdown-trigger {
+  display: flex;
+  align-items: center;
+}
+.oc-dropdown.is-disabled .oc-field {
+  background: #eee;
+  color: #aaa;
+}
+.oc-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  z-index: 60;
+  width: 100%;
+  min-width: 96px;
+  padding: 5px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.16);
+}
+.oc-dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 8px;
+  border: 0;
+  background: #fff;
+  text-align: left;
+  border-radius: 3px;
+  font-size: 11px;
+  color: #2d2926;
+  cursor: pointer;
+}
+.oc-dropdown-menu button:hover,
+.oc-dropdown-menu button.is-selected {
+  background: #ece9e7;
+}
+.oc-dropdown-menu button:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}
+.oc-table-card {
+  background: #fff;
+  border-radius: 9px;
+  padding: 6px;
+  overflow: visible;
+}
+.oc-table {
+  width: 100%;
+}
+.oc-thead,
+.oc-tr {
+  display: grid;
+  align-items: center;
+}
+.oc-offer-table .oc-thead,
+.oc-offer-table .oc-tr {
+  grid-template-columns: 1.05fr 1.05fr 0.85fr 1.25fr 0.85fr 0.8fr 0.95fr 0.7fr;
+}
+.oc-coupon-table .oc-thead,
+.oc-coupon-table .oc-tr {
+  grid-template-columns: 1.35fr 0.8fr 1.15fr 1.15fr 1fr 0.65fr;
+}
+.oc-thead {
+  min-height: 34px;
+  background: #f0efed;
+  border-radius: 6px 6px 0 0;
+  color: #55504c;
+  font-size: 9px;
+}
+.oc-thead span,
+.oc-tr > div {
+  padding: 0 20px;
+  min-width: 0;
+}
+.oc-tr {
+  min-height: 101px;
+  border-bottom: 1px solid #ddd9d6;
+  font-size: 11.5px;
+}
+.oc-tr:last-child {
+  border-bottom: 0;
+}
+.oc-offer-thumb {
+  width: 110px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+}
+.oc-discount-cell {
+  color: #ff5c63;
+  font-weight: 600;
+}
+.oc-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border-radius: 14px;
+  font-size: 10px;
+}
+.oc-status.active {
+  background: #edf9f1;
+  color: #1fc260;
+}
+.oc-status.scheduled {
+  background: #f8edff;
+  color: #a32cff;
+}
+.oc-click-rate,
+.oc-used-count {
+  font-size: 13px;
+  font-weight: 700;
+}
+.oc-action-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.oc-toggle {
+  width: 43px;
+  height: 23px;
+  padding: 2px;
+  border: 0;
+  border-radius: 20px;
+  background: #ddd;
+  cursor: pointer;
+}
+.oc-toggle span {
+  display: block;
+  width: 19px;
+  height: 19px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.15s;
+}
+.oc-toggle.on {
+  background: #2fbd67;
+}
+.oc-toggle.on span {
+  transform: translateX(20px);
+}
+.oc-edit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #4c4844;
+  cursor: pointer;
+}
+.oc-edit-icon:hover {
+  background: #f0eeec;
+  border-radius: 5px;
+}
+.oc-discount-value {
+  color: #df5d5d;
+  font-weight: 700;
+}
+.oc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.23);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.oc-offer-modal {
+  width: min(790px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+}
+.oc-coupon-modal {
+  width: min(405px, calc(100vw - 32px));
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+}
+.oc-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 26px;
+}
+.oc-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.oc-divider {
+  height: 1px;
+  background: #d8d5d2;
+  margin: 12px 0 19px;
+}
+.oc-modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.oc-close-button,
+.oc-delete-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+}
+.oc-close-button {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  color: #777;
+}
+.oc-delete-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: #fff1f1;
+  color: #ee6f70;
+}
+.oc-upload {
+  height: 150px;
+  border: 2px dashed #c8b5a8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #76523b;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+}
+.oc-upload strong {
+  font-size: 11px;
+  font-weight: 500;
+}
+.oc-upload span,
+.oc-upload small {
+  font-size: 8.5px;
+  color: #655d58;
+}
+.oc-upload.has-image {
+  gap: 6px;
+}
+.oc-image-preview-wrap {
+  position: relative;
+}
+.oc-image-preview {
+  display: block;
+  width: 176px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+.oc-image-remove {
+  position: absolute;
+  right: -7px;
+  top: -7px;
+  width: 17px;
+  height: 17px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #777;
+}
+.oc-form-grid {
+  display: grid;
+  gap: 12px 16px;
+}
+.oc-two {
+  grid-template-columns: 1fr 1fr;
+  margin-top: 18px;
+}
+.oc-three {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.oc-section-title {
+  border-top: 5px solid #efeeec;
+  margin-top: 14px;
+  padding-top: 17px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.oc-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.oc-field-group > span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #625d58;
+}
+.oc-input-with-clear {
+  position: relative;
+}
+.oc-input-with-clear > input {
+  padding-right: 32px;
+}
+.oc-input-with-clear > button {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: #b0aca8;
+  padding: 3px;
+  cursor: pointer;
+}
+.oc-date-field {
+  position: relative;
+}
+.oc-date-field .oc-field {
+  padding-right: 35px;
+}
+.oc-date-field svg {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #403a36;
+}
+.oc-date-field input[type="date"] {
+  color-scheme: light;
+}
+.oc-date-field input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 7px;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+.oc-form-error {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: #fff0f0;
+  color: #d95e62;
+  border-radius: 4px;
+  font-size: 10px;
+}
+.oc-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+.oc-modal-actions .oc-secondary,
+.oc-modal-actions .oc-primary {
+  min-width: 96px;
+}
+.oc-coupon-field {
+  margin-bottom: 18px;
+}
+.oc-coupon-field .oc-field {
+  height: 36px;
+}
+.oc-discount-field {
+  height: 36px;
+  border: 1px solid #a9a6a3;
+  align-items: center;
+  border-radius: 5px;
+}
+.oc-discount-field span {
+  padding: 0 10px;
+  font-size: 12px;
+  color: #55504f;
+}
+.oc-discount-field input {
+  height: 100%;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 12px;
+}
+.oc-discount-field-offer {
+  height: 36px;
+  border: 1px solid #a9a6a3;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+.oc-discount-field-offer span {
+  padding: 0 10px;
+  font-size: 12px;
+  color: #55504f;
+}
+.oc-discount-field-offer input {
+  height: 100%;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 12px;
+}
+.coupon-actions .oc-primary {
+  width: 100%;
+}
+.oc-success-modal {
+  width: min(390px, calc(100vw - 32px));
+  background: #fff;
+  border-radius: 11px;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+}
+.oc-success-icon {
+  color: #32ba68;
+  margin-bottom: 8px;
+  justify-self: center;
+}
+.oc-success-modal h3 {
+  margin: 0 0 5px;
+  font-size: 17px;
+}
+.oc-success-modal p {
+  margin: 0 0 20px;
+  color: #69635f;
+  font-size: 12px;
+}
+.oc-success-button {
+  width: 100%;
+}
+.oc-modal-x {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  border: 0;
+  background: transparent;
+  color: #777;
+  cursor: pointer;
+}
+.oc-delete-modal {
+  width: min(475px, calc(100vw - 32px));
+  background: #fff;
+  border-radius: 9px;
+  padding: 28px 20px 24px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.oc-delete-modal p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.oc-delete-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 22px;
+}
+.oc-delete-actions button {
+  height: 36px;
+}
+.oc-delete-actions .oc-danger {
+  border-radius: 5px;
+}
+@media (max-width: 900px) {
+  .oc-offer-table .oc-thead,
+  .oc-offer-table .oc-tr {
+    grid-template-columns: 1fr 1fr;
+  }
+  .oc-coupon-table .oc-thead,
+  .oc-coupon-table .oc-tr {
+    grid-template-columns: 1fr 1fr;
+  }
+  .oc-thead {
+    display: none;
+  }
+  .oc-tr {
+    display: grid;
+    gap: 10px;
+    padding: 16px 10px;
+    min-height: 0;
+  }
+  .oc-tr > div {
+    padding: 0;
+  }
+  .oc-offer-table .oc-tr > div:nth-child(1) {
+    grid-column: 1 / -1;
+  }
+  .oc-offer-table .oc-tr > div:nth-child(8),
+  .oc-coupon-table .oc-tr > div:nth-child(6) {
+    justify-self: end;
+  }
+  .oc-action-cell {
+    justify-content: flex-end;
+  }
+  .oc-offer-thumb {
+    width: 150px;
+    height: 79px;
+  }
+  .oc-two,
+  .oc-three {
+    grid-template-columns: 1fr;
+  }
+  .oc-offer-modal {
+    padding: 16px;
+  }
+  .oc-toolbar {
+    align-items: flex-start;
+  }
+  .oc-toolbar-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .oc-tabs {
+    width: 250px;
+  }
+}
+@media (max-width: 560px) {
+  .oc-page {
+    gap: 12px;
+  }
+  .oc-toolbar h2 {
+    font-size: 14px;
+  }
+  .oc-toolbar-controls {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .oc-overlay {
+    padding: 12px;
+  }
+  .oc-offer-modal,
+  .oc-coupon-modal {
+    width: 100%;
+    max-height: calc(100vh - 24px);
+    padding: 15px;
+  }
+  .oc-upload {
+    height: 135px;
+  }
+  .oc-modal-actions {
+    flex-wrap: wrap;
+  }
+  .oc-modal-actions > * {
+    flex: 1;
+  }
+  .oc-delete-actions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .oc-tabs {
+    width: 100%;
+    max-width: 280px;
+  }
+  .oc-table-card {
+    padding: 3px;
+  }
+  .oc-tr {
+    font-size: 11px;
+  }
+  .oc-offer-thumb {
+    width: 120px;
+    height: 63px;
+  }
+}
+
+.oc-tabs-wrap {
+  padding: 0;
+}
+.oc-tabs {
+  width: 280px;
+  height: 31px;
+  display: flex;
+  align-items: stretch;
+  background: #e7e6e5;
+  border-radius: 5px;
+  overflow: visible;
+  box-sizing: border-box;
+}
+.oc-tab {
+  position: relative;
+  flex: 1;
+  height: 31px;
+  min-width: 0;
+  margin: 0;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: #5d5753;
+  font-size: 11px;
+  font-weight: 400;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.oc-tab.is-active {
+  border: 1px solid var(--oc-brand);
+  background: #f0eeec;
+  color: var(--oc-brand);
+  font-weight: 700;
+  z-index: 2;
+}
+.oc-tab:first-child.is-active {
+  border-radius: 5px 0 0 5px;
+}
+.oc-tab:last-child.is-active {
+  border-radius: 0 5px 5px 0;
+}
+.oc-toolbar {
+  margin-top: 2px;
+}
+.oc-toolbar-controls {
+  gap: 11px;
+}
+.oc-table-card {
+  padding: 6px;
+  background: #fff;
+  border-radius: 9px;
+}
+.oc-thead {
+  background: #efeeec;
+  min-height: 35px;
+}
+.oc-thead span,
+.oc-tr > div {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.oc-tr {
+  min-height: 101px;
+}
+.oc-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 43px;
+  height: 23px;
+  padding: 2px;
+  border: 0;
+  border-radius: 999px;
+  background: #d8d8d8;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background 0.16s ease;
+}
+.oc-toggle span {
+  width: 19px;
+  height: 19px;
+  display: block;
+  flex: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transform: translateX(0);
+  transition: transform 0.16s ease;
+}
+.oc-toggle.on {
+  background: #2fbd67;
+}
+.oc-toggle.on span {
+  transform: translateX(20px);
+}
+.oc-action-cell {
+  gap: 12px;
+}
+.oc-edit-icon {
+  width: 25px;
+  height: 25px;
+}
+.oc-status-control {
+  height: 36px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px;
+  background: #fff;
+  color: #393430;
+  cursor: pointer;
+  text-align: left;
+  font-size: 12px;
+}
+.oc-status-control .oc-toggle-form {
+  width: 35px;
+  height: 20px;
+  padding: 2px;
+  pointer-events: none;
+}
+.oc-status-control .oc-toggle-form span {
+  width: 16px;
+  height: 16px;
+}
+.oc-status-control.is-active .oc-toggle-form {
+  background: #2fbd67;
+}
+.oc-status-control.is-active .oc-toggle-form span {
+  transform: translateX(15px);
+}
+.oc-status-control.is-scheduled .oc-toggle-form {
+  background: #d8d8d8;
+}
+.oc-date-field {
+  position: relative;
+}
+.oc-date-display {
+  padding-right: 42px !important;
+  cursor: pointer;
+}
+.oc-native-date {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+.oc-date-icon-button {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+  border: 0;
+  background: transparent;
+  color: #403a36;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.oc-modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.oc-close-button {
+  width: 30px;
+  height: 30px;
+}
+.oc-coupon-modal {
+  width: min(405px, calc(100vw - 32px));
+  padding: 20px;
+  border-radius: 12px;
+}
+.oc-coupon-field {
+  margin-bottom: 18px;
+}
+.oc-coupon-field .oc-field,
+.oc-discount-field {
+  height: 36px;
+}
+.oc-discount-field {
+  box-sizing: border-box;
+  border: 1px solid #a9a6a3;
+  background: #fff;
+}
+.oc-discount-field input {
+  font-size: 12px;
+}
+.oc-discount-field span {
+  font-size: 12px;
+}
+.coupon-actions {
+  margin-top: 4px;
+}
+.coupon-actions .oc-primary {
+  width: 100%;
+}
+.coupon-actions .oc-secondary {
+  flex: 1;
+}
+.coupon-actions .oc-primary:not(:only-child) {
+  width: auto;
+  flex: 1;
+}
+.oc-success-modal {
+  border-radius: 11px;
+}
+@media (max-width: 900px) {
+  .oc-tabs {
+    width: 280px;
+    max-width: 100%;
+  }
+  .oc-table-card {
+    overflow: hidden;
+  }
+}
+@media (max-width: 560px) {
+  .oc-tabs {
+    width: 100%;
+    max-width: 280px;
+  }
+  .oc-toolbar-controls {
+    width: auto;
+  }
+  .oc-status-control {
+    justify-content: flex-start;
+  }
+}
+
+.oc-offer-type-modal {
+  width: min(745px, calc(100vw - 32px));
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+}
+
+.oc-offer-type-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.oc-offer-type-card {
+  min-height: 225px;
+  border: 1px solid #cfcac6;
+  border-radius: 8px;
+  background: #fff;
+  color: #262321;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.oc-offer-type-card:first-child svg {
+  color: #f3a51a;
+}
+
+.oc-offer-type-card:last-child svg {
+  color: #f15d91;
+}
+
+.oc-offer-type-card:hover {
+  border-color: #8d634c;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+  transform: translateY(-1px);
+}
+
+.oc-offer-type-card span {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.oc-offer-type-card b {
+  font-weight: 500;
+  margin-left: 7px;
+}
+
+.oc-offer-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.oc-offer-title svg {
+  color: #f15d91;
+}
+
+.oc-upload-deal {
+  height: 150px;
+}
+
+.oc-upload-flash {
+  height: 150px;
+}
+
+.oc-image-preview-deal {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+}
+
+.oc-image-preview-flash {
+  width: 176px;
+  height: 84px;
+  object-fit: cover;
+}
+
+@media (max-width: 700px) {
+  .oc-offer-type-options {
+    grid-template-columns: 1fr;
+  }
+
+  .oc-offer-type-card {
+    min-height: 170px;
+  }
+
+  .oc-offer-modal {
+    width: min(790px, calc(100vw - 20px));
+    padding: 16px;
+  }
+
+  .oc-two,
+  .oc-three {
+    grid-template-columns: 1fr;
+  }
+}

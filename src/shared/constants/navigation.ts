@@ -37,7 +37,8 @@ export const ADMIN_NAV_SECTIONS: NavSectionConfig[] = [
         items: [
             // { key: "analytics", label: "Analytics", icon: "BarChart3", path: "/admin-dashboard/analytics" },
             { key: "price-markup", label: "Price Markup", icon: "Tag", path: "/admin-dashboard/price-markup" },
-            // { key: "brands", label: "Brands", icon: "Award", path: "/admin-dashboard/brands" },
+            { key: "offer-coupon", label: "Offer & Coupon", icon: "Megaphone", path: "/admin-dashboard/offer-coupon" },
+            { key: "brands", label: "Brands", icon: "Building2", path: "/admin-dashboard/brands" },
             // {
             //     key: "banner-campaigns",
             //     label: "Banner Campaigns",

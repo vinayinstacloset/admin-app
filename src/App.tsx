@@ -20,6 +20,8 @@ import VendorDetailsScreen from "./features/vendors/screens/VendorDetailsScreen"
 
 import RidersScreen from "./features/riders/screens/RidersScreen";
 import RiderDetailsScreen from "./features/riders/screens/RiderDetailsScreen";
+import RiderOrderDetailsScreen from "./features/riders/screens/RiderOrderDetailsScreen";
+import BrandsScreen from "./features/brands/screens/BrandsScreen";
 
 import StoreScreen from "./features/store/screens/StoreScreen";
 import CatalogueScreen from "./features/catalogue/screens/CatalogueScreen";
@@ -27,6 +29,8 @@ import ApprovalsScreen from "./features/approvals/screens/ApprovalsScreen";
 import ApprovalDetailScreen from "./features/approvals/screens/ApprovalDetailScreen";
 import LiveDeliveryScreen from "./features/live-delivery/screens/LiveDeliveryScreen";
 import PriceMarkupScreen from "./features/price-markup/screens/PriceMarkupScreen";
+import AddMarkupScreen from "./features/price-markup/screens/AddMarkupScreen";
+import OfferCouponScreen from "./features/offer-coupon/screens/OfferCouponScreen";
 import FinanceScreen from "./features/finance/screens/FinanceScreen";
 import ReturnsScreen from "./features/returns/screens/ReturnsScreen";
 import ExchangeScreen from "./features/exchange/screens/ExchangeScreen";
@@ -132,6 +136,22 @@ export default function App() {
                         path="vendor/:vendorId"
                         element={<VendorDetailsScreen />}
                     />
+                    <Route
+                        path="vendor/:vendorId/orders"
+                        element={<VendorDetailsScreen />}
+                    />
+                    <Route
+                        path="vendor/:vendorId/skus"
+                        element={<VendorDetailsScreen />}
+                    />
+                    <Route
+                        path="vendor/:vendorId/chats"
+                        element={<VendorDetailsScreen />}
+                    />
+                    <Route
+                        path="vendor/:vendorId/reviews"
+                        element={<VendorDetailsScreen />}
+                    />
 
                     <Route
                         path="riders"
@@ -141,15 +161,19 @@ export default function App() {
                         path="riders/:riderId"
                         element={<RiderDetailsScreen />}
                     />
+                    <Route
+                        path="riders/:riderId/orders/:orderId"
+                        element={<RiderOrderDetailsScreen />}
+                    />
 
                     <Route
                         path="live-delivery"
                         element={<LiveDeliveryScreen />}
                     />
-                    <Route
-                        path="price-markup"
-                        element={<PriceMarkupScreen />}
-                    />
+                    <Route path="price-markup" element={<PriceMarkupScreen />} />
+                    <Route path="price-markup/add/:variantId" element={<AddMarkupScreen />} />
+                    <Route path="offer-coupon" element={<OfferCouponScreen />} />
+                    <Route path="brands" element={<BrandsScreen />} />
 
                     <Route
                         path="finance"

@@ -1,3 +1,4 @@
-// Placeholder utils for the Brands module — add formatting / mapping
-// helpers here once the real API contract is available.
-export const settingsPlaceholder = true;
+export function parseMoneyInput(value: string): number {
+    const parsed = Number(value.replace(/[^0-9]/g, ""));
+    return Number.isFinite(parsed) ? parsed : 0;
+}

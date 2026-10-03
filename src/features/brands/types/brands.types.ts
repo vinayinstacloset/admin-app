@@ -1,4 +1,1 @@
-export interface BrandsItem {
-    id: string;
-    [key: string]: unknown;
-}
+export interface BrandsItem { id: string; name: string; image: string; }
