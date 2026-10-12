@@ -1,3 +1,13 @@
-// Placeholder utils for the Brands module — add formatting / mapping
-// helpers here once the real API contract is available.
-export const exchangePlaceholder = true;
+import type { ExchangeStatus } from "../types/exchange.types";
+
+export const exchangeStatuses: Array<ExchangeStatus | "All"> = [
+  "All",
+  "New",
+  "Approved",
+  "Ready",
+  "On the way",
+  "Exchanged",
+  "Rejected",
+];
+
+export const formatExchangeStatus = (status: ExchangeStatus) => status;

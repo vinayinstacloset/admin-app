@@ -1,0 +1,26 @@
+import type { ReturnRow, ReturnStoreRow } from "./types/returns.types";
+
+export const RETURN_STORES: ReturnStoreRow[] = [
+  { id: "nike", name: "NIKE", state: "Maharashtra", totalReturns: 29, returnRate: "3.2%", refundIssues: 14820, collected: 14, rejected: 7 },
+  { id: "q1-1", name: "Q-1 Fashion", state: "Telangana", totalReturns: 34, returnRate: "4.1%", refundIssues: 19544, collected: 19, rejected: 11 },
+  { id: "q1-2", name: "Q-1 Fashion", state: "Telangana", totalReturns: 34, returnRate: "4.1%", refundIssues: 19544, collected: 19, rejected: 11 },
+  { id: "q1-3", name: "Q-1 Fashion", state: "Telangana", totalReturns: 34, returnRate: "4.1%", refundIssues: 19544, collected: 19, rejected: 11 },
+  { id: "q1-4", name: "Q-1 Fashion", state: "Telangana", totalReturns: 34, returnRate: "4.1%", refundIssues: 19544, collected: 19, rejected: 11 },
+  { id: "q1-5", name: "Q-1 Fashion", state: "Telangana", totalReturns: 34, returnRate: "4.1%", refundIssues: 19544, collected: 19, rejected: 11 },
+  { id: "q1-6", name: "Q-1 Fashion", state: "Telangana", totalReturns: 34, returnRate: "4.1%", refundIssues: 19544, collected: 19, rejected: 11 },
+  { id: "q1-7", name: "Q-1 Fashion", state: "Telangana", totalReturns: 34, returnRate: "4.1%", refundIssues: 19544, collected: 19, rejected: 11 },
+  { id: "q1-8", name: "Q-1 Fashion", state: "Telangana", totalReturns: 34, returnRate: "4.1%", refundIssues: 19544, collected: 19, rejected: 11 },
+];
+
+export const RETURN_ROWS: ReturnRow[] = [
+  { id: "#RT-5490", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "New", customerId: "1" },
+  { id: "#RT-5491", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "New", customerId: "1" },
+  { id: "#RT-5492", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "On the way", customerId: "1" },
+  { id: "#RT-5493", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "Refunded", customerId: "1" },
+  { id: "#RT-5494", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "Collected", customerId: "1" },
+  { id: "#RT-5495", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "Rejected", customerId: "1", rejectionMessage: "Size too small, but customer has returned so many times." },
+  { id: "#RT-5496", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "Collected", customerId: "1" },
+  { id: "#RT-5497", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "On the way", customerId: "1" },
+  { id: "#RT-5498", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "Rejected", customerId: "1", rejectionMessage: "Size too small, but customer has returned so many times." },
+  { id: "#RT-5499", customer: "Meena Prakhar", item: "Palazzo Pants (M)", reason: "Size too small", requested: "20th Apr", refund: 599, status: "New", customerId: "1" },
+];

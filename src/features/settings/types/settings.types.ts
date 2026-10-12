@@ -1,24 +1,30 @@
 export interface SettingsProfile {
-    fullName: string;
-    email: string;
-    mobile: string;
-    pictureUrl: string;
+  fullName: string;
+  email: string;
+  mobile: string;
+  pictureUrl: string;
 }
 
 export interface PlatformSettings {
-    maintenanceMode: boolean;
-    autoApproveLowRiskVendors: boolean;
-    sendLowRatingWarnings: boolean;
-    newOrderNotifications: boolean;
+  maintenanceMode: boolean;
+  autoApproveLowRiskVendors: boolean;
+  sendLowRatingWarnings: boolean;
+  newOrderNotifications: boolean;
 }
 
 export interface CommissionSettings {
-    defaultVendorCommission: number;
-    riderPayoutPerDelivery: number;
+  defaultVendorCommission: number;
+  riderPayoutPerDelivery: number;
+}
+
+export interface DeliveryCharge {
+  km: number;
+  amount: number | null;
 }
 
 export interface SettingsState {
-    profile: SettingsProfile;
-    platform: PlatformSettings;
-    commission: CommissionSettings;
+  profile: SettingsProfile;
+  platform: PlatformSettings;
+  commission: CommissionSettings;
+  deliveryCharges: DeliveryCharge[];
 }

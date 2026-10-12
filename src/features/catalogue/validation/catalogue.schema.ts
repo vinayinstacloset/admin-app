@@ -1,7 +1,9 @@
 import { z } from "zod";
 
-export const catalogueSchema = z.object({
-    id: z.string(),
+export const catalogueAddSchema = z.object({
+  gender: z.enum(["MEN", "WOMEN", "TEENS", "KIDS", "GENZ"]),
+  navigation: z.string(),
+  productCategory: z.string(),
+  category: z.string(),
+  name: z.string().trim().min(1, "Name is required"),
 });
-
-export type CatalogueInput = z.infer<typeof catalogueSchema>;

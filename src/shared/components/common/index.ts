@@ -4,3 +4,5 @@ export { default as StatCard } from "./StatCard";
 export { default as StatusBadge } from "./StatusBadge";
 export * from "./buttons";
 export * from "./forms";
+export { default as CommonTable } from "./CommonTable";
+export type { CommonTableColumn, CommonTableProps } from "./CommonTable";

@@ -1,4 +1,3 @@
-import "../styles/riders.css";
 import { useEffect, useMemo, useState } from "react";
 import {
   CalendarDays,
@@ -20,18 +19,28 @@ import {
 } from "../data/mockData";
 import DeliveryTable from "../components/DeliveryTable";
 import TrackingModal from "../components/TrackingModal";
+import { useMediaQuery } from "../../../shared/hooks/useMediaQuery";
+import { hoverStyle } from "../../../shared/utils/interactiveStyle";
 
 const DELIVERY_PAGE_SIZE = 4;
 
+const STAT_TONES: Record<string, { background: string; color: string }> = {
+  green: { background: "#e4f8ec", color: "#2bbd69" },
+  orange: { background: "#fff0e9", color: "#ff683f" },
+  blue: { background: "#e8f2ff", color: "#2b8ef5" },
+  red: { background: "#fff0f0", color: "#ff5b63" },
+  yellow: { background: "#fff9dc", color: "#e3c000" },
+};
+
 export default function RiderDetailsScreen() {
+  const isMax1100 = useMediaQuery("(max-width: 1100px)");
   const { riderId } = useParams();
   const navigate = useNavigate();
 
   const { rider, isLoading } = useRiderDetails(riderId);
   const { today, completed } = useRiderDeliveries();
 
-  const { setExtraCrumbs, setPageAction } =
-    useDashboardOutletContext();
+  const { setExtraCrumbs, setPageAction } = useDashboardOutletContext();
 
   const [showMore, setShowMore] = useState(false);
   const [tab, setTab] = useState<"today" | "completed">("today");
@@ -48,7 +57,7 @@ export default function RiderDetailsScreen() {
     const riderDetailsLabel = (
       <button
         type="button"
-        className="rider-breadcrumb-link"
+
         onClick={() => setShowMore(false)}
       >
         {rider.name} details
@@ -81,12 +90,30 @@ export default function RiderDetailsScreen() {
     }
 
     setPageAction(
-      <div className="rider-detail-actions">
-        <span className="online-pill">Online</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <span
+          style={{
+            background: "#e7f8ed",
+            color: "#1bb65b",
+            padding: "7px 17px",
+            borderRadius: 16,
+            fontSize: 10,
+          }}
+        >
+          Online
+        </span>
 
         <button
           type="button"
-          className="suspend-btn"
+          style={{
+            background: "#fff",
+            border: "1px solid #ff6a6a",
+            color: "#ff5a5a",
+            borderRadius: 7,
+            height: 34,
+            padding: "0 13px",
+            fontSize: 11,
+          }}
           onClick={() => setSuspendOpen(true)}
         >
           Suspend ⊘
@@ -98,12 +125,7 @@ export default function RiderDetailsScreen() {
       setExtraCrumbs([]);
       setPageAction(null);
     };
-  }, [
-    rider,
-    showMore,
-    setExtraCrumbs,
-    setPageAction,
-  ]);
+  }, [rider, showMore, setExtraCrumbs, setPageAction]);
 
   useEffect(() => {
     setPage(1);
@@ -123,9 +145,7 @@ export default function RiderDetailsScreen() {
 
   const totalPages = Math.max(
     1,
-    Math.ceil(
-      deliveries.length / DELIVERY_PAGE_SIZE,
-    ),
+    Math.ceil(deliveries.length / DELIVERY_PAGE_SIZE),
   );
 
   const currentPage = Math.min(page, totalPages);
@@ -136,35 +156,47 @@ export default function RiderDetailsScreen() {
   );
 
   if (isLoading || !rider) {
-    return (
-      <div className="rider-loading">
-        Loading rider details…
-      </div>
-    );
+    return <div>Loading rider details…</div>;
   }
 
   return (
-    <div className="rider-detail-page">
+    <div style={{ color: "#2d2925", paddingTop: 0 }}>
       {!showMore ? (
-        <Overview
-          rider={rider}
-          onMore={() => setShowMore(true)}
-        />
+        <Overview rider={rider} onMore={() => setShowMore(true)} />
       ) : (
-        <MoreDetails
-          rider={rider}
-          onBack={() => setShowMore(false)}
-        />
+        <MoreDetails rider={rider} onBack={() => setShowMore(false)} />
       )}
 
       {!showMore && (
-        <section className="delivery-section">
-          <div className="delivery-tabs">
+        <section style={{ marginTop: 16 }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "12px 0 16px",
+            }}
+          >
             <button
               type="button"
-              className={
-                tab === "today" ? "active" : ""
-              }
+              style={{
+                ...{
+                  height: 29,
+                  padding: "0 13px",
+                  border: "1px solid #e3e0dd",
+                  background: "#eee",
+                  borderRadius: 0,
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color: "#666",
+                },
+                ...(tab === "today"
+                  ? {
+                      border: "1px solid #8a5a32",
+                      background: "#fff",
+                      color: "#6b4931",
+                    }
+                  : {}),
+              }}
               onClick={() => setTab("today")}
             >
               TODAY DELIVERIES
@@ -172,57 +204,127 @@ export default function RiderDetailsScreen() {
 
             <button
               type="button"
-              className={
-                tab === "completed" ? "active" : ""
-              }
+              style={{
+                ...{
+                  height: 29,
+                  padding: "0 13px",
+                  border: "1px solid #e3e0dd",
+                  background: "#eee",
+                  borderRadius: 0,
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color: "#666",
+                },
+                ...(tab === "completed"
+                  ? {
+                      border: "1px solid #8a5a32",
+                      background: "#fff",
+                      color: "#6b4931",
+                    }
+                  : {}),
+              }}
               onClick={() => setTab("completed")}
             >
               COMPLETED DELIVERIES
             </button>
           </div>
 
-          <div className="delivery-heading">
-            <h2>Delivery - {source.length}</h2>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <h2 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>
+              Delivery - {source.length}
+            </h2>
 
-            <div className="delivery-toolbar">
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
               <button
-                className="icon-only"
+                style={{ border: 0, background: "transparent" }}
                 type="button"
               >
                 <Filter size={15} />
               </button>
 
-              <div className="rider-custom-dropdown delivery-sort-dropdown">
+              <div style={{ position: "relative", flex: "0 0 auto" }}>
                 <button
+                  style={{
+                    ...{
+                      height: 36,
+                      padding: "0 10px",
+                      border: 0,
+                      borderRadius: 6,
+                      background: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 10,
+                      fontSize: 10,
+                      color: "#37312c",
+                      whiteSpace: "nowrap",
+                      minWidth: 112,
+                    },
+                    ...(isMax1100 ? { minWidth: 90, padding: "0 8px" } : {}),
+                  }}
                   type="button"
-                  onClick={() =>
-                    setSortOpen((open) => !open)
-                  }
+                  onClick={() => setSortOpen((open) => !open)}
                 >
                   <span>{sort}</span>
 
                   <ChevronDown
                     size={12}
-                    className={
-                      sortOpen ? "rotate" : ""
-                    }
+                    style={{
+                      transition: "transform 0.12s ease",
+                      flexShrink: 0,
+                      transform: sortOpen ? "rotate(180deg)" : undefined,
+                    }}
                   />
                 </button>
 
                 {sortOpen && (
-                  <div className="rider-dropdown-menu">
-                    {[
-                      "Newest first",
-                      "Oldest first",
-                    ].map((option) => (
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      top: 40,
+                      minWidth: 150,
+                      padding: 4,
+                      background: "#fff",
+                      borderRadius: 6,
+                      boxShadow: "0 8px 24px rgba(40, 32, 26, 0.12)",
+                      border: "1px solid #eee9e4",
+                      zIndex: 100,
+                    }}
+                  >
+                    {["Newest first", "Oldest first"].map((option) => (
                       <button
                         type="button"
                         key={option}
-                        className={
+                        style={{
+                          ...{
+                            display: "block",
+                            width: "100%",
+                            padding: "9px 10px",
+                            border: 0,
+                            borderRadius: 4,
+                            background: "#fff",
+                            textAlign: "left",
+                            fontSize: 9,
+                            color: "#4c4540",
+                          },
+                          ...(option === sort
+                            ? { background: "#eeeae6", fontWeight: 600 }
+                            : {}),
+                        }}
+                        {...hoverStyle(
+                          { background: "#eeeae6", fontWeight: 600 },
                           option === sort
-                            ? "selected"
-                            : ""
-                        }
+                            ? { background: "#eeeae6", fontWeight: 600 }
+                            : { background: "#fff", fontWeight: "" },
+                        )}
                         onClick={() => {
                           setSort(option);
                           setSortOpen(false);
@@ -241,9 +343,7 @@ export default function RiderDetailsScreen() {
             items={visible}
             onTrack={setTrack}
             onView={(item) =>
-              navigate(
-                `/admin-dashboard/riders/${riderId}/orders/${item.id}`,
-              )
+              navigate(`/admin-dashboard/riders/${riderId}/orders/${item.id}`)
             }
           />
 
@@ -286,15 +386,52 @@ function Overview({
   rider: RiderProfile;
   onMore: () => void;
 }) {
+  const isMax1100 = useMediaQuery("(max-width: 1100px)");
+  const isMax760 = useMediaQuery("(max-width: 760px)");
   return (
     <div>
-      <div className="rider-stats">
+      <div
+        style={{
+          ...{
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gap: 12,
+            margin: "6px 0 18px",
+          },
+          ...(isMax1100 ? { gridTemplateColumns: "repeat(3, 1fr)" } : {}),
+          ...(isMax760 ? { gridTemplateColumns: "1fr 1fr" } : {}),
+        }}
+      >
         {rider.stats.map((s) => (
           <div
-            className={`rider-stat ${s.tone}`}
+            style={{
+              height: 84,
+              background: "#fff",
+              borderRadius: 8,
+              display: "flex",
+              alignItems: "flex-end",
+              padding: "0 13px 18px",
+              gap: 4,
+              fontSize: 11,
+              position: "relative",
+              lineHeight: 1,
+            }}
             key={s.label}
           >
-            <div className="stat-icon">
+            <div
+              style={{
+                position: "absolute",
+                left: 13,
+                top: 11,
+                width: 31,
+                height: 31,
+                borderRadius: "50%",
+                display: "grid",
+                placeItems: "center",
+                fontSize: 14,
+                ...STAT_TONES[s.tone],
+              }}
+            >
               {s.icon === "Star"
                 ? "★"
                 : s.icon === "Wallet"
@@ -306,17 +443,49 @@ function Overview({
                       : "−"}
             </div>
 
-            <span>{s.label}: </span>
-            <b>{s.value}</b>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "baseline",
+                fontSize: 11,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {s.label}:{" "}
+            </span>
+            <b
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+              }}
+            >
+              {s.value}
+            </b>
           </div>
         ))}
       </div>
 
-      <section className="rider-section">
-        <div className="section-title-row">
-          <h2>Personal details</h2>
+      <section style={{ marginBottom: 16 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 10,
+          }}
+        >
+          <h2 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>
+            Personal details
+          </h2>
 
           <button
+            style={{
+              background: "transparent",
+              border: 0,
+              color: "#1472c7",
+              fontSize: 9,
+              textDecoration: "underline",
+            }}
             type="button"
             onClick={onMore}
           >
@@ -324,45 +493,74 @@ function Overview({
           </button>
         </div>
 
-        <div className="personal-card">
-          <img src={rider.avatar} alt="" />
-
-          <Field
-            label="Full Name"
-            value={rider.name}
+        <div
+          style={{
+            ...{
+              background: "#fff",
+              borderRadius: 8,
+              padding: "17px 20px",
+              display: "grid",
+              gridTemplateColumns: "75px repeat(5, 1fr)",
+              alignItems: "center",
+              gap: 24,
+            },
+            ...(isMax1100
+              ? { gridTemplateColumns: "70px repeat(3, 1fr)" }
+              : {}),
+            ...(isMax760 ? { gridTemplateColumns: "1fr 1fr" } : {}),
+          }}
+        >
+          <img
+            style={{
+              ...{
+                width: 67,
+                height: 67,
+                borderRadius: "50%",
+                objectFit: "cover",
+              },
+              ...(isMax760 ? { gridRow: "span 2" } : {}),
+            }}
+            src={rider.avatar}
+            alt=""
           />
 
-          <Field
-            label="Email"
-            value={rider.email}
-          />
+          <Field label="Full Name" value={rider.name} />
 
-          <Field
-            label="Mobile No"
-            value={rider.phone}
-          />
+          <Field label="Email" value={rider.email} />
 
-          <Field
-            label="Age/Gender"
-            value={rider.ageGender}
-          />
+          <Field label="Mobile No" value={rider.phone} />
 
-          <Field
-            label="City/State"
-            value={rider.city}
-          />
+          <Field label="Age/Gender" value={rider.ageGender} />
+
+          <Field label="City/State" value={rider.city} />
         </div>
       </section>
 
-      <section className="rider-section earning">
-        <div className="section-title-row">
-          <h2>
-            Earning <span>– Last 12 days</span>
+      <section style={{ marginBottom: 16, position: "relative" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 10,
+          }}
+        >
+          <h2 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>
+            Earning <span style={{ fontWeight: 400 }}>– Last 12 days</span>
           </h2>
 
           <button
             type="button"
-            className="download-btn"
+            style={{
+              width: 27,
+              height: 27,
+              background: "#0878df",
+              color: "#fff",
+              border: 0,
+              borderRadius: 4,
+              display: "grid",
+              placeItems: "center",
+            }}
           >
             <Download size={14} />
           </button>
@@ -374,17 +572,11 @@ function Overview({
   );
 }
 
-function Field({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function Field({ label, value }: { label: string; value: string }) {
   return (
-    <div className="detail-field">
-      <small>{label}:</small>
-      <b>{value}</b>
+    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <small style={{ fontSize: 9, color: "#777" }}>{label}:</small>
+      <b style={{ fontSize: 10.5 }}>{value}</b>
     </div>
   );
 }
@@ -393,8 +585,26 @@ function EarningChart() {
   const max = 1600;
 
   return (
-    <div className="earning-chart">
-      <div className="y-axis">
+    <div
+      style={{
+        height: 275,
+        background: "#fff",
+        borderRadius: 8,
+        padding: "12px 20px",
+        display: "flex",
+      }}
+    >
+      <div
+        style={{
+          width: 70,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          fontSize: 9,
+          color: "#8d8a87",
+          padding: "0 0 28px 28px",
+        }}
+      >
         <span>₹</span>
         <span>1.5k+</span>
         <span>1.2k-1.5k</span>
@@ -404,38 +614,106 @@ function EarningChart() {
         <span>0</span>
       </div>
 
-      <div className="chart-area">
-        <div className="bars">
+      <div
+        style={{
+          flex: 1,
+          position: "relative",
+          borderLeft: "1px solid #bdb8b3",
+        }}
+      >
+        <div
+          style={{
+            height: 220,
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-around",
+            padding: "0 14px",
+            borderBottom: "1px solid #c9c4bf",
+            background:
+              "repeating-linear-gradient(to bottom, transparent 0, transparent 35px, #eeeae7 36px)",
+          }}
+        >
           {earningData.map(([day, value]) => (
             <div
-              className="bar-group"
+              style={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                minWidth: 45,
+              }}
               key={day}
             >
               <div
-                className="bar"
                 style={{
-                  height: `${Math.max(
-                    12,
-                    (value / max) * 170,
-                  )}px`,
+                  ...{
+                    width: 9,
+                    borderRadius: "8px 8px 0 0",
+                    background:
+                      "linear-gradient(to bottom, #ff633a 65%, #bb62ba)",
+                    minHeight: 10,
+                  },
+                  height: `${Math.max(12, (value / max) * 170)}px`,
                 }}
               />
 
-              <span>{day}</span>
+              <span
+                style={{
+                  fontSize: 8,
+                  color: "#888",
+                  marginTop: 7,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {day}
+              </span>
             </div>
           ))}
         </div>
 
-        <div className="chart-nav">
-          <button type="button">
+        <div
+          style={{ height: 30, display: "flex", alignItems: "center", gap: 8 }}
+        >
+          <button
+            style={{
+              width: 20,
+              height: 20,
+              border: "1px solid #aaa",
+              borderRadius: "50%",
+              background: "#fff",
+              display: "grid",
+              placeItems: "center",
+            }}
+            type="button"
+          >
             <ChevronLeft size={14} />
           </button>
 
-          <button type="button">
+          <button
+            style={{
+              width: 20,
+              height: 20,
+              border: "1px solid #aaa",
+              borderRadius: "50%",
+              background: "#fff",
+              display: "grid",
+              placeItems: "center",
+            }}
+            type="button"
+          >
             <ChevronRight size={14} />
           </button>
 
-          <span>
+          <span
+            style={{
+              marginLeft: "auto",
+              fontSize: 9,
+              display: "flex",
+              gap: 5,
+              alignItems: "center",
+            }}
+          >
             <CalendarDays size={13} /> Dates
           </span>
         </div>
@@ -451,93 +729,147 @@ function MoreDetails({
   rider: RiderProfile;
   onBack: () => void;
 }) {
+  const isMax1100 = useMediaQuery("(max-width: 1100px)");
+  const isMax760 = useMediaQuery("(max-width: 760px)");
   return (
-    <div className="more-details-page">
-      
-      <section className="rider-section">
-        <h2>Personal details</h2>
+    <div style={{ paddingTop: 4 }}>
+      <section style={{ marginBottom: 16 }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>
+          Personal details
+        </h2>
 
-        <div className="personal-card">
-          <img src={rider.avatar} alt="" />
-
-          <Field
-            label="Full Name"
-            value={rider.name}
+        <div
+          style={{
+            ...{
+              background: "#fff",
+              borderRadius: 8,
+              padding: "17px 20px",
+              display: "grid",
+              gridTemplateColumns: "75px repeat(5, 1fr)",
+              alignItems: "center",
+              gap: 24,
+            },
+            ...(isMax1100
+              ? { gridTemplateColumns: "70px repeat(3, 1fr)" }
+              : {}),
+            ...(isMax760 ? { gridTemplateColumns: "1fr 1fr" } : {}),
+          }}
+        >
+          <img
+            style={{
+              ...{
+                width: 67,
+                height: 67,
+                borderRadius: "50%",
+                objectFit: "cover",
+              },
+              ...(isMax760 ? { gridRow: "span 2" } : {}),
+            }}
+            src={rider.avatar}
+            alt=""
           />
 
-          <Field
-            label="Email"
-            value={rider.email}
-          />
+          <Field label="Full Name" value={rider.name} />
 
-          <Field
-            label="Mobile No"
-            value={rider.phone}
-          />
+          <Field label="Email" value={rider.email} />
 
-          <Field
-            label="Age/Gender"
-            value={rider.ageGender}
-          />
+          <Field label="Mobile No" value={rider.phone} />
 
-          <Field
-            label="City/State"
-            value={rider.city}
-          />
+          <Field label="Age/Gender" value={rider.ageGender} />
+
+          <Field label="City/State" value={rider.city} />
         </div>
       </section>
 
-      <section className="rider-section">
-        <h2>Vehicle details</h2>
+      <section style={{ marginBottom: 16 }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>
+          Vehicle details
+        </h2>
 
-        <div className="vehicle-card">
+        <div
+          style={{
+            ...{
+              background: "#fff",
+              borderRadius: 8,
+              padding: "17px 20px",
+              display: "grid",
+              alignItems: "center",
+              gap: 24,
+              gridTemplateColumns: "170px repeat(5, 1fr)",
+              height: 140,
+            },
+            ...(isMax1100
+              ? { gridTemplateColumns: "150px repeat(3, 1fr)", height: "auto" }
+              : {}),
+            ...(isMax760 ? { gridTemplateColumns: "1fr 1fr" } : {}),
+          }}
+        >
           <img
+            style={{ width: 145, height: 92, objectFit: "contain" }}
             src={rider.vehicle.image}
             alt=""
           />
 
-          <Field
-            label="Vehicle Name"
-            value={rider.vehicle.name}
-          />
+          <Field label="Vehicle Name" value={rider.vehicle.name} />
 
-          <Field
-            label="Color"
-            value={rider.vehicle.color}
-          />
+          <Field label="Color" value={rider.vehicle.color} />
 
-          <Field
-            label="Purchased On"
-            value={rider.vehicle.purchasedOn}
-          />
+          <Field label="Purchased On" value={rider.vehicle.purchasedOn} />
 
-          <Field
-            label="Vehicle Number"
-            value={rider.vehicle.number}
-          />
+          <Field label="Vehicle Number" value={rider.vehicle.number} />
 
-          <Field
-            label="Model Year"
-            value={rider.vehicle.year}
-          />
+          <Field label="Model Year" value={rider.vehicle.year} />
         </div>
       </section>
 
-      <section className="rider-section">
-        <h2>Document details</h2>
+      <section style={{ marginBottom: 16 }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>
+          Document details
+        </h2>
 
-        <div className="documents-grid">
+        <div
+          style={{
+            ...{
+              background: "#fff",
+              borderRadius: 8,
+              padding: 20,
+              display: "grid",
+              gridTemplateColumns: "1.7fr 1fr 1fr 1fr",
+              gap: 20,
+            },
+            ...(isMax1100 ? { gridTemplateColumns: "1fr 1fr" } : {}),
+            ...(isMax760 ? { gridTemplateColumns: "1fr" } : {}),
+          }}
+        >
           {rider.documents.map((d) => (
             <div
-              className="document-card"
+              style={{
+                border: "1px solid #68635e",
+                borderRadius: 5,
+                minHeight: 164,
+                padding: 10,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 7,
+              }}
               key={d.label}
             >
               <img
+                style={{
+                  width: "100%",
+                  height: 105,
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  border: 0,
+                  outline: 0,
+                }}
                 src={d.image}
                 alt={d.label}
               />
 
-              <b>{d.label}</b>
+              <b style={{ fontSize: 11 }}>{d.label}</b>
             </div>
           ))}
         </div>
@@ -561,13 +893,21 @@ function Pagination({
   ).slice(0, 3);
 
   return (
-    <div className="detail-pagination">
+    <div
+      style={{ display: "flex", justifyContent: "center", gap: 7, padding: 14 }}
+    >
       <button
+        style={{
+          height: 27,
+          minWidth: 27,
+          border: "1px solid #d8d1ca",
+          background: "#fff",
+          borderRadius: 7,
+          fontSize: 11,
+        }}
         type="button"
         disabled={page === 1}
-        onClick={() =>
-          onPage(Math.max(1, page - 1))
-        }
+        onClick={() => onPage(Math.max(1, page - 1))}
       >
         ‹
       </button>
@@ -576,9 +916,23 @@ function Pagination({
         <button
           type="button"
           key={item}
-          className={
-            page === item ? "active" : ""
-          }
+          style={{
+            ...{
+              height: 27,
+              minWidth: 27,
+              border: "1px solid #d8d1ca",
+              background: "#fff",
+              borderRadius: 7,
+              fontSize: 11,
+            },
+            ...(page === item
+              ? {
+                  border: "1px solid #8a5a32",
+                  background: "#8a5a32",
+                  color: "#fff",
+                }
+              : {}),
+          }}
           onClick={() => onPage(item)}
         >
           {item}
@@ -586,13 +940,17 @@ function Pagination({
       ))}
 
       <button
+        style={{
+          height: 27,
+          minWidth: 27,
+          border: "1px solid #d8d1ca",
+          background: "#fff",
+          borderRadius: 7,
+          fontSize: 11,
+        }}
         type="button"
         disabled={page === totalPages}
-        onClick={() =>
-          onPage(
-            Math.min(totalPages, page + 1),
-          )
-        }
+        onClick={() => onPage(Math.min(totalPages, page + 1))}
       >
         ›
       </button>
@@ -619,19 +977,41 @@ function SuspendModal({
 
   return (
     <div
-      className="rider-modal-backdrop"
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(40, 35, 30, 0.28)",
+        zIndex: 100,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 24,
+      }}
       onMouseDown={onClose}
     >
       <div
-        className="suspend-modal"
-        onMouseDown={(event) =>
-          event.stopPropagation()
-        }
+        style={{
+          width: 405,
+          background: "#fff",
+          borderRadius: 14,
+          padding: "18px 20px",
+        }}
+        onMouseDown={(event) => event.stopPropagation()}
       >
-        <div className="suspend-title">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            fontSize: 14,
+            paddingBottom: 13,
+            borderBottom: "1px solid #ddd",
+          }}
+        >
           <b>Suspend “{name}”</b>
 
           <button
+            style={{ border: 0, background: "transparent" }}
             type="button"
             onClick={onClose}
           >
@@ -639,23 +1019,60 @@ function SuspendModal({
           </button>
         </div>
 
-        <label>Suspend reason</label>
+        <label
+          style={{
+            display: "block",
+            fontSize: 10,
+            fontWeight: 700,
+            color: "#5f5a55",
+            margin: "20px 0 9px",
+          }}
+        >
+          Suspend reason
+        </label>
 
         <textarea
+          style={{
+            width: "100%",
+            height: 174,
+            border: "1px solid #777",
+            resize: "none",
+            outline: "none",
+            padding: 12,
+            font: "11px Manrope, sans-serif",
+          }}
+          data-placeholder="riders"
           value={reason}
-          onChange={(event) =>
-            onReasonChange(event.target.value)
-          }
+          onChange={(event) => onReasonChange(event.target.value)}
           placeholder="Write your reason of suspend to vendor..."
         />
 
-        <p>
-          <Info size={13} /> This message will be sent
-          to the rider
+        <p
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 5,
+            color: "#888",
+            fontSize: 9,
+            margin: "9px 0 25px",
+          }}
+        >
+          <Info size={13} /> This message will be sent to the rider
         </p>
 
-        <div className="suspend-actions">
+        <div
+          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9 }}
+        >
           <button
+            style={{
+              height: 35,
+              border: "1px solid #6b5c52",
+              borderRadius: 5,
+              background: "#fff",
+              fontSize: 10,
+              fontWeight: 700,
+              color: "#5c5650",
+            }}
             type="button"
             onClick={onClose}
           >
@@ -663,6 +1080,20 @@ function SuspendModal({
           </button>
 
           <button
+            style={{
+              ...{
+                height: 35,
+                border: "1px solid #8a5a32",
+                borderRadius: 5,
+                fontSize: 10,
+                fontWeight: 700,
+                background: "#8a5a32",
+                color: "#fff",
+              },
+              ...(!reason.trim()
+                ? { background: "#ddd", borderColor: "#ddd", color: "#aaa" }
+                : {}),
+            }}
             type="button"
             disabled={!reason.trim()}
             onClick={onConfirm}

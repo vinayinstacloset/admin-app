@@ -5,52 +5,59 @@ import axios from "axios";
 ========================================================= */
 
 export interface ApiErrorResponse {
-    message?: string;
-    error?: string;
-    code?: string;
-    status?: number;
-    timestamp?: string;
-    [key: string]: unknown;
+  message?: string;
+  error?: string;
+  code?: string;
+  status?: number;
+  timestamp?: string;
+  [key: string]: unknown;
 }
 
 /* =========================================================
    Get API Error Message
 ========================================================= */
 
-export function getApiErrorMessage(error: unknown, fallbackMessage = "Something went wrong"): string {
-    if (axios.isAxiosError(error)) {
-        const responseData = error.response?.data as ApiErrorResponse | string | undefined;
+export function getApiErrorMessage(
+  error: unknown,
+  fallbackMessage = "Something went wrong",
+): string {
+  if (axios.isAxiosError(error)) {
+    const responseData = error.response?.data as
+      ApiErrorResponse | string | undefined;
 
-        // Backend returned a plain string
-        if (typeof responseData === "string" && responseData.trim()) {
-            return responseData;
-        }
-
-        // Backend returned an object
-        if (typeof responseData === "object" && responseData !== null) {
-            if (typeof responseData.message === "string" && responseData.message.trim()) {
-                return responseData.message;
-            }
-
-            if (typeof responseData.error === "string" && responseData.error.trim()) {
-                return responseData.error;
-            }
-        }
-
-        // Axios/network error
-        if (typeof error.message === "string" && error.message.trim()) {
-            return error.message;
-        }
+    // Backend returned a plain string
+    if (typeof responseData === "string" && responseData.trim()) {
+      return responseData;
     }
 
-    // Normal JavaScript Error
-    if (error instanceof Error) {
-        if (error.message.trim()) {
-            return error.message;
-        }
+    // Backend returned an object
+    if (typeof responseData === "object" && responseData !== null) {
+      if (
+        typeof responseData.message === "string" &&
+        responseData.message.trim()
+      ) {
+        return responseData.message;
+      }
+
+      if (typeof responseData.error === "string" && responseData.error.trim()) {
+        return responseData.error;
+      }
     }
 
-    return fallbackMessage;
+    // Axios/network error
+    if (typeof error.message === "string" && error.message.trim()) {
+      return error.message;
+    }
+  }
+
+  // Normal JavaScript Error
+  if (error instanceof Error) {
+    if (error.message.trim()) {
+      return error.message;
+    }
+  }
+
+  return fallbackMessage;
 }
 
 /* =========================================================
@@ -58,11 +65,11 @@ export function getApiErrorMessage(error: unknown, fallbackMessage = "Something 
 ========================================================= */
 
 export function getApiErrorStatus(error: unknown): number | undefined {
-    if (axios.isAxiosError(error)) {
-        return error.response?.status;
-    }
+  if (axios.isAxiosError(error)) {
+    return error.response?.status;
+  }
 
-    return undefined;
+  return undefined;
 }
 
 /* =========================================================
@@ -70,7 +77,7 @@ export function getApiErrorStatus(error: unknown): number | undefined {
 ========================================================= */
 
 export function isApiErrorStatus(error: unknown, status: number): boolean {
-    return getApiErrorStatus(error) === status;
+  return getApiErrorStatus(error) === status;
 }
 
 /* =========================================================
@@ -78,5 +85,5 @@ export function isApiErrorStatus(error: unknown, status: number): boolean {
 ========================================================= */
 
 export function isNotFoundError(error: unknown): boolean {
-    return isApiErrorStatus(error, 404);
+  return isApiErrorStatus(error, 404);
 }

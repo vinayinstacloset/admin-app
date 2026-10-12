@@ -1,70 +1,149 @@
 import { useEffect, useRef } from "react";
 import { useDashboardOutletContext } from "../../../layouts/useDashboardOutletContext";
 import { useSettings } from "../hooks/useSettings";
-import { parseMoneyInput } from "../utils/settings.utils";
 import Toggle from "../components/Toggle";
 
-const page = { color: "#26201b", fontFamily: "Manrope, system-ui, sans-serif" };
-const card = { background: "#fff", borderRadius: 10, padding: 16 };
+const page: React.CSSProperties = {
+  color: "#26201b",
+  fontFamily: "Manrope, system-ui, sans-serif",
+  paddingBottom: 28,
+};
+
+const card: React.CSSProperties = {
+  background: "#fff",
+  borderRadius: 10,
+  padding: 16,
+};
 
 export default function SettingsScreen() {
-  const { setPageAction, setExtraCrumbs } = useDashboardOutletContext();
+  const { setPageAction, setExtraCrumbs } =
+    useDashboardOutletContext();
+
   const {
     settings,
     isDirty,
     updatePlatform,
-    updateCommission,
     updateProfile,
     save,
   } = useSettings();
+
   const fileRef = useRef<HTMLInputElement>(null);
+
+  const saveRef = useRef(save);
+  const isDirtyRef = useRef(isDirty);
+
+  useEffect(() => {
+    saveRef.current = save;
+  }, [save]);
+
+  useEffect(() => {
+    isDirtyRef.current = isDirty;
+  }, [isDirty]);
 
   useEffect(() => {
     setExtraCrumbs([{ label: "Settings" }]);
-    setPageAction(
-      <button
-        type="button"
-        onClick={save}
-        disabled={!isDirty}
-        style={{
-          height: 32,
-          padding: "0 18px",
-          border: 0,
-          borderRadius: 6,
-          background: isDirty ? "#765038" : "#d8d8d8",
-          color: "#fff",
-          fontSize: 11,
-          fontWeight: 700,
-          cursor: isDirty ? "pointer" : "default",
-        }}
-      >
-        Save Changes
-      </button>,
+
+    const saveButton = (
+      <SaveChangesButton
+        saveRef={saveRef}
+        isDirtyRef={isDirtyRef}
+      />
     );
+
+    setPageAction(saveButton);
+
     return () => {
       setPageAction(null);
       setExtraCrumbs([]);
     };
-  }, [isDirty, save, setExtraCrumbs, setPageAction]);
+  }, [setExtraCrumbs, setPageAction]);
 
   return (
-    <div style={{ ...page, paddingBottom: 28 }}>
-      <h1 style={{ margin: "0 0 18px", fontSize: 15, fontWeight: 700 }}>
+    <div style={page}>
+      <style>{`
+        .settings-main-grid {
+          display: grid;
+          gap: 18px;
+          align-items: start;
+        }
+
+        .settings-profile-fields {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 15px;
+          padding-top: 20px;
+        }
+
+        .delivery-header {
+          display: grid;
+          grid-template-columns: 1fr 150px;
+          padding: 9px 19px;
+          background: #f0f0ee;
+          font-size: 9px;
+          color: #625d58;
+        }
+
+        .delivery-row {
+          display: grid;
+          grid-template-columns: 1fr 150px;
+          align-items: center;
+          min-height: 46px;
+          padding: 0 19px;
+          font-size: 11px;
+        }
+
+        @media (max-width: 900px) {
+          .settings-main-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .settings-profile-fields {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .delivery-header,
+          .delivery-row {
+            grid-template-columns: 1fr 125px;
+          }
+
+          .settings-picture-actions {
+            flex-wrap: wrap;
+          }
+        }
+      `}</style>
+
+      <h1
+        style={{
+          margin: "0 0 18px",
+          fontSize: 15,
+          fontWeight: 700,
+        }}
+      >
         Personal information
       </h1>
-      <section style={{ ...card, marginBottom: 20 }}>
+
+      <section
+        style={{
+          ...card,
+          marginBottom: 20,
+        }}
+      >
         <div
+          className="settings-picture-actions"
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 16,
+            gap: 12,
             paddingBottom: 20,
             borderBottom: "1px solid #e7e2dd",
           }}
         >
           <img
             src={
-              settings.profile.pictureUrl || "https://i.pravatar.cc/160?img=12"
+              settings.profile.pictureUrl ||
+              "https://i.pravatar.cc/160?img=12"
             }
             alt="Profile"
             style={{
@@ -75,38 +154,25 @@ export default function SettingsScreen() {
               background: "#f3f3f3",
             }}
           />
+
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            style={{
-              height: 30,
-              padding: "0 11px",
-              border: 0,
-              borderRadius: 5,
-              background: "#765038",
-              color: "#fff",
-              fontSize: 11,
-              fontWeight: 700,
-            }}
+            style={brownButton}
           >
             Change picture
           </button>
+
           <button
             type="button"
-            onClick={() => updateProfile("pictureUrl", "")}
-            style={{
-              height: 30,
-              padding: "0 11px",
-              border: "1px solid #ef7171",
-              borderRadius: 5,
-              background: "#fff",
-              color: "#ef7171",
-              fontSize: 11,
-              fontWeight: 700,
-            }}
+            onClick={() =>
+              updateProfile("pictureUrl", "")
+            }
+            style={deleteButton}
           >
             Delete picture
           </button>
+
           <input
             ref={fileRef}
             hidden
@@ -114,114 +180,154 @@ export default function SettingsScreen() {
             accept="image/*"
             onChange={(event) => {
               const file = event.target.files?.[0];
-              if (file) updateProfile("pictureUrl", URL.createObjectURL(file));
+
+              if (file) {
+                updateProfile(
+                  "pictureUrl",
+                  URL.createObjectURL(file),
+                );
+              }
             }}
           />
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-            gap: 15,
-            paddingTop: 20,
-          }}
-        >
+
+        <div className="settings-profile-fields">
           <Field
             label="Full Name"
             value={settings.profile.fullName}
-            onChange={(value) => updateProfile("fullName", value)}
+            onChange={(value) =>
+              updateProfile("fullName", value)
+            }
           />
+
           <Field
             label="Email"
             value={settings.profile.email}
-            onChange={(value) => updateProfile("email", value)}
+            onChange={(value) =>
+              updateProfile("email", value)
+            }
           />
+
           <Field
             label="Mobile No."
             value={settings.profile.mobile}
-            onChange={(value) => updateProfile("mobile", value)}
+            onChange={(value) =>
+              updateProfile("mobile", value)
+            }
           />
         </div>
       </section>
 
-      <div
-        style={{
-          display: "grid",
-          //gridTemplateColumns: "minmax(0, 1fr) 385px",
-          gap: 18,
-          alignItems: "start",
-        }}
-      >
+      <div className="settings-main-grid">
         <section>
-          <h2 style={{ margin: "0 0 14px", fontSize: 15, fontWeight: 700 }}>
+          <h2 style={sectionTitle}>
             Platform settings
           </h2>
-          <div style={{ ...card, padding: "9px 15px" }}>
-            
+
+          <div
+            style={{
+              ...card,
+              padding: "9px 15px",
+            }}
+          >
             <Toggle
               label="Auto-approve low-risk vendors"
               description="Skip manual review for verified GST"
-              checked={settings.platform.autoApproveLowRiskVendors}
+              checked={
+                settings.platform
+                  .autoApproveLowRiskVendors
+              }
               onChange={() =>
                 updatePlatform(
                   "autoApproveLowRiskVendors",
-                  !settings.platform.autoApproveLowRiskVendors,
+                  !settings.platform
+                    .autoApproveLowRiskVendors,
                 )
               }
             />
-            <Toggle
-              label="Send low-rating warnings"
-              description="Auto-warn vendors below 3.5 stars"
-              checked={settings.platform.sendLowRatingWarnings}
-              onChange={() =>
-                updatePlatform(
-                  "sendLowRatingWarnings",
-                  !settings.platform.sendLowRatingWarnings,
-                )
-              }
-            />
+
             <Toggle
               label="New order notifications"
               description="Push + email alerts for admin"
-              checked={settings.platform.newOrderNotifications}
+              checked={
+                settings.platform
+                  .newOrderNotifications
+              }
               onChange={() =>
                 updatePlatform(
                   "newOrderNotifications",
-                  !settings.platform.newOrderNotifications,
+                  !settings.platform
+                    .newOrderNotifications,
                 )
               }
             />
           </div>
         </section>
-        {/* <section>
-          <h2 style={{ margin: "0 0 14px", fontSize: 15, fontWeight: 700 }}>
-            Commission rates
-          </h2>
-          <div style={{ ...card, display: "grid", gap: 15 }}>
-            <NumberField
-              label="Default vendor commission (%)"
-              value={settings.commission.defaultVendorCommission}
-              onChange={(value) =>
-                updateCommission(
-                  "defaultVendorCommission",
-                  parseMoneyInput(value),
-                )
-              }
-            />
-            <NumberField
-              label="Rider payout per delivery (₹)"
-              value={settings.commission.riderPayoutPerDelivery}
-              onChange={(value) =>
-                updateCommission(
-                  "riderPayoutPerDelivery",
-                  parseMoneyInput(value),
-                )
-              }
-            />
-          </div>
-        </section> */}
       </div>
     </div>
+  );
+}
+
+function SaveChangesButton({
+  saveRef,
+  isDirtyRef,
+}: {
+  saveRef: React.MutableRefObject<() => void>;
+  isDirtyRef: React.MutableRefObject<boolean>;
+}) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const button = buttonRef.current;
+
+    if (!button) {
+      return;
+    }
+
+    const updateButton = () => {
+      const dirty = isDirtyRef.current;
+
+      button.disabled = !dirty;
+      button.style.background = dirty
+        ? "#765038"
+        : "#d8d8d8";
+      button.style.cursor = dirty
+        ? "pointer"
+        : "default";
+    };
+
+    updateButton();
+
+    const interval = window.setInterval(
+      updateButton,
+      100,
+    );
+
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, [isDirtyRef]);
+
+  return (
+    <button
+      ref={buttonRef}
+      type="button"
+      onClick={() => saveRef.current()}
+      style={{
+        height: 32,
+        padding: "0 18px",
+        border: 0,
+        borderRadius: 6,
+        background: "#d8d8d8",
+        color: "#fff",
+        fontSize: 11,
+        fontWeight: 700,
+        cursor: "default",
+        transition: "none",
+      }}
+    >
+      Save Changes
+    </button>
   );
 }
 
@@ -235,7 +341,12 @@ function Field({
   onChange: (value: string) => void;
 }) {
   return (
-    <label style={{ display: "block", minWidth: 0 }}>
+    <label
+      style={{
+        display: "block",
+        minWidth: 0,
+      }}
+    >
       <span
         style={{
           display: "block",
@@ -246,9 +357,12 @@ function Field({
       >
         {label}
       </span>
+
       <input
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
         style={{
           width: "100%",
           height: 40,
@@ -267,41 +381,32 @@ function Field({
   );
 }
 
-function NumberField({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: number;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <label
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 16,
-      }}
-    >
-      <span style={{ fontSize: 11, fontWeight: 600 }}>{label}</span>
-      <input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        inputMode="numeric"
-        style={{
-          width: 60,
-          height: 27,
-          boxSizing: "border-box",
-          border: "1px solid #aaa",
-          borderRadius: 4,
-          padding: "0 8px",
-          outline: "none",
-          textAlign: "center",
-          fontSize: 10,
-        }}
-      />
-    </label>
-  );
-}
+const sectionTitle: React.CSSProperties = {
+  margin: "0 0 14px",
+  fontSize: 15,
+  fontWeight: 700,
+};
+
+const brownButton: React.CSSProperties = {
+  height: 30,
+  padding: "0 11px",
+  border: 0,
+  borderRadius: 5,
+  background: "#765038",
+  color: "#fff",
+  fontSize: 11,
+  fontWeight: 700,
+  cursor: "pointer",
+};
+
+const deleteButton: React.CSSProperties = {
+  height: 30,
+  padding: "0 11px",
+  border: "1px solid #ef7171",
+  borderRadius: 5,
+  background: "#fff",
+  color: "#ef7171",
+  fontSize: 11,
+  fontWeight: 700,
+  cursor: "pointer",
+};

@@ -129,16 +129,16 @@ other changes.
 
 ## Routes
 
-| Path                                   | Screen                       |
-|-----------------------------------------|-------------------------------|
-| `/login`                                | Login                          |
-| `/register`                             | Registration                   |
-| `/forgot-password`                      | Forgot password → OTP → new password |
-| `/admin-dashboard`                      | Overview                       |
-| `/admin-dashboard/orders/:orderId`      | Order details (map, reassign rider) |
-| `/admin-dashboard/customers/:customerId`| Customer details               |
-| `/admin-dashboard/vendor/:vendorId`     | Vendor details                 |
-| `/admin-dashboard/riders/:riderId`      | Rider details                  |
+| Path                                                                                                                                                                                                     | Screen                                 |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `/login`                                                                                                                                                                                                 | Login                                  |
+| `/register`                                                                                                                                                                                              | Registration                           |
+| `/forgot-password`                                                                                                                                                                                       | Forgot password → OTP → new password   |
+| `/admin-dashboard`                                                                                                                                                                                       | Overview                               |
+| `/admin-dashboard/orders/:orderId`                                                                                                                                                                       | Order details (map, reassign rider)    |
+| `/admin-dashboard/customers/:customerId`                                                                                                                                                                 | Customer details                       |
+| `/admin-dashboard/vendor/:vendorId`                                                                                                                                                                      | Vendor details                         |
+| `/admin-dashboard/riders/:riderId`                                                                                                                                                                       | Rider details                          |
 | `/admin-dashboard/{store,orders,catalogue,approvals,customers,admins,vendor,riders,support,live-delivery,ticket-issue,escalation-ticket,analytics,price-markup,brands,banner-campaigns,finance,returns}` | One placeholder screen per sidebar tab |
 
 ## How auth + the dashboard chrome fit together
@@ -158,7 +158,6 @@ other changes.
    interceptor: it attaches the bearer token, and on a 401 it calls
    `tokenRefresh.ts` once (single-flight) and retries the original
    request — the same pattern used by the vendor app.
-
 
 ## Feature data architecture
 

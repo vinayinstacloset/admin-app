@@ -5,22 +5,17 @@ import LoadingScreen from "../features/loading/LoadingScreen";
 import { useAuthHydrated } from "../store/zustand/useAuthHydrated";
 
 export default function PublicRoute() {
-    const hydrated = useAuthHydrated();
+  const hydrated = useAuthHydrated();
 
-    const accessToken = useAuthStore((state) => state.accessToken);
+  const accessToken = useAuthStore((state) => state.accessToken);
 
-    if (!hydrated) {
-        return <LoadingScreen message="Checking your session..." />;
-    }
+  if (!hydrated) {
+    return <LoadingScreen message="Checking your session..." />;
+  }
 
-    if (accessToken) {
-        return (
-            <Navigate
-                to="/admin-dashboard"
-                replace
-            />
-        );
-    }
+  if (accessToken) {
+    return <Navigate to="/admin-dashboard" replace />;
+  }
 
-    return <Outlet />;
+  return <Outlet />;
 }

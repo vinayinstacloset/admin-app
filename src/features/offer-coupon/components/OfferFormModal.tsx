@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { CalendarDays, Trash2, Upload, X, BadgePercent, Ribbon } from "lucide-react";
+import {
+  CalendarDays,
+  Trash2,
+  Upload,
+  X,
+  BadgePercent,
+  Ribbon,
+} from "lucide-react";
 import Dropdown from "./Dropdown";
 import {
   CATEGORY_NAVIGATION_OPTIONS,
@@ -11,6 +18,8 @@ import {
 } from "../constants/offerCoupon.constants";
 import { isImageFileSupported } from "../utils/offerCoupon.utils";
 import type { Offer, OfferInput } from "../types/offerCoupon.types";
+import { useMediaQuery } from "../../../shared/hooks/useMediaQuery";
+import { hoverStyle, focusStyle } from "../../../shared/utils/interactiveStyle";
 
 interface Props {
   mode: "add" | "edit";
@@ -33,7 +42,6 @@ const createEmptyForm = (offerType: OfferInput["offerType"]): OfferInput => ({
   productCategory: "",
   category: "",
   subCategory: "",
-  status: "active",
 });
 
 export default function OfferFormModal({
@@ -44,13 +52,15 @@ export default function OfferFormModal({
   onSave,
   onDelete,
 }: Props) {
+  const isMax900 = useMediaQuery("(max-width: 900px)");
+  const isMax700 = useMediaQuery("(max-width: 700px)");
+  const isMax560 = useMediaQuery("(max-width: 560px)");
   const [form, setForm] = useState<OfferInput>(
     initial
       ? {
           offerType: initial.offerType,
           imageUrl: initial.imageUrl,
-          discount:
-            initial.discount === null ? "" : String(initial.discount),
+          discount: initial.discount === null ? "" : String(initial.discount),
           placement: initial.placement,
           startDate: initial.startDate,
           endDate: initial.endDate,
@@ -59,7 +69,6 @@ export default function OfferFormModal({
           productCategory: initial.productCategory,
           category: initial.category,
           subCategory: initial.subCategory,
-          status: initial.status,
         }
       : createEmptyForm(offerType),
   );
@@ -100,10 +109,7 @@ export default function OfferFormModal({
     [],
   );
 
-  const set = <K extends keyof OfferInput>(
-    key: K,
-    value: OfferInput[K],
-  ) => {
+  const set = <K extends keyof OfferInput>(key: K, value: OfferInput[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
   };
 
@@ -169,18 +175,73 @@ export default function OfferFormModal({
   } Offer`;
 
   return (
-    <div className="oc-overlay">
-      <div className="oc-offer-modal">
-        <div className="oc-modal-header">
-          <div className="oc-offer-title">
-            {isFlashCard ? <Ribbon size={19} /> : <BadgePercent size={19} />}
-            <h3>{title}</h3>
+    <div
+      style={{
+        ...{
+          position: "fixed",
+          inset: 0,
+          zIndex: 100,
+          background: "rgba(0, 0, 0, 0.23)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 24,
+        },
+        ...(isMax560 ? { padding: 12 } : {}),
+      }}
+    >
+      <div
+        style={{
+          ...{
+            width: "min(790px, calc(100vw - 32px))",
+            maxHeight: "calc(100vh - 48px)",
+            overflow: "auto",
+            background: "#fff",
+            borderRadius: 12,
+            padding: 20,
+            boxSizing: "border-box",
+            boxShadow: "0 15px 45px rgba(0, 0, 0, 0.18)",
+          },
+          ...(isMax900 ? { padding: 16 } : {}),
+          ...(isMax700 ? { width: "min(790px, calc(100vw - 20px))" } : {}),
+          ...(isMax560 ? { maxHeight: "calc(100vh - 24px)" } : {}),
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            minHeight: 26,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {isFlashCard ? (
+              <Ribbon size={19} style={{ color: "#f15d91" }} />
+            ) : (
+              <BadgePercent size={19} style={{ color: "#f15d91" }} />
+            )}
+            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>
+              {title}
+            </h3>
           </div>
-          <div className="oc-modal-header-actions">
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             {mode === "edit" && onDelete ? (
               <button
                 type="button"
-                className="oc-delete-icon"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: 0,
+                  cursor: "pointer",
+                  width: 32,
+                  height: 32,
+                  borderRadius: 4,
+                  background: "#fff1f1",
+                  color: "#ee6f70",
+                  fontFamily: "inherit",
+                }}
                 onClick={onDelete}
                 aria-label="Delete offer"
               >
@@ -190,12 +251,24 @@ export default function OfferFormModal({
           </div>
         </div>
 
-        <div className="oc-divider" />
+        <div
+          style={{ height: 1, background: "#d8d5d2", margin: "12px 0 19px" }}
+        />
 
         <div
-          className={`oc-upload ${isFlashCard ? "oc-upload-flash" : "oc-upload-deal"} ${
-            form.imageUrl ? "has-image" : ""
-          }`}
+          style={{
+            height: isMax560 ? 135 : 150,
+            border: "2px dashed #c8b5a8",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: form.imageUrl ? 6 : 5,
+            color: "#76523b",
+            cursor: "pointer",
+            position: "relative",
+            boxSizing: "border-box",
+          }}
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
@@ -204,6 +277,7 @@ export default function OfferFormModal({
           }}
         >
           <input
+            style={{ fontFamily: "inherit" }}
             ref={inputRef}
             type="file"
             accept="image/png,image/jpeg,image/svg+xml"
@@ -213,17 +287,40 @@ export default function OfferFormModal({
 
           {form.imageUrl ? (
             <>
-              <div className="oc-image-preview-wrap">
+              <div style={{ position: "relative" }}>
                 <img
                   src={form.imageUrl}
                   alt="Offer preview"
-                  className={`oc-image-preview ${
-                    isFlashCard ? "oc-image-preview-flash" : "oc-image-preview-deal"
-                  }`}
+                  style={{
+                    ...{
+                      display: "block",
+                      borderRadius: 2,
+                      width: 70,
+                      height: 70,
+                      objectFit: "cover",
+                    },
+                    ...(isFlashCard ? { width: 176, height: 84 } : {}),
+                  }}
                 />
                 <button
                   type="button"
-                  className="oc-image-remove"
+                  style={{
+                    position: "absolute",
+                    right: -7,
+                    top: -7,
+                    width: 17,
+                    height: 17,
+                    border: 0,
+                    borderRadius: "50%",
+                    background: "#fff",
+                    boxShadow: "0 1px 4px rgba(0, 0, 0, 0.18)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    color: "#777",
+                    fontFamily: "inherit",
+                  }}
                   onClick={(e) => {
                     e.stopPropagation();
                     set("imageUrl", "");
@@ -232,27 +329,41 @@ export default function OfferFormModal({
                   <X size={12} />
                 </button>
               </div>
-              <span>Only PNG, JPG and SVG formats are supported (Max. 3MB)</span>
+              <span style={{ fontSize: 8.5, color: "#655d58" }}>
+                Only PNG, JPG and SVG formats are supported (Max. 3MB)
+              </span>
             </>
           ) : (
             <>
               <Upload size={22} />
-              <strong>Upload image</strong>
-              <span>
+              <strong style={{ fontSize: 11, fontWeight: 500 }}>
+                Upload image
+              </strong>
+              <span style={{ fontSize: 8.5, color: "#655d58" }}>
                 Image ratio: (
                 {isFlashCard
                   ? "Width: 412 px, Height: 125 px"
                   : "Width: 70 px, Height: 70 px"}
                 )
               </span>
-              <small>
+              <small style={{ fontSize: 8.5, color: "#655d58" }}>
                 Only PNG, JPG and SVG formats are supported (Max. 3MB)
               </small>
             </>
           )}
         </div>
 
-        <div className="oc-form-grid oc-two">
+        <div
+          style={{
+            ...{
+              display: "grid",
+              gap: "12px 16px",
+              gridTemplateColumns: "1fr 1fr",
+              marginTop: 18,
+            },
+            ...(isMax900 ? { gridTemplateColumns: "1fr" } : {}),
+          }}
+        >
           <Field label="Placement">
             <Dropdown
               value={form.placement}
@@ -262,48 +373,96 @@ export default function OfferFormModal({
             />
           </Field>
 
-          <Field label={`Discount percentage${isFlashCard ? " (Optional)" : ""}`}>
-            <div className="oc-discount-field-offer">
+          <Field
+            label={`Discount percentage${isFlashCard ? " (Optional)" : ""}`}
+          >
+            <div
+              style={{
+                height: 36,
+                border: "1px solid #a9a6a3",
+                display: "flex",
+                alignItems: "center",
+                borderRadius: 5,
+              }}
+            >
               <input
-                className="oc-field"
+                style={{
+                  boxSizing: "border-box",
+                  width: "100%",
+                  background: "#fff",
+                  borderRadius: 5,
+                  padding: "0 12px",
+                  color: "#2b2724",
+                  height: "100%",
+                  flex: 1,
+                  border: 0,
+                  outline: 0,
+                  fontStyle: "inherit",
+                  fontVariant: "inherit",
+                  fontWeight: "inherit",
+                  lineHeight: "inherit",
+                  fontFamily: "inherit",
+                  fontSize: 12,
+                }}
+                {...focusStyle({ borderColor: "#76523b" }, { borderColor: "" })}
                 value={form.discount}
                 inputMode="decimal"
-                placeholder={isFlashCard ? "Enter discount percentage" : "Enter discount percentage"}
+                data-placeholder="oc"
+                placeholder={
+                  isFlashCard
+                    ? "Enter discount percentage"
+                    : "Enter discount percentage"
+                }
                 onChange={(e) =>
                   set("discount", e.target.value.replace(/[^0-9.]/g, ""))
                 }
               />
-              <span>%</span>
+              <span
+                style={{ padding: "0 10px", fontSize: 12, color: "#55504f" }}
+              >
+                %
+              </span>
             </div>
           </Field>
 
           <Field label="Start date">
-            <DateField value={form.startDate} onChange={(v) => set("startDate", v)} />
+            <DateField
+              value={form.startDate}
+              onChange={(v) => set("startDate", v)}
+            />
           </Field>
 
           <Field label="End date">
-            <DateField value={form.endDate} onChange={(v) => set("endDate", v)} />
-          </Field>
-
-          <Field label="Status">
-            <button
-              type="button"
-              className={`oc-status-control ${
-                form.status === "active" ? "is-active" : "is-scheduled"
-              }`}
-              onClick={() =>
-                set("status", form.status === "active" ? "scheduled" : "active")
-              }
-            >
-              <span className="oc-toggle oc-toggle-form"><span /></span>
-              <strong>{form.status === "active" ? "Active" : "Scheduled"}</strong>
-            </button>
+            <DateField
+              value={form.endDate}
+              onChange={(v) => set("endDate", v)}
+            />
           </Field>
         </div>
 
-        <div className="oc-section-title">Click to navigate</div>
+        <div
+          style={{
+            borderTop: "5px solid #efeeec",
+            marginTop: 14,
+            paddingTop: 17,
+            marginBottom: 10,
+            fontSize: 13,
+            fontWeight: 700,
+          }}
+        >
+          Click to navigate
+        </div>
 
-        <div className="oc-form-grid oc-three">
+        <div
+          style={{
+            ...{
+              display: "grid",
+              gap: "12px 16px",
+              gridTemplateColumns: "1fr 1fr 1fr",
+            },
+            ...(isMax900 ? { gridTemplateColumns: "1fr" } : {}),
+          }}
+        >
           <Field label="Gender">
             <Dropdown
               value={form.gender}
@@ -321,7 +480,10 @@ export default function OfferFormModal({
               disabled={!categoryNavigationOptions.length}
               value={form.categoryNavigation}
               placeholder="Select category navigation"
-              options={categoryNavigationOptions.map((v) => ({ value: v, label: v }))}
+              options={categoryNavigationOptions.map((v) => ({
+                value: v,
+                label: v,
+              }))}
               onChange={(v) => set("categoryNavigation", v)}
             />
           </Field>
@@ -330,7 +492,10 @@ export default function OfferFormModal({
             <Dropdown
               value={form.productCategory}
               placeholder="Select product category"
-              options={PRODUCT_CATEGORY_OPTIONS.map((v) => ({ value: v, label: v }))}
+              options={PRODUCT_CATEGORY_OPTIONS.map((v) => ({
+                value: v,
+                label: v,
+              }))}
               onChange={(v) => {
                 set("productCategory", v);
                 set("category", "");
@@ -361,15 +526,85 @@ export default function OfferFormModal({
           </Field>
         </div>
 
-        {error && <div className="oc-form-error">{error}</div>}
+        {error && (
+          <div
+            style={{
+              marginTop: 10,
+              padding: "8px 10px",
+              background: "#fff0f0",
+              color: "#d95e62",
+              borderRadius: 4,
+              fontSize: 10,
+            }}
+          >
+            {error}
+          </div>
+        )}
 
-        <div className="oc-modal-actions">
-          <button type="button" className="oc-secondary" onClick={onClose}>
+        <div
+          style={{
+            ...{
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: 8,
+              marginTop: 14,
+            },
+            ...(isMax560 ? { flexWrap: "wrap" } : {}),
+          }}
+        >
+          <button
+            type="button"
+            style={{
+              ...{
+                height: 38,
+                padding: "0 18px",
+                borderRadius: 5,
+                border: "1px solid #2e2a27",
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: "pointer",
+                background: "#fff",
+                color: "#5d5752",
+                fontFamily: "inherit",
+                minWidth: 96,
+              },
+              ...(isMax560 ? { flex: 1 } : {}),
+            }}
+            {...hoverStyle({ background: "#f6f4f2" }, { background: "#fff" })}
+            onClick={onClose}
+          >
             {mode === "add" ? "Discard" : "Cancel"}
           </button>
           <button
             type="button"
-            className="oc-primary"
+            style={{
+              ...{
+                height: 38,
+                padding: "0 18px",
+                borderRadius: 5,
+                border: "1px solid transparent",
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: "pointer",
+                background: "#76523b",
+                color: "#fff",
+                fontFamily: "inherit",
+                minWidth: 96,
+              },
+              ...(isMax560 ? { flex: 1 } : {}),
+              ...(!!validate()
+                ? {
+                    background: "#d8d8d8",
+                    color: "#aaa",
+                    cursor: "not-allowed",
+                  }
+                : {}),
+            }}
+            {...hoverStyle(
+              { background: "#694831" },
+              { background: "#76523b" },
+              true,
+            )}
             disabled={!!validate()}
             onClick={submit}
           >
@@ -381,16 +616,14 @@ export default function OfferFormModal({
   );
 }
 
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="oc-field-group">
-      <span>{label}</span>
+    <div
+      style={{ display: "flex", flexDirection: "column", gap: 7, minWidth: 0 }}
+    >
+      <span style={{ fontSize: 11, fontWeight: 700, color: "#625d58" }}>
+        {label}
+      </span>
       {children}
     </div>
   );
@@ -406,28 +639,81 @@ function DateField({
   const ref = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="oc-date-field">
+    <div style={{ position: "relative" }}>
       <input
-        className="oc-field oc-date-display"
+        style={{
+          boxSizing: "border-box",
+          width: "100%",
+          height: 36,
+          border: "1px solid #a9a6a3",
+          background: "#fff",
+          borderRadius: 5,
+          paddingTop: 0,
+          paddingBottom: 0,
+          paddingLeft: 12,
+          outline: "none",
+          color: "#2b2724",
+          fontSize: 12,
+          cursor: "pointer",
+          fontFamily: "inherit",
+          paddingRight: 42,
+        }}
+        {...focusStyle({ borderColor: "#76523b" }, { borderColor: "" })}
         value={value ? formatDisplayDate(value) : ""}
+        data-placeholder="oc"
         placeholder="Select date"
         readOnly
         onClick={() => ref.current?.showPicker?.()}
       />
       <input
         ref={ref}
-        className="oc-native-date"
+        style={{
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          opacity: 0,
+          pointerEvents: "none",
+          fontFamily: "inherit",
+          colorScheme: "light",
+          position: "absolute",
+        }}
         type="date"
+        data-native-date="oc"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
       <button
         type="button"
-        className="oc-date-icon-button"
+        style={{
+          position: "absolute",
+          right: 7,
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: 25,
+          height: 25,
+          border: 0,
+          background: "transparent",
+          color: "#403a36",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          fontFamily: "inherit",
+        }}
         onClick={() => ref.current?.showPicker?.()}
         aria-label="Select date"
       >
-        <CalendarDays size={15} />
+        <CalendarDays
+          size={15}
+          style={{
+            position: "absolute",
+            right: 10,
+            top: "50%",
+            transform: "translateY(-50%)",
+            pointerEvents: "none",
+            color: "#403a36",
+          }}
+        />
       </button>
     </div>
   );

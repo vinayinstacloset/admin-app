@@ -1,27 +1,29 @@
 import { create } from "zustand";
 
 interface UiState {
-    isMobileSidebarOpen: boolean;
-    isSidebarCollapsed: boolean;
-    setMobileSidebarOpen: (open: boolean) => void;
-    toggleSidebar: () => void;
+  isMobileSidebarOpen: boolean;
+  isSidebarCollapsed: boolean;
+  setMobileSidebarOpen: (open: boolean) => void;
+  toggleSidebar: () => void;
 
-    activeStateFilter: string;
-    setActiveStateFilter: (state: string) => void;
+  activeStateFilter: string;
+  setActiveStateFilter: (state: string) => void;
 
-    reassignRiderOrderId: string | null;
-    setReassignRiderOrderId: (orderId: string | null) => void;
+  reassignRiderOrderId: string | null;
+  setReassignRiderOrderId: (orderId: string | null) => void;
 }
 
 export const useUiStore = create<UiState>((set) => ({
-    isMobileSidebarOpen: false,
-    isSidebarCollapsed: false,
-    setMobileSidebarOpen: (open) => set({ isMobileSidebarOpen: open }),
-    toggleSidebar: () => set((state) => ({ isSidebarCollapsed: !state.isSidebarCollapsed })),
+  isMobileSidebarOpen: false,
+  isSidebarCollapsed: false,
+  setMobileSidebarOpen: (open) => set({ isMobileSidebarOpen: open }),
+  toggleSidebar: () =>
+    set((state) => ({ isSidebarCollapsed: !state.isSidebarCollapsed })),
 
-    activeStateFilter: "All State",
-    setActiveStateFilter: (activeStateFilter) => set({ activeStateFilter }),
+  activeStateFilter: "All State",
+  setActiveStateFilter: (activeStateFilter) => set({ activeStateFilter }),
 
-    reassignRiderOrderId: null,
-    setReassignRiderOrderId: (reassignRiderOrderId) => set({ reassignRiderOrderId }),
+  reassignRiderOrderId: null,
+  setReassignRiderOrderId: (reassignRiderOrderId) =>
+    set({ reassignRiderOrderId }),
 }));

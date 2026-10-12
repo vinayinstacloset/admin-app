@@ -6,13 +6,17 @@ import type { LiveDeliveryItem } from "../types/livedelivery.types";
 // folder scaffold (api/hooks/screens/types/utils/validation) mirrors
 // every other feature so the real implementation can drop straight in.
 export const liveDeliveryApi = {
-    list: async (): Promise<LiveDeliveryItem[]> => {
-        try {
-            const { data } = await clientAdmin.get<LiveDeliveryItem[]>("/live-delivery");
-            return data;
-        } catch (error) {
-            console.warn("Live Delivery API not implemented yet:", getApiErrorMessage(error));
-            return [];
-        }
-    },
+  list: async (): Promise<LiveDeliveryItem[]> => {
+    try {
+      const { data } =
+        await clientAdmin.get<LiveDeliveryItem[]>("/live-delivery");
+      return data;
+    } catch (error) {
+      console.warn(
+        "Live Delivery API not implemented yet:",
+        getApiErrorMessage(error),
+      );
+      return [];
+    }
+  },
 };

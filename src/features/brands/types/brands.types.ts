@@ -1,1 +1,5 @@
-export interface BrandsItem { id: string; name: string; image: string; }
+export interface BrandsItem {
+  id: string;
+  name: string;
+  image: string;
+}

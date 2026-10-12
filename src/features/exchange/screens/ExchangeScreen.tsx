@@ -1,11 +1,14 @@
-import PlaceholderScreen from "../../../shared/components/PlaceholderScreen";
+import { useParams } from "react-router-dom";
+import ExchangeDetailsScreen from "./ExchangeDetailsScreen";
+import ExchangeListScreen from "../components/ExchangeListScreen";
+import ExchangeStoreScreen from "../components/ExchangeStoreScreen";
 
 export default function ExchangeScreen() {
-    return (
-        <PlaceholderScreen
-            title="Exchange"
-            description="Manage the list of exchanges available on the platform."
-            icon="Recycle"
-        />
-    );
+  const { storeId, exchangeId } = useParams<{
+    storeId?: string;
+    exchangeId?: string;
+  }>();
+  if (exchangeId) return <ExchangeDetailsScreen />;
+  if (storeId) return <ExchangeStoreScreen />;
+  return <ExchangeListScreen />;
 }

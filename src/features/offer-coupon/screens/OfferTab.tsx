@@ -1,5 +1,5 @@
 import { Funnel } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Dropdown from "../components/Dropdown";
 import OfferTable from "../components/OfferTable";
 import OfferFormModal from "../components/OfferFormModal";
@@ -9,7 +9,14 @@ import SuccessModal from "../components/SuccessModal";
 import { OFFER_FILTER_OPTIONS } from "../constants/offerCoupon.constants";
 import { offerCouponApi } from "../api";
 import { useOfferCouponStore } from "../store/offerCouponStore";
-import type { Offer, OfferInput } from "../types/offerCoupon.types";
+import { getOfferStatus } from "../utils/offerCoupon.utils";
+import type {
+  Offer,
+  OfferInput,
+  OfferFilter,
+} from "../types/offerCoupon.types";
+import { useMediaQuery } from "../../../shared/hooks/useMediaQuery";
+import { hoverStyle, focusStyle } from "../../../shared/utils/interactiveStyle";
 
 type ModalState =
   | null
@@ -17,29 +24,42 @@ type ModalState =
   | { mode: "add"; offerType: OfferInput["offerType"] }
   | { mode: "edit"; row: Offer };
 
+const getEmptyMessage = (filter: OfferFilter) => {
+  if (filter === "active") return "No active offers found";
+  if (filter === "scheduled") return "No scheduled offers found";
+  if (filter === "expired") return "No expired offers found";
+  return "No offers found";
+};
+
 export default function OfferTab() {
-  const { offers, addOffer, updateOffer, removeOffer, toggleOffer } =
-    useOfferCouponStore();
-  const [filter, setFilter] = useState("all");
+  const isMax900 = useMediaQuery("(max-width: 900px)");
+  const isMax560 = useMediaQuery("(max-width: 560px)");
+  const { offers, addOffer, updateOffer, removeOffer } = useOfferCouponStore();
+  const [filter, setFilter] = useState<OfferFilter>("all");
   const [modal, setModal] = useState<ModalState>(null);
   const [deleteTarget, setDeleteTarget] = useState<Offer | null>(null);
   const [success, setSuccess] = useState("");
+  const [dateTick, setDateTick] = useState(0);
 
-  const rows = useMemo(
-    () => (filter === "all" ? offers : offers.filter((row) => row.status === filter)),
-    [filter, offers],
-  );
-
-  const handleToggle = (id: string) => {
-    const current = offers.find((row) => row.id === id);
-    if (!current) return;
-    toggleOffer(id);
-    setSuccess(
-      current.enabled
-        ? "Offer deactivated successfully."
-        : "Offer activated successfully.",
+  useEffect(() => {
+    const timer = window.setInterval(
+      () => setDateTick((value) => value + 1),
+      60_000,
     );
-  };
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const rows = useMemo(() => {
+    const withCurrentStatus = offers.map((row) => ({
+      ...row,
+      status: getOfferStatus(row.startDate, row.endDate),
+      enabled: getOfferStatus(row.startDate, row.endDate) === "active",
+    }));
+
+    return filter === "all"
+      ? withCurrentStatus
+      : withCurrentStatus.filter((row) => row.status === filter);
+  }, [dateTick, filter, offers]);
 
   const save = async (input: OfferInput) => {
     if (modal?.mode === "add") {
@@ -61,9 +81,40 @@ export default function OfferTab() {
 
   return (
     <>
-      <div className="oc-toolbar">
-        <h2>Offer - {offers.length}</h2>
-        <div className="oc-toolbar-controls">
+      <div
+        style={{
+          ...{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 12,
+            flexWrap: "wrap",
+            marginTop: 2,
+          },
+          ...(isMax900 ? { alignItems: "flex-start" } : {}),
+        }}
+      >
+        <h2
+          style={{
+            ...{ margin: 0, fontSize: 16, fontWeight: 700 },
+            ...(isMax560 ? { fontSize: 14 } : {}),
+          }}
+        >
+          Offer - {offers.length}
+        </h2>
+        <div
+          style={{
+            ...{ display: "flex", alignItems: "center", gap: 11 },
+            ...(isMax900 ? { width: "100%", justifyContent: "flex-end" } : {}),
+            ...(isMax560
+              ? {
+                  flexWrap: "wrap",
+                  justifyContent: "flex-start",
+                  width: "auto",
+                }
+              : {}),
+          }}
+        >
           <Funnel size={17} />
           <Dropdown
             value={filter}
@@ -72,11 +123,27 @@ export default function OfferTab() {
               value: item.value,
               label: item.label,
             }))}
-            onChange={setFilter}
+            onChange={(value) => setFilter(value as OfferFilter)}
           />
           <button
             type="button"
-            className="oc-primary oc-toolbar-button"
+            style={{
+              borderRadius: 5,
+              border: "1px solid transparent",
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: "pointer",
+              background: "#76523b",
+              color: "#fff",
+              height: 36,
+              padding: "0 16px",
+              fontFamily: "inherit",
+            }}
+            {...hoverStyle(
+              { background: "#694831" },
+              { background: "#76523b" },
+              true,
+            )}
             onClick={() => setModal({ mode: "select-type" })}
           >
             Add Offer +
@@ -86,7 +153,7 @@ export default function OfferTab() {
 
       <OfferTable
         rows={rows}
-        onToggle={handleToggle}
+        emptyMessage={getEmptyMessage(filter)}
         onEdit={(row) => setModal({ mode: "edit", row })}
       />
 

@@ -6,13 +6,16 @@ import type { BrandsItem } from "../types/brands.types";
 // folder scaffold (api/hooks/screens/types/utils/validation) mirrors
 // every other feature so the real implementation can drop straight in.
 export const brandsApi = {
-    list: async (): Promise<BrandsItem[]> => {
-        try {
-            const { data } = await clientAdmin.get<BrandsItem[]>("/brands");
-            return data;
-        } catch (error) {
-            console.warn("Brands API not implemented yet:", getApiErrorMessage(error));
-            return [];
-        }
-    },
+  list: async (): Promise<BrandsItem[]> => {
+    try {
+      const { data } = await clientAdmin.get<BrandsItem[]>("/brands");
+      return data;
+    } catch (error) {
+      console.warn(
+        "Brands API not implemented yet:",
+        getApiErrorMessage(error),
+      );
+      return [];
+    }
+  },
 };

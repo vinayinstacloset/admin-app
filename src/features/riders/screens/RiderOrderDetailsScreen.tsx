@@ -1,4 +1,3 @@
-import "../styles/riders.css";
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRiderDeliveries } from "../hooks/useRiders";
@@ -35,8 +34,22 @@ export default function RiderOrderDetailsScreen() {
           <div className="flex items-center gap-2">
             <span>#{delivery.id}</span>
 
-            <div className="delivery-detail-status">
-              <span className={isLive ? "on-way" : "delivered"}>
+            <div style={{ zIndex: 0 }}>
+              <span
+                style={{
+                  ...{
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                    borderRadius: 10,
+                    fontSize: 10,
+                    background: "#fff0e9",
+                    color: "#ff6b42",
+                  },
+                  ...(isLive
+                    ? { background: "#f1e7ff", color: "#9749df" }
+                    : {}),
+                }}
+              >
                 {delivery.status}
               </span>
             </div>

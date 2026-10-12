@@ -1,18 +1,25 @@
-import { getApiErrorMessage } from "../../../shared/api/apiError";
 import { clientAdmin } from "../../../shared/api/client/apiClient";
-import type { BrandsItem } from "../types/brands.types";
+import { exchangeStores, getExchangeDetail } from "../data/mockData";
+import type { ExchangeDetail, ExchangeStoreRow } from "../types/exchange.types";
 
-// No dedicated screen design was supplied for this module yet — the
-// folder scaffold (api/hooks/screens/types/utils/validation) mirrors
-// every other feature so the real implementation can drop straight in.
-export const brandsApi = {
-    list: async (): Promise<BrandsItem[]> => {
-        try {
-            const { data } = await clientAdmin.get<BrandsItem[]>("/brands");
-            return data;
-        } catch (error) {
-            console.warn("Brands API not implemented yet:", getApiErrorMessage(error));
-            return [];
-        }
-    },
+export const exchangeApi = {
+  listStores: async (): Promise<ExchangeStoreRow[]> => {
+    try {
+      const response =
+        await clientAdmin.get<ExchangeStoreRow[]>("/exchanges/stores");
+      return response.data;
+    } catch {
+      return exchangeStores;
+    }
+  },
+  getDetail: async (exchangeId: string): Promise<ExchangeDetail> => {
+    try {
+      const response = await clientAdmin.get<ExchangeDetail>(
+        `/exchanges/${encodeURIComponent(exchangeId)}`,
+      );
+      return response.data;
+    } catch {
+      return getExchangeDetail(exchangeId);
+    }
+  },
 };
