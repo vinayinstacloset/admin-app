@@ -6,6 +6,13 @@ interface Props {
   onChange: (tab: OfferCouponTab) => void;
 }
 
+const tabs: Array<{ value: OfferCouponTab; label: string }> = [
+  { value: "offer", label: "OFFER" },
+  { value: "coupon", label: "COUPON" },
+  { value: "marketplace", label: "MARKET PLACE" },
+  { value: "bonus", label: "BONUS" },
+];
+
 export default function OfferCouponTabs({ active, onChange }: Props) {
   const isMax900 = useMediaQuery("(max-width: 900px)");
   const isMax560 = useMediaQuery("(max-width: 560px)");
@@ -13,95 +20,53 @@ export default function OfferCouponTabs({ active, onChange }: Props) {
     <div style={{ display: "flex", justifyContent: "center", padding: 0 }}>
       <div
         style={{
-          ...{
-            width: 280,
-            height: 31,
-            display: "flex",
-            alignItems: "stretch",
-            background: "#e7e6e5",
-            borderRadius: 5,
-            overflow: "visible",
-            boxSizing: "border-box",
-          },
-          ...(isMax900 ? { maxWidth: "100%" } : {}),
-          ...(isMax560 ? { width: "100%", maxWidth: 280 } : {}),
+          width: 560,
+          maxWidth: isMax900 ? "100%" : 560,
+          height: 31,
+          display: "flex",
+          alignItems: "stretch",
+          background: "#e7e6e5",
+          borderRadius: 5,
+          overflow: "visible",
+          boxSizing: "border-box",
         }}
         role="tablist"
       >
-        <button
-          type="button"
-          role="tab"
-          aria-selected={active === "offer"}
-          style={{
-            ...{
-              position: "relative",
-              flex: 1,
-              height: 31,
-              minWidth: 0,
-              margin: 0,
-              padding: "0 18px",
-              border: "1px solid transparent",
-              borderRadius: 5,
-              background: "transparent",
-              color: "#5d5753",
-              fontSize: 11,
-              fontWeight: 400,
-              cursor: "pointer",
-              boxSizing: "border-box",
-              fontFamily: "inherit",
-            },
-            ...(active === "offer"
-              ? {
-                  border: "1px solid #76523b",
-                  background: "#f0eeec",
-                  color: "#76523b",
-                  fontWeight: 700,
-                  zIndex: 2,
-                  borderRadius: "5px 0 0 5px",
-                }
-              : {}),
-          }}
-          onClick={() => onChange("offer")}
-        >
-          OFFER
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={active === "coupon"}
-          style={{
-            ...{
-              position: "relative",
-              flex: 1,
-              height: 31,
-              minWidth: 0,
-              margin: 0,
-              padding: "0 18px",
-              border: "1px solid transparent",
-              borderRadius: 5,
-              background: "transparent",
-              color: "#5d5753",
-              fontSize: 11,
-              fontWeight: 400,
-              cursor: "pointer",
-              boxSizing: "border-box",
-              fontFamily: "inherit",
-            },
-            ...(active === "coupon"
-              ? {
-                  border: "1px solid #76523b",
-                  background: "#f0eeec",
-                  color: "#76523b",
-                  fontWeight: 700,
-                  zIndex: 2,
-                  borderRadius: "0 5px 5px 0",
-                }
-              : {}),
-          }}
-          onClick={() => onChange("coupon")}
-        >
-          COUPON
-        </button>
+        {tabs.map((tab, index) => {
+          const selected = active === tab.value;
+          return (
+            <button
+              key={tab.value}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              style={{
+                position: "relative",
+                flex: 1,
+                height: 31,
+                minWidth: 0,
+                margin: 0,
+                padding: isMax560 ? "0 5px" : "0 10px",
+                border: selected
+                  ? "1px solid #76523b"
+                  : "1px solid transparent",
+                borderRadius: selected ? 5 : 0,
+                background: selected ? "#f0eeec" : "transparent",
+                color: selected ? "#76523b" : "#5d5753",
+                fontSize: isMax560 ? 9 : 10.5,
+                fontWeight: selected ? 700 : 400,
+                cursor: "pointer",
+                boxSizing: "border-box",
+                fontFamily: "inherit",
+                zIndex: selected ? 2 : 1,
+                marginLeft: index === 0 ? 0 : -1,
+              }}
+              onClick={() => onChange(tab.value)}
+            >
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

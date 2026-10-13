@@ -4,6 +4,8 @@ import OfferCouponTabs from "../components/OfferCouponTabs";
 import { useOfferCouponTab } from "../hooks/useOfferCouponTab";
 import OfferTab from "./OfferTab";
 import CouponTab from "./CouponTab";
+import MarketplaceTab from "./MarketplaceTab";
+import BonusTab from "./BonusTab";
 import { useMediaQuery } from "../../../shared/hooks/useMediaQuery";
 
 export default function OfferCouponScreen() {
@@ -16,20 +18,20 @@ export default function OfferCouponScreen() {
   return (
     <div
       style={{
-        ...{
-          fontFamily: "inherit",
-          color: "#24201d",
-          display: "flex",
-          flexDirection: "column",
-          gap: 14,
-          minWidth: 0,
-          paddingBottom: 24,
-        },
-        ...(isMax560 ? { gap: 12 } : {}),
+        fontFamily: "inherit",
+        color: "#24201d",
+        display: "flex",
+        flexDirection: "column",
+        gap: isMax560 ? 12 : 14,
+        minWidth: 0,
+        paddingBottom: 24,
       }}
     >
       <OfferCouponTabs active={activeTab} onChange={setActiveTab} />
-      {activeTab === "offer" ? <OfferTab /> : <CouponTab />}
+      {activeTab === "offer" && <OfferTab />}
+      {activeTab === "coupon" && <CouponTab />}
+      {activeTab === "marketplace" && <MarketplaceTab />}
+      {activeTab === "bonus" && <BonusTab />}
     </div>
   );
 }

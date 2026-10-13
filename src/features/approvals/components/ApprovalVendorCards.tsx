@@ -8,12 +8,27 @@ interface ApprovalVendorCardsProps {
   onApprove: (item: ApprovalItem) => void;
 }
 
-function Field({ label, value }: { label: string; value?: string }) {
+function Field({
+  label,
+  value,
+  wrap = false,
+}: {
+  label: string;
+  value?: string;
+  wrap?: boolean;
+}) {
+  const displayValue = value || "—";
+
   return (
     <div className="min-w-0">
       <p className="text-[10px] text-ink/45">{label}</p>
-      <p className="truncate text-[12px] font-semibold text-ink">
-        {value || "—"}
+      <p
+        title={displayValue}
+        className={`text-[12px] font-semibold text-ink ${
+          wrap ? "break-words" : "truncate"
+        }`}
+      >
+        {displayValue}
       </p>
     </div>
   );
@@ -46,34 +61,47 @@ export default function ApprovalVendorCards({
               className="rounded-xl bg-white p-4 shadow-sm"
             >
               <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1fr)_390px]">
-                <div className="grid grid-cols-2 gap-x-8 gap-y-5 p-2 sm:grid-cols-3">
-                  <Field
-                    label="Full Name:"
-                    value={item.personal?.name ?? item.name}
-                  />
-                  <Field
-                    label="Email:"
-                    value={item.personal?.email ?? item.email}
-                  />
-                  <Field
-                    label="Mobile No:"
-                    value={item.personal?.phone ?? item.contact}
-                  />
-                  <Field label="Age/Gender:" value={item.personal?.ageGender} />
-                  <Field
-                    label="City/State:"
-                    value={
-                      item.personal?.cityState ??
-                      [item.city, item.state].filter(Boolean).join(" / ")
-                    }
-                  />
+                {/* Vendor details: row 1 = personal, row 2 = business */}
+                <div className="flex flex-col justify-center gap-y-5 p-2 px-4">
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-[136fr_208fr_154fr_123fr_137fr]">
+                    <Field
+                      label="Full Name:"
+                      value={item.personal?.name ?? item.name}
+                    />
+                    <Field
+                      label="Email:"
+                      value={item.personal?.email ?? item.email}
+                    />
+                    <Field
+                      label="Mobile No:"
+                      value={item.personal?.phone ?? item.contact}
+                    />
+                    <Field label="PAN No:" value={item.panNumber} />
+                    <Field
+                      label="City/State:"
+                      value={
+                        item.personal?.cityState ??
+                        [item.city, item.state].filter(Boolean).join("/")
+                      }
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-[187fr_175fr_396fr]">
+                    <Field
+                      label="Company/station name:"
+                      value={item.storeName}
+                    />
+                    <Field label="GSTIN No:" value={item.gstin} />
+                    <Field label="Address:" value={item.address} wrap />
+                  </div>
                 </div>
 
+                {/* Aadhar card preview panel */}
                 <div className="rounded-xl bg-[#f4f2ef] p-3 text-left">
-                  <span className="mb-2 inline-flex rounded-md bg-[#ece6df] px-3 py-1 text-[10px] font-semibold text-brand-700">
+                  <span className="inline-flex rounded-md bg-[#ece6df] px-3 py-1 text-[10px] font-semibold text-brand-700">
                     Aadhar card
                   </span>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="mt-1 flex min-h-[100px] items-center justify-center gap-6">
                     {images.slice(0, 2).map((source, index) => (
                       <button
                         key={source}
@@ -84,29 +112,22 @@ export default function ApprovalVendorCards({
                           setDocument(aadhaar);
                           setDocumentImageIndex(index);
                         }}
-                        className="group rounded-lg bg-white/70 p-1.5 text-center"
+                        aria-label={`View Aadhar card ${index === 0 ? "front" : "back"}`}
+                        className="flex h-[78px] w-[118px] items-center justify-center overflow-hidden rounded bg-white shadow-sm transition hover:ring-1 hover:ring-brand-500"
                       >
-                        <div className="flex h-[82px] items-center justify-center overflow-hidden rounded border border-black/10 bg-white group-hover:border-brand-500">
-                          <img
-                            src={source}
-                            alt={`Aadhaar ${index === 0 ? "front" : "back"}`}
-                            className="max-h-full max-w-full object-contain"
-                          />
-                        </div>
-                        <span className="mt-1 block text-[9px] font-medium text-ink/50">
-                          {index === 0 ? "Front" : "Back"}
-                        </span>
+                        <img
+                          src={source}
+                          alt={`Aadhaar ${index === 0 ? "front" : "back"}`}
+                          className="max-h-full max-w-full object-contain"
+                        />
                       </button>
                     ))}
                     {images.length === 0 && (
-                      <div className="col-span-2 flex h-[100px] items-center justify-center text-[10px] text-ink/35">
+                      <p className="text-[10px] text-ink/35">
                         Aadhaar images unavailable
-                      </div>
+                      </p>
                     )}
                   </div>
-                  <p className="mt-2 text-[9px] text-ink/40">
-                    Click front or back to view separately
-                  </p>
                 </div>
               </div>
 

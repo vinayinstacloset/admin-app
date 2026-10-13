@@ -1,4 +1,4 @@
-export const RESEND_OTP_SECONDS = 60;
+export const RESEND_OTP_SECONDS = 30;
 
 export const isValidEmail = (value: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);

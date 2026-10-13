@@ -64,9 +64,9 @@ export function useLogin() {
 
     try {
       //await authService.sendOtp({ email, mobile });
-      //setOtp(Array(6).fill(""));
-      //setTimer(RESEND_OTP_SECONDS);
-      //setOtpError("");
+      setOtp(Array(6).fill(""));
+      setTimer(RESEND_OTP_SECONDS);
+      setOtpError("");
       setOtpModalOpen(true);
     } catch (err) {
       setError(

@@ -28,7 +28,7 @@ export const mockApprovals: ApprovalItem[] = [
       email: "madhavi.fashion@gmail.com",
       phone: "+91 98765 43210",
       ageGender: "34 / Female",
-      cityState: "Hyderabad / Telangana",
+      cityState: "Hyderabad/Telangana",
       avatarUrl: null,
     },
     documents: [
@@ -58,7 +58,7 @@ export const mockApprovals: ApprovalItem[] = [
       email: "urbanthreads@gmail.com",
       phone: "+91 91234 56780",
       ageGender: "38 / Male",
-      cityState: "Secunderabad / Telangana",
+      cityState: "Secunderabad/Telangana",
       avatarUrl: null,
     },
     documents: [

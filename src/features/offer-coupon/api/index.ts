@@ -56,3 +56,5 @@ export const offerCouponApi = {
     }) as Coupon,
   deleteCoupon: async (id: string) => id,
 };
+
+export { marketplaceApi } from "./marketplaceApi";

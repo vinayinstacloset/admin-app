@@ -220,7 +220,18 @@ export default function StoreScreen() {
           onSkus={() => navigate(`${basePath}/skus`)}
         />
       )}
-      {view === "orders" && <OrdersView source={{ label: "Orders", to: `${basePath}/orders`, parentLabel: "Nike – Bandra details", parentTo: basePath, rootLabel: "Store", rootTo: "/admin-dashboard/store" }} />}
+      {view === "orders" && (
+        <OrdersView
+          source={{
+            label: "Orders",
+            to: `${basePath}/orders`,
+            parentLabel: "Nike – Bandra details",
+            parentTo: basePath,
+            rootLabel: "Store",
+            rootTo: "/admin-dashboard/store",
+          }}
+        />
+      )}
       {view === "reviews" && <ReviewsView />}
       {view === "skus" && <SkusScreen />}
     </div>

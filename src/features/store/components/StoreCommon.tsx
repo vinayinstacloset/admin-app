@@ -28,7 +28,7 @@ export function Dropdown({
       <button
         type="button"
         onClick={onToggle}
-        className="flex h-9 min-w-[116px] items-center justify-between gap-3 rounded-md bg-white px-3 text-xs font-semibold text-ink shadow-sm hover:bg-[#fafafa]"
+        className="flex h-9 min-w-[116px] items-center justify-between gap-3 rounded-md bg-white px-3 text-xs text-ink shadow-sm hover:bg-[#fafafa]"
       >
         <span className="flex items-center gap-2">
           {icon}

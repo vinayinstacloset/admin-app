@@ -187,7 +187,7 @@ export default function RidersScreen() {
             onChange={updateState}
           />
 
-          <button
+          <span
             style={{
               height: 32,
               width: 28,
@@ -199,11 +199,9 @@ export default function RidersScreen() {
               placeItems: "center",
               padding: 0,
             }}
-            type="button"
-            aria-label="Filter riders"
           >
             <Filter size={16} />
-          </button>
+          </span>
 
           <Dropdown
             value={status}
@@ -211,7 +209,7 @@ export default function RidersScreen() {
             onChange={updateStatus}
           />
 
-          <button
+          <span
             style={{
               height: 32,
               width: 28,
@@ -223,11 +221,9 @@ export default function RidersScreen() {
               placeItems: "center",
               padding: 0,
             }}
-            type="button"
-            aria-label="More filters"
           >
             <SlidersHorizontal size={17} />
-          </button>
+          </span>
 
           <Dropdown
             value={sort}

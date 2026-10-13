@@ -16,7 +16,10 @@ import type {
 import { useNavigate } from "react-router-dom";
 import { RejectExchangeModal } from "../../exchange/components/ExchangeModals";
 import RejectOrderModal from "../../orders/components/RejectOrderModal";
-import { setOrderRejectionReason, setOrderStatus } from "../../orders/orderState";
+import {
+  setOrderRejectionReason,
+  setOrderStatus,
+} from "../../orders/orderState";
 import { PaymentModal, RejectRefundModal } from "../../returns/components";
 
 type Props = {
@@ -102,7 +105,10 @@ function SelectMenu({
 
 function StatusPill({ status }: { status: string }) {
   const className =
-    status === "Refunded" || status === "Delivered" || status === "Exchanged" || status === "Approved"
+    status === "Refunded" ||
+    status === "Delivered" ||
+    status === "Exchanged" ||
+    status === "Approved"
       ? "bg-[#ecfbf2] text-[#37b86a]"
       : status === "Collected"
         ? "bg-[#e8f3ff] text-[#1682e8]"
@@ -124,7 +130,6 @@ function StatusPill({ status }: { status: string }) {
     </span>
   );
 }
-
 
 function ReassignModal({
   open,
@@ -168,7 +173,10 @@ function ReassignModal({
                 <button
                   key={option}
                   type="button"
-                  onClick={() => { setRider(option); setRiderMenuOpen(false); }}
+                  onClick={() => {
+                    setRider(option);
+                    setRiderMenuOpen(false);
+                  }}
                   className={`block w-full rounded px-3 py-2 text-left text-[10px] ${option === rider ? "bg-[#eeeae6] font-semibold text-[#76533d]" : "text-ink/65 hover:bg-[#f7f5f2]"}`}
                 >
                   {option}
@@ -284,9 +292,13 @@ export default function CustomerTables({
   const [reassignRow, setReassignRow] = useState<CustomerOrderRow | null>(null);
   const [rejectExchangeRow, setRejectExchangeRow] =
     useState<CustomerExchangeRow | null>(null);
-  const [rejectOrderRow, setRejectOrderRow] = useState<CustomerOrderRow | null>(null);
-  const [rejectReturnRow, setRejectReturnRow] = useState<CustomerReturnRow | null>(null);
-  const [refundReturnRow, setRefundReturnRow] = useState<CustomerReturnRow | null>(null);
+  const [rejectOrderRow, setRejectOrderRow] = useState<CustomerOrderRow | null>(
+    null,
+  );
+  const [rejectReturnRow, setRejectReturnRow] =
+    useState<CustomerReturnRow | null>(null);
+  const [refundReturnRow, setRefundReturnRow] =
+    useState<CustomerReturnRow | null>(null);
   const [pendingAction, setPendingAction] = useState<{
     title: string;
     message: string;
@@ -424,21 +436,29 @@ export default function CustomerTables({
   };
 
   const openOrder = (row: CustomerOrderRow) => {
-    navigate(`/admin-dashboard/orders/${encodeURIComponent(row.id.replace("#", ""))}`, {
-      state: {
-        source: {
-          label: "Orders",
-          to: `/admin-dashboard/customers/${customerId}`,
-          parentLabel: customerName,
-          parentTo: `/admin-dashboard/customers/${customerId}`,
-          rootLabel: "Customers",
-          rootTo: "/admin-dashboard/customers",
+    navigate(
+      `/admin-dashboard/orders/${encodeURIComponent(row.id.replace("#", ""))}`,
+      {
+        state: {
+          source: {
+            label: "Orders",
+            to: `/admin-dashboard/customers/${customerId}`,
+            parentLabel: customerName,
+            parentTo: `/admin-dashboard/customers/${customerId}`,
+            rootLabel: "Customers",
+            rootTo: "/admin-dashboard/customers",
+          },
+          status: row.status === "Ready for delivery" ? "Ready" : row.status,
+          riderState:
+            row.rider === "-"
+              ? "not-accepted"
+              : row.status === "Ready"
+                ? "on-way"
+                : "on-way",
+          row,
         },
-        status: row.status === "Ready for delivery" ? "Ready" : row.status,
-        riderState: row.rider === "-" ? "not-accepted" : row.status === "Ready" ? "on-way" : "on-way",
-        row,
       },
-    });
+    );
   };
   const openReturn = (row: CustomerReturnRow) => {
     navigate(
@@ -547,7 +567,9 @@ export default function CustomerTables({
                 </div>,
                 row.rider === "-" ? "-" : row.rider,
                 <div key="item">
-                  <span className="block whitespace-normal break-words leading-4">{row.details}</span>
+                  <span className="block whitespace-normal break-words leading-4">
+                    {row.details}
+                  </span>
                   <span className="flex items-center text-[8.5px] text-ink/35 mt-1">
                     <PackageOpen size={10} /> 19&nbsp;&nbsp;{" "}
                     <PackageOpen size={10} /> 23
@@ -600,7 +622,9 @@ export default function CustomerTables({
                     </button>
                   </div>
                 ) : row.status === "Packing" ? (
-                  <span key="action" className="text-[9.5px] text-ink/55">-</span>
+                  <span key="action" className="text-[9.5px] text-ink/55">
+                    -
+                  </span>
                 ) : row.status === "Ready" ? (
                   <span key="action" className="text-[9.5px] text-ink/55">
                     ETA: 12:30 PM
@@ -678,17 +702,29 @@ export default function CustomerTables({
                       type="button"
                       onClick={() => setRejectReturnRow(row)}
                       className="h-7 px-3 rounded-md bg-[#ed7373] text-white text-[9.5px] font-semibold"
-                    >Reject</button>
+                    >
+                      Reject
+                    </button>
                     <button
                       type="button"
                       onClick={() => setRefundReturnRow(row)}
                       className="h-7 px-3 rounded-md bg-[#805b42] text-white text-[9.5px] font-semibold"
-                    >Refund</button>
+                    >
+                      Refund
+                    </button>
                   </div>
                 ) : row.status === "On the way" ? (
                   <div key="action">
-                    <span className="block text-[9px] text-ink/60">ETA: 12:30 PM</span>
-                    <button type="button" onClick={() => openReturn(row)} className="mt-1 h-6 px-3 rounded-md border border-[#80634f] text-[#6f513e] text-[9px]">Track rider</button>
+                    <span className="block text-[9px] text-ink/60">
+                      ETA: 12:30 PM
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => openReturn(row)}
+                      className="mt-1 h-6 px-3 rounded-md border border-[#80634f] text-[#6f513e] text-[9px]"
+                    >
+                      Track rider
+                    </button>
                   </div>
                 ) : (
                   <button
@@ -846,7 +882,13 @@ export default function CustomerTables({
         onClose={() => setRejectReturnRow(null)}
         onConfirm={(message) => {
           if (!rejectReturnRow) return;
-          setReturnRows((current) => current.map((item) => item.id === rejectReturnRow.id ? { ...item, status: "Rejected", reason: message } : item));
+          setReturnRows((current) =>
+            current.map((item) =>
+              item.id === rejectReturnRow.id
+                ? { ...item, status: "Rejected", reason: message }
+                : item,
+            ),
+          );
           setRejectReturnRow(null);
         }}
       />

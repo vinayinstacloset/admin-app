@@ -1,14 +1,14 @@
 import { getApiErrorMessage } from "../../../shared/api/apiError";
 import { clientAdmin } from "../../../shared/api/client/apiClient";
-import type { ApprovalsItem } from "../types/approvals.types";
+import type { ApprovalItem } from "../types/approvals.types";
 
 // No dedicated screen design was supplied for this module yet — the
 // folder scaffold (api/hooks/screens/types/utils/validation) mirrors
 // every other feature so the real implementation can drop straight in.
 export const approvalsApi = {
-  list: async (): Promise<ApprovalsItem[]> => {
+  list: async (): Promise<ApprovalItem[]> => {
     try {
-      const { data } = await clientAdmin.get<ApprovalsItem[]>("/approvals");
+      const { data } = await clientAdmin.get<ApprovalItem[]>("/approvals");
       return data;
     } catch (error) {
       console.warn(

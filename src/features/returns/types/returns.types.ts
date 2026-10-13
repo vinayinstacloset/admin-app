@@ -1,4 +1,5 @@
-export type ReturnStatus = "All" | "New" | "Refunded" | "On the way" | "Collected" | "Rejected";
+export type ReturnStatus =
+  "All" | "New" | "Refunded" | "On the way" | "Collected" | "Rejected";
 
 export interface ReturnRow {
   id: string;

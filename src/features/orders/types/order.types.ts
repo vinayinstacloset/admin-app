@@ -1,4 +1,5 @@
-export type OrderStatus = "New" | "Packing" | "Ready" | "On the way" | "Delivered" | "Rejected";
+export type OrderStatus =
+  "New" | "Packing" | "Ready" | "On the way" | "Delivered" | "Rejected";
 
 export interface OrderListRow {
   id: string;

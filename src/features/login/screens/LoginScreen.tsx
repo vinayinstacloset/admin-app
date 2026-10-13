@@ -34,25 +34,34 @@ export default function LoginScreen() {
     verifyOtp,
   } = useLogin();
 
+  const isMobileValid = /^[6-9]\d{9}$/.test(mobile);
+
+  const isLoginValid = isValid && isMobileValid;
+
+  const handleMobileChange = (value: string) => {
+    const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+    updateMobile(digitsOnly);
+  };
+
   return (
     <AuthLayout>
-      <h1 className="text-lg font-semibold text-ink mb-5">
+      <h1 className="text-lg font-semibold text-ink mb-4">
         Login into Dashboard
       </h1>
 
       <form onSubmit={submit} className="space-y-4">
         <div>
-          <label className="block text-xs font-medium text-ink/70 mb-1.5">
-            Email
-          </label>
+          <label className="block text-xs text-ink mb-1.5">Email</label>
+
           <div className="relative">
             <Input
               type="email"
               value={email}
               onChange={(event) => updateEmail(event.target.value)}
               placeholder="Enter email address"
-              className={email ? "pr-10 font-medium" : "pr-10"}
+              className={email ? "pr-10" : "pr-10"}
             />
+
             {email && (
               <button
                 type="button"
@@ -68,23 +77,29 @@ export default function LoginScreen() {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-ink/70 mb-1.5">
-            Mobile No.
-          </label>
+          <label className="block text-xs text-ink mb-1.5">Mobile No.</label>
+
           <div className="relative flex items-center rounded-lg border border-black/10 bg-white focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-100 transition">
             <span className="pl-3.5 pr-2 text-sm text-ink/70 border-r border-black/10 py-2.5 select-none">
               +91
             </span>
+
             <input
               type="tel"
               inputMode="numeric"
+              autoComplete="tel-national"
               value={mobile}
-              onChange={(event) => updateMobile(event.target.value)}
+              onChange={(event) => handleMobileChange(event.target.value)}
               placeholder="Enter mobile no."
+              maxLength={10}
+              pattern="[6-9][0-9]{9}"
+              title="Enter a valid 10-digit mobile number starting with 6, 7, 8, or 9"
+              aria-invalid={mobile.length > 0 && !isMobileValid}
               className={`w-full bg-transparent px-3 py-2.5 text-sm text-ink outline-none placeholder:text-ink/35 ${
-                mobile ? "font-medium" : ""
+                mobile ? "" : ""
               }`}
             />
+
             {mobile && (
               <button
                 type="button"
@@ -97,6 +112,12 @@ export default function LoginScreen() {
               </button>
             )}
           </div>
+
+          {mobile.length > 0 && !isMobileValid && (
+            <p className="mt-1.5 text-xs text-red-500">
+              Enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.
+            </p>
+          )}
         </div>
 
         {error && <p className="text-xs text-red-500">{error}</p>}
@@ -107,7 +128,7 @@ export default function LoginScreen() {
           size="lg"
           fullWidth
           loading={isLoading}
-          disabled={!isValid}
+          disabled={!isLoginValid || isLoading}
           className="uppercase tracking-wide font-semibold"
         >
           Login
@@ -156,7 +177,7 @@ export default function LoginScreen() {
             size="lg"
             fullWidth
             loading={isVerifying}
-            disabled={otp.some((digit) => digit === "")}
+            disabled={otp.some((digit) => digit === "") || isVerifying}
             className="font-semibold"
           >
             Submit
@@ -172,7 +193,7 @@ export default function LoginScreen() {
                 type="button"
                 onClick={handleResendOtp}
                 disabled={isResending}
-                className="text-xs font-medium text-ink/70 hover:text-brand-600 hover:underline"
+                className="text-xs text-ink/70 hover:text-brand-600 hover:underline"
               >
                 Resend code
               </button>

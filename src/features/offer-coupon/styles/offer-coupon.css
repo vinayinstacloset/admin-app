@@ -978,7 +978,10 @@
   justify-content: center;
   gap: 26px;
   cursor: pointer;
-  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
 }
 
 .oc-offer-type-card:first-child svg {
@@ -991,7 +994,7 @@
 
 .oc-offer-type-card:hover {
   border-color: #8d634c;
-  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
   transform: translateY(-1px);
 }
 

@@ -839,7 +839,17 @@ export default function VendorDetailsScreen() {
           <span className="hidden">{String(suspended)}</span>
         </>
       ) : subView === "orders" ? (
-        <OrdersView showTitle={false} source={{ label: "Total Orders", to: `/admin-dashboard/vendor/${vendorId}/orders`, parentLabel: "Rajesh Kumar details", parentTo: `/admin-dashboard/vendor/${vendorId}`, rootLabel: "Vendor", rootTo: "/admin-dashboard/vendor" }} />
+        <OrdersView
+          showTitle={false}
+          source={{
+            label: "Total Orders",
+            to: `/admin-dashboard/vendor/${vendorId}/orders`,
+            parentLabel: "Rajesh Kumar details",
+            parentTo: `/admin-dashboard/vendor/${vendorId}`,
+            rootLabel: "Vendor",
+            rootTo: "/admin-dashboard/vendor",
+          }}
+        />
       ) : subView === "skus" ? (
         <SkusScreen />
       ) : subView === "reviews" ? (

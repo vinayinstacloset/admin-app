@@ -16,16 +16,10 @@ const card: React.CSSProperties = {
 };
 
 export default function SettingsScreen() {
-  const { setPageAction, setExtraCrumbs } =
-    useDashboardOutletContext();
+  const { setPageAction, setExtraCrumbs } = useDashboardOutletContext();
 
-  const {
-    settings,
-    isDirty,
-    updatePlatform,
-    updateProfile,
-    save,
-  } = useSettings();
+  const { settings, isDirty, updatePlatform, updateProfile, save } =
+    useSettings();
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -44,10 +38,7 @@ export default function SettingsScreen() {
     setExtraCrumbs([{ label: "Settings" }]);
 
     const saveButton = (
-      <SaveChangesButton
-        saveRef={saveRef}
-        isDirtyRef={isDirtyRef}
-      />
+      <SaveChangesButton saveRef={saveRef} isDirtyRef={isDirtyRef} />
     );
 
     setPageAction(saveButton);
@@ -142,8 +133,7 @@ export default function SettingsScreen() {
         >
           <img
             src={
-              settings.profile.pictureUrl ||
-              "https://i.pravatar.cc/160?img=12"
+              settings.profile.pictureUrl || "https://i.pravatar.cc/160?img=12"
             }
             alt="Profile"
             style={{
@@ -165,9 +155,7 @@ export default function SettingsScreen() {
 
           <button
             type="button"
-            onClick={() =>
-              updateProfile("pictureUrl", "")
-            }
+            onClick={() => updateProfile("pictureUrl", "")}
             style={deleteButton}
           >
             Delete picture
@@ -182,10 +170,7 @@ export default function SettingsScreen() {
               const file = event.target.files?.[0];
 
               if (file) {
-                updateProfile(
-                  "pictureUrl",
-                  URL.createObjectURL(file),
-                );
+                updateProfile("pictureUrl", URL.createObjectURL(file));
               }
             }}
           />
@@ -195,34 +180,26 @@ export default function SettingsScreen() {
           <Field
             label="Full Name"
             value={settings.profile.fullName}
-            onChange={(value) =>
-              updateProfile("fullName", value)
-            }
+            onChange={(value) => updateProfile("fullName", value)}
           />
 
           <Field
             label="Email"
             value={settings.profile.email}
-            onChange={(value) =>
-              updateProfile("email", value)
-            }
+            onChange={(value) => updateProfile("email", value)}
           />
 
           <Field
             label="Mobile No."
             value={settings.profile.mobile}
-            onChange={(value) =>
-              updateProfile("mobile", value)
-            }
+            onChange={(value) => updateProfile("mobile", value)}
           />
         </div>
       </section>
 
       <div className="settings-main-grid">
         <section>
-          <h2 style={sectionTitle}>
-            Platform settings
-          </h2>
+          <h2 style={sectionTitle}>Platform settings</h2>
 
           <div
             style={{
@@ -233,15 +210,11 @@ export default function SettingsScreen() {
             <Toggle
               label="Auto-approve low-risk vendors"
               description="Skip manual review for verified GST"
-              checked={
-                settings.platform
-                  .autoApproveLowRiskVendors
-              }
+              checked={settings.platform.autoApproveLowRiskVendors}
               onChange={() =>
                 updatePlatform(
                   "autoApproveLowRiskVendors",
-                  !settings.platform
-                    .autoApproveLowRiskVendors,
+                  !settings.platform.autoApproveLowRiskVendors,
                 )
               }
             />
@@ -249,15 +222,11 @@ export default function SettingsScreen() {
             <Toggle
               label="New order notifications"
               description="Push + email alerts for admin"
-              checked={
-                settings.platform
-                  .newOrderNotifications
-              }
+              checked={settings.platform.newOrderNotifications}
               onChange={() =>
                 updatePlatform(
                   "newOrderNotifications",
-                  !settings.platform
-                    .newOrderNotifications,
+                  !settings.platform.newOrderNotifications,
                 )
               }
             />
@@ -288,20 +257,13 @@ function SaveChangesButton({
       const dirty = isDirtyRef.current;
 
       button.disabled = !dirty;
-      button.style.background = dirty
-        ? "#765038"
-        : "#d8d8d8";
-      button.style.cursor = dirty
-        ? "pointer"
-        : "default";
+      button.style.background = dirty ? "#765038" : "#d8d8d8";
+      button.style.cursor = dirty ? "pointer" : "default";
     };
 
     updateButton();
 
-    const interval = window.setInterval(
-      updateButton,
-      100,
-    );
+    const interval = window.setInterval(updateButton, 100);
 
     return () => {
       window.clearInterval(interval);
@@ -360,9 +322,7 @@ function Field({
 
       <input
         value={value}
-        onChange={(event) =>
-          onChange(event.target.value)
-        }
+        onChange={(event) => onChange(event.target.value)}
         style={{
           width: "100%",
           height: 40,

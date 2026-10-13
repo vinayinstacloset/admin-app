@@ -125,7 +125,10 @@ export default function App() {
         />
 
         <Route path="riders" element={<RidersScreen />} />
-        <Route path="riders/delivery-charges" element={<DeliveryChargesScreen />} />
+        <Route
+          path="riders/delivery-charges"
+          element={<DeliveryChargesScreen />}
+        />
         <Route path="riders/:riderId" element={<RiderDetailsScreen />} />
         <Route
           path="riders/:riderId/orders/:orderId"
@@ -153,7 +156,10 @@ export default function App() {
         <Route path="finance/banks" element={<BankAccountsScreen />} />
         <Route path="returns" element={<ReturnsScreen />} />
         <Route path="returns/:storeId" element={<ReturnsScreen />} />
-        <Route path="returns/:storeId/:returnId" element={<ReturnDetailsScreen />} />
+        <Route
+          path="returns/:storeId/:returnId"
+          element={<ReturnDetailsScreen />}
+        />
         <Route path="exchange" element={<ExchangeScreen />} />
         <Route path="exchange/:storeId" element={<ExchangeScreen />} />
         <Route

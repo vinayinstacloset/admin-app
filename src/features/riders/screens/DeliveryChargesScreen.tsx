@@ -30,14 +30,17 @@ function readCharges(): Charges {
     if (!parsed || typeof parsed !== "object") return EMPTY_CHARGES;
 
     const source = parsed as Partial<Record<DeliveryType, unknown>>;
-    return DELIVERY_TYPES.reduce<Charges>((result, type) => {
-      const values = Array.isArray(source[type]) ? source[type] : [];
-      result[type] = RANGES.map((_, index) => {
-        const value = values[index];
-        return typeof value === "string" ? value : "";
-      });
-      return result;
-    }, { ...EMPTY_CHARGES });
+    return DELIVERY_TYPES.reduce<Charges>(
+      (result, type) => {
+        const values = Array.isArray(source[type]) ? source[type] : [];
+        result[type] = RANGES.map((_, index) => {
+          const value = values[index];
+          return typeof value === "string" ? value : "";
+        });
+        return result;
+      },
+      { ...EMPTY_CHARGES },
+    );
   } catch {
     return EMPTY_CHARGES;
   }
@@ -54,7 +57,9 @@ function cloneCharges(charges: Charges): Charges {
 export default function DeliveryChargesScreen() {
   const { setExtraCrumbs, setPageAction } = useDashboardOutletContext();
   const [charges, setCharges] = useState<Charges>(() => readCharges());
-  const [savedCharges, setSavedCharges] = useState<Charges>(() => readCharges());
+  const [savedCharges, setSavedCharges] = useState<Charges>(() =>
+    readCharges(),
+  );
 
   const hasChanges = useMemo(
     () => JSON.stringify(charges) !== JSON.stringify(savedCharges),
@@ -227,7 +232,9 @@ export default function DeliveryChargesScreen() {
         </div>
       </section>
 
-      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 14 }}>
+      <div
+        style={{ display: "flex", justifyContent: "flex-end", marginTop: 14 }}
+      >
         <button
           type="button"
           disabled={!hasChanges}

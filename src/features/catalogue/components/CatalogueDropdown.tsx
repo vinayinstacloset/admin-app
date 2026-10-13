@@ -35,7 +35,7 @@ export default function CatalogueDropdown({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex h-9 w-full items-center justify-between gap-2 rounded-md border border-black/10 bg-white px-3 text-[10px] font-semibold text-ink transition-shadow hover:shadow-sm"
+        className="flex h-9 w-full items-center justify-between gap-2 rounded-md border border-black/10 bg-white px-3 text-[10px] text-ink transition-shadow hover:shadow-sm"
       >
         <span className="truncate">{value || placeholder || "Select"}</span>
         <ChevronDown
