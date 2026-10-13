@@ -1,4 +1,4 @@
-import { Package } from "lucide-react";
+import { Package, MapPin } from "lucide-react";
 import type { Delivery } from "../data/mockData";
 import CommonTable from "../../../shared/components/common/CommonTable";
 
@@ -11,23 +11,26 @@ interface Props {
 export default function DeliveryTable({ items, onView, onTrack }: Props) {
   const data = items.map((item) => [
     <div key="order">
-      <div className="font-bold">#{item.id}</div>
+      <div>#{item.id}</div>
       <span className="block mt-1 text-[8px] text-[#888]">
         2 Items · 20 min ago
       </span>
     </div>,
     <div key="customer">
-      <b className="block max-w-[170px] truncate">{item.customer}</b>
-      <span className="block mt-1 text-[8px] text-[#888]">
-        ⌖ {item.customerAddress}
-      </span>
+      <span className="block max-w-[170px] truncate">{item.customer}</span>
+      <span className="mt-1 flex items-center gap-1 text-[8px] text-[#888]">
+  <MapPin size={10} className="shrink-0" />
+  <span className="truncate" title={item.customerAddress}>
+    {item.customerAddress}
+  </span>
+</span>
     </div>,
     <div key="store">
-      <b className="block max-w-[170px] truncate">{item.store}</b>
+      <span className="block max-w-[170px] truncate">{item.store}</span>
       <span className="block mt-1 text-[8px] text-[#888]">{item.city}</span>
     </div>,
     <div key="item">
-      <b className="block max-w-[170px] truncate">{item.item}</b>
+      <span title={item.item} className="block max-w-[140px] truncate">{item.item}</span>
       <span className="mt-1 block text-[8px] text-[#888]">
         <Package size={11} className="mr-1 inline align-middle" />
         {item.itemMeta}

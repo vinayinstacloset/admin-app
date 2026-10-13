@@ -23,6 +23,7 @@ interface AuthState {
   setTokens: (tokens: AuthTokens) => void;
   setAdmin: (admin: AdminProfile | null) => void;
   clearAuth: () => void;
+  clearTokens: () => void;
   getTokens: () => {
     accessToken: string | null;
     refreshToken: string | null;
@@ -56,6 +57,10 @@ export const useAuthStore = create<AuthState>()(
         set({
           admin,
         });
+      },
+
+      clearTokens: () => {
+        set({ isAuthenticated: false, accessToken: null, refreshToken: null, admin: null });
       },
 
       clearAuth: () => {

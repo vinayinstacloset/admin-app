@@ -269,7 +269,7 @@ export default function RidersScreen() {
                       src="/reference/riders/avatar-list.jpg"
                       alt=""
                     />
-                    <b>{rider.name}</b>
+                    <span>{rider.name}</span>
                   </div>,
                   rider.phone,
                   <div

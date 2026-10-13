@@ -37,7 +37,7 @@ export default function ApprovalTable({
   onApprove,
 }: ApprovalTableProps) {
   const data = items.map((item) => [
-    <strong key="name">{item.name}</strong>,
+    <span key="name">{item.name}</span>,
     <span key="email" className="truncate">
       {item.email}
     </span>,

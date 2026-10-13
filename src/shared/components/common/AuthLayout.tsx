@@ -6,12 +6,12 @@ interface AuthLayoutProps {
 }
 
 const collage: string[] = [
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80",
-  "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=400&q=80",
-  "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80",
-  "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&q=80",
-  "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&q=80",
-  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80",
+  "https://instacloset-images.s3.ap-south-1.amazonaws.com/Static-images/Rectangle+86.jpg.jpeg",
+  "https://instacloset-images.s3.ap-south-1.amazonaws.com/Static-images/Rectangle+88.jpg.jpeg",
+  "https://instacloset-images.s3.ap-south-1.amazonaws.com/Static-images/Sculptural+Gold+Earrings+Editorial+Portrait.png",
+  "https://instacloset-images.s3.ap-south-1.amazonaws.com/Static-images/Minimalist+Rust+Corduroy+Editorial+Portrait.png",
+  "https://instacloset-images.s3.ap-south-1.amazonaws.com/Static-images/Rectangle+73.jpg.jpeg",
+  "https://instacloset-images.s3.ap-south-1.amazonaws.com/Static-images/Aloof+in+Earth-Tone+Tailoring.png",
 ];
 
 const fashionPattern = `
@@ -41,28 +41,49 @@ const patternBackground = `url("data:image/svg+xml,${encodeURIComponent(
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen w-full bg-cream relative overflow-hidden flex items-center justify-center px-4 py-10">
-      <div className="absolute inset-x-0 top-0 h-[280px] md:h-[320px] flex">
+    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-cream px-4 py-8 sm:py-10">
+      {/* Fashion image collage */}
+      <div className="absolute inset-x-0 top-0 z-0 flex h-[230px] overflow-hidden sm:h-[280px] md:h-[320px]">
         {collage.map((src) => (
-          <div key={src} className="flex-1 h-full overflow-hidden">
-            <img src={src} alt="" className="w-full h-full object-cover" />
+          <div
+            key={src}
+            className="h-full min-w-0 flex-1 overflow-hidden"
+          >
+            <img
+              src={src}
+              alt=""
+              aria-hidden="true"
+              loading="eager"
+              className="h-full w-full object-cover"
+            />
           </div>
         ))}
       </div>
 
+      {/* Responsive curved SVG-pattern background */}
       <div
-        className="absolute inset-x-[-10%] top-[190px] md:top-[230px] h-[70vh] rounded-t-[50%]"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] overflow-hidden"
         style={{
-          backgroundColor: "#f8f8f8",
-          backgroundImage: patternBackground,
-          backgroundRepeat: "repeat",
-          backgroundSize: "76px 76px",
-          backgroundPosition: "center",
+          top: "clamp(175px, 27vh, 250px)",
         }}
-      />
+      >
+        <div
+          className="absolute bottom-0 left-[-25%] right-[-25%] top-0"
+          style={{
+            backgroundColor: "#f8f8f8",
+            backgroundImage: patternBackground,
+            backgroundRepeat: "repeat",
+            backgroundSize: "76px 76px",
+            backgroundPosition: "center top",
+            borderRadius: "50% 50% 0 0 / 282px 282px 0 0",
+          }}
+        />
+      </div>
 
-      <div className="relative z-10 mt-28 w-full max-w-[480px] bg-white rounded-2xl shadow-soft p-8">
-        <div className="flex items-center justify-center mb-4">
+      {/* Login content */}
+      <div className="relative z-10 mt-28 w-full max-w-[480px] rounded-2xl bg-white p-5 shadow-soft sm:p-8">
+        <div className="mb-4 flex items-center justify-center">
           <Logo size="text-base" />
         </div>
 

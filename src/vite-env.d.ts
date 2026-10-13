@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly VITE_ADMIN_ID_KEY: string;
   readonly VITE_ADMIN_EMAIL_KEY: string;
   readonly VITE_ADMIN_NAME_KEY: string;
+  readonly VITE_ADMIN_MOBILE_KEY: string;
 }
 
 interface ImportMeta {

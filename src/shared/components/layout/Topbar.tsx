@@ -1,6 +1,9 @@
-import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
-import { Bell, ChevronRight, Menu } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Bell, ChevronRight, LogOut, Menu, UserRound } from "lucide-react";
+import Button from "../common/buttons/Button";
+import { authService } from "../../../features/login/api/authApi";
 
 export interface Breadcrumb {
   label: ReactNode;
@@ -17,22 +20,186 @@ interface TopbarProps {
 }
 
 function DefaultHeaderActions() {
-  return (
-    <div className="flex items-center gap-3 sm:gap-4">
-      <button
-        type="button"
-        aria-label="Notifications"
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-ink/80 shadow-sm transition-colors hover:bg-[#f5f5f5]"
-      >
-        <Bell size={18} />
-      </button>
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-      <img
-        src="https://picsum.photos/seed/admin-profile/64/64"
-        alt="User profile"
-        className="h-8 w-8 shrink-0 rounded-full object-cover shadow-sm ring-1 ring-black/5"
-      />
-    </div>
+  const profileRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target as Node)
+      ) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!logoutModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !isLoggingOut) {
+        setLogoutModalOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [logoutModalOpen, isLoggingOut]);
+
+  const confirmLogout = async () => {
+    if (isLoggingOut) return;
+
+    setIsLoggingOut(true);
+
+    try {
+      await authService.logout();
+    } catch (error) {
+      console.error("Logout request failed:", error);
+    } finally {
+      localStorage.clear();
+      sessionStorage.clear();
+
+      setProfileOpen(false);
+      setLogoutModalOpen(false);
+      setIsLoggingOut(false);
+
+      navigate("/login", { replace: true });
+    }
+  };
+
+  return (
+    <>
+      <div className="flex items-center gap-3 sm:gap-4">
+        <button
+          type="button"
+          aria-label="Notifications"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-ink/80 shadow-sm transition-colors hover:bg-[#f5f5f5]"
+        >
+          <Bell size={18} />
+        </button>
+
+        <div className="relative" ref={profileRef}>
+          <button
+            type="button"
+            aria-label="Open profile menu"
+            aria-expanded={profileOpen}
+            onClick={() => setProfileOpen((open) => !open)}
+            className="rounded-full focus:outline-none focus:ring-2 focus:ring-[#765038]/30"
+          >
+            <img
+              src="https://picsum.photos/seed/admin-profile/64/64"
+              alt="Admin profile"
+              className="h-8 w-8 shrink-0 rounded-full object-cover shadow-sm ring-1 ring-black/5"
+            />
+          </button>
+
+          {profileOpen && (
+            <div className="absolute right-0 top-full z-50 mt-2 w-48 overflow-hidden rounded-lg border border-black/10 bg-white py-1 shadow-lg">
+              <button
+                type="button"
+                onClick={() => {
+                  setProfileOpen(false);
+                  navigate("/admin-dashboard/settings");
+                }}
+                className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm font-medium text-ink transition-colors hover:bg-[#f5f1ee]"
+              >
+                <UserRound size={16} />
+                Go to Profile
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setProfileOpen(false);
+                  setLogoutModalOpen(true);
+                }}
+                className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {logoutModalOpen &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 p-4"
+            onMouseDown={(event) => {
+              if (
+                event.target === event.currentTarget &&
+                !isLoggingOut
+              ) {
+                setLogoutModalOpen(false);
+              }
+            }}
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="logout-modal-title"
+              className="relative z-[100000] w-full max-w-[420px] rounded-xl bg-white p-6 shadow-2xl"
+              onMouseDown={(event) => event.stopPropagation()}
+            >
+              <div className="px-2 text-center">
+                <h2
+                  id="logout-modal-title"
+                  className="text-lg font-semibold text-ink"
+                >
+                  Confirm Logout
+                </h2>
+
+                <p className="mt-2 text-sm leading-6 text-ink/65">
+                  Are you sure you want to logout?
+                </p>
+              </div>
+
+              <div className="mt-6 flex justify-center gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="md"
+                  disabled={isLoggingOut}
+                  onClick={() => setLogoutModalOpen(false)}
+                >
+                  No, wait
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="danger"
+                  size="md"
+                  loading={isLoggingOut}
+                  onClick={confirmLogout}
+                >
+                  Yes
+                </Button>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
+    </>
   );
 }
 
@@ -68,7 +235,10 @@ export default function Topbar({
               className="flex min-w-0 max-w-full items-center gap-1.5"
             >
               {index > 0 && (
-                <ChevronRight size={13} className="shrink-0 text-ink/25" />
+                <ChevronRight
+                  size={13}
+                  className="shrink-0 text-ink/25"
+                />
               )}
 
               {crumb.to ? (

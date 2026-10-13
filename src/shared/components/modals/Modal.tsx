@@ -17,9 +17,9 @@ export default function Modal({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/75 p-4">
       <div
-        className={`relative w-full ${widthClassName} bg-white rounded-2xl shadow-soft p-6`}
+        className={`relative w-full ${widthClassName} rounded-2xl bg-white p-6 shadow-soft`}
       >
         {onClose && (
           <button

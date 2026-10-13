@@ -19,7 +19,6 @@ export default function LoginScreen() {
     clearEmail,
     clearMobile,
     submit,
-
     otp,
     otpError,
     otpModalOpen,
@@ -35,7 +34,6 @@ export default function LoginScreen() {
   } = useLogin();
 
   const isMobileValid = /^[6-9]\d{9}$/.test(mobile);
-
   const isLoginValid = isValid && isMobileValid;
 
   const handleMobileChange = (value: string) => {
@@ -45,13 +43,13 @@ export default function LoginScreen() {
 
   return (
     <AuthLayout>
-      <h1 className="text-lg font-semibold text-ink mb-4">
+      <h1 className="mb-4 text-lg font-semibold text-ink">
         Login into Dashboard
       </h1>
 
       <form onSubmit={submit} className="space-y-4">
         <div>
-          <label className="block text-xs text-ink mb-1.5">Email</label>
+          <label className="mb-1.5 block text-xs text-ink">Email</label>
 
           <div className="relative">
             <Input
@@ -59,7 +57,7 @@ export default function LoginScreen() {
               value={email}
               onChange={(event) => updateEmail(event.target.value)}
               placeholder="Enter email address"
-              className={email ? "pr-10" : "pr-10"}
+              className="pr-10"
             />
 
             {email && (
@@ -77,10 +75,12 @@ export default function LoginScreen() {
         </div>
 
         <div>
-          <label className="block text-xs text-ink mb-1.5">Mobile No.</label>
+          <label className="mb-1.5 block text-xs text-ink">
+            Mobile No.
+          </label>
 
-          <div className="relative flex items-center rounded-lg border border-black/10 bg-white focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-100 transition">
-            <span className="pl-3.5 pr-2 text-sm text-ink/70 border-r border-black/10 py-2.5 select-none">
+          <div className="relative flex items-center rounded-lg border border-black/10 bg-white transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-100">
+            <span className="select-none border-r border-black/10 py-2.5 pl-3.5 pr-2 text-sm text-ink/70">
               +91
             </span>
 
@@ -95,9 +95,7 @@ export default function LoginScreen() {
               pattern="[6-9][0-9]{9}"
               title="Enter a valid 10-digit mobile number starting with 6, 7, 8, or 9"
               aria-invalid={mobile.length > 0 && !isMobileValid}
-              className={`w-full bg-transparent px-3 py-2.5 text-sm text-ink outline-none placeholder:text-ink/35 ${
-                mobile ? "" : ""
-              }`}
+              className="w-full min-w-0 bg-transparent px-3 py-2.5 text-sm text-ink outline-none placeholder:text-ink/35"
             />
 
             {mobile && (
@@ -129,7 +127,7 @@ export default function LoginScreen() {
           fullWidth
           loading={isLoading}
           disabled={!isLoginValid || isLoading}
-          className="uppercase tracking-wide font-semibold"
+          className="font-semibold uppercase tracking-wide"
         >
           Login
         </Button>
@@ -140,11 +138,11 @@ export default function LoginScreen() {
         onClose={closeOtpModal}
         widthClassName="max-w-[420px]"
       >
-        <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/10">
+        <div className="mb-4 flex items-center justify-between border-b border-black/10 pb-4">
           <h2 className="text-base font-semibold text-ink">Enter OTP</h2>
         </div>
 
-        <p className="text-sm text-ink/60 mb-4">
+        <p className="mb-4 text-sm text-ink/60">
           Enter the 6 digit code sent to:
           <br />
           <span className="font-semibold text-ink">+91 {mobile}</span>
@@ -159,17 +157,24 @@ export default function LoginScreen() {
                   inputsRef.current[index] = el;
                 }}
                 value={digit}
-                onChange={(event) => updateOtpDigit(index, event.target.value)}
-                onKeyDown={(event) => handleOtpKeyDown(index, event.key)}
+                onChange={(event) =>
+                  updateOtpDigit(index, event.target.value)
+                }
+                onKeyDown={(event) =>
+                  handleOtpKeyDown(index, event.key)
+                }
                 maxLength={1}
                 inputMode="numeric"
                 autoFocus={index === 0}
-                className="w-11 h-11 text-center rounded-lg border border-black/10 text-[15px] font-semibold outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                aria-label={`OTP digit ${index + 1}`}
+                className="h-11 w-11 rounded-lg border border-black/10 text-center text-[15px] font-semibold outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
               />
             ))}
           </div>
 
-          {otpError && <p className="text-xs text-red-500">{otpError}</p>}
+          {otpError && (
+            <p className="text-xs text-red-500">{otpError}</p>
+          )}
 
           <Button
             type="submit"
@@ -193,7 +198,7 @@ export default function LoginScreen() {
                 type="button"
                 onClick={handleResendOtp}
                 disabled={isResending}
-                className="text-xs text-ink/70 hover:text-brand-600 hover:underline"
+                className="text-xs text-ink/70 hover:text-brand-600 hover:underline disabled:opacity-50"
               >
                 Resend code
               </button>

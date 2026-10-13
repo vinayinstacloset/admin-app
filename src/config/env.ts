@@ -1,7 +1,3 @@
-// Centralized environment configuration.
-// Every value is read once here so the rest of the app never touches
-// import.meta.env directly — swap .env files per environment instead.
-
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
 export const API_ADMIN_BASE_URL =
@@ -21,3 +17,5 @@ export const ADMIN_EMAIL_KEY =
   (import.meta.env.VITE_ADMIN_EMAIL_KEY as string) || "adminEmail";
 export const ADMIN_NAME_KEY =
   (import.meta.env.VITE_ADMIN_NAME_KEY as string) || "adminName";
+export const ADMIN_MOBILE_KEY =
+  (import.meta.env.VITE_ADMIN_MOBILE_KEY as string) || "adminMobile";

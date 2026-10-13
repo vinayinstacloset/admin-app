@@ -5,7 +5,7 @@ export const mockSettings: SettingsState = {
     fullName: "Ayan Qureshi",
     email: "ayanqureshi@gmail.com",
     mobile: "+91 82654 45132",
-    pictureUrl: "https://i.pravatar.cc/160?img=12",
+    pictureUrl: "https://picsum.photos/seed/admin-profile/64/64",
   },
   platform: {
     maintenanceMode: false,

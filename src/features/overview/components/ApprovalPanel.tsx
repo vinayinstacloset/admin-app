@@ -35,7 +35,7 @@ export default function ApprovalPanel({
                   {approval.name}
                   <Link
                     to={`/admin-dashboard/approvals/${approval.id}`}
-                    className="ml-1 text-[9px] font-semibold text-sky-500 underline"
+                    className="ml-1 text-[9px] font-normal text-[#0071E3] underline"
                   >
                     View details
                   </Link>

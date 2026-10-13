@@ -133,7 +133,7 @@ export default function SettingsScreen() {
         >
           <img
             src={
-              settings.profile.pictureUrl || "https://i.pravatar.cc/160?img=12"
+              settings.profile.pictureUrl || "https://picsum.photos/seed/admin-profile/64/64"
             }
             alt="Profile"
             style={{

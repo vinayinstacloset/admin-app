@@ -45,15 +45,15 @@ export default function App() {
   return (
     <Routes>
       {/* Public / auth routes */}
-      {/* <Route element={<PublicRoute />}> */}
+      <Route element={<PublicRoute />}>
       <Route path="/" element={<LoginScreen />} />
 
       <Route path="/login" element={<LoginScreen />} />
 
-      {/* </Route> */}
+      </Route>
 
       {/* Protected admin dashboard */}
-      {/* <Route element={<ProtectedRoute />}> */}
+      <Route element={<ProtectedRoute />}>
       <Route path="/admin-dashboard" element={<DashboardLayout />}>
         <Route index element={<OverviewScreen />} />
 
@@ -168,7 +168,7 @@ export default function App() {
         />
         <Route path="settings" element={<SettingsScreen />} />
       </Route>
-      {/* </Route> */}
+      </Route>
     </Routes>
   );
 }

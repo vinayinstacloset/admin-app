@@ -55,11 +55,7 @@ export default function RiderDetailsScreen() {
     if (!rider) return;
 
     const riderDetailsLabel = (
-      <button
-        type="button"
-
-        onClick={() => setShowMore(false)}
-      >
+      <button type="button" onClick={() => setShowMore(false)}>
         {rider.name} details
       </button>
     );
@@ -179,23 +175,15 @@ export default function RiderDetailsScreen() {
             <button
               type="button"
               style={{
-                ...{
-                  height: 29,
-                  padding: "0 13px",
-                  border: "1px solid #e3e0dd",
-                  background: "#eee",
-                  borderRadius: 0,
-                  fontSize: 9,
-                  fontWeight: 700,
-                  color: "#666",
-                },
-                ...(tab === "today"
-                  ? {
-                      border: "1px solid #8a5a32",
-                      background: "#fff",
-                      color: "#6b4931",
-                    }
-                  : {}),
+                height: 29,
+                padding: "0 13px",
+                border:
+                  tab === "today" ? "1px solid #8a5a32" : "1px solid #e3e0dd",
+                background: tab === "today" ? "#F3EAE2" : "#eee",
+                borderRadius: "5px 0 0 5px",
+                fontSize: 9,
+                fontWeight: 700,
+                color: tab === "today" ? "#6b4931" : "#666",
               }}
               onClick={() => setTab("today")}
             >
@@ -205,23 +193,17 @@ export default function RiderDetailsScreen() {
             <button
               type="button"
               style={{
-                ...{
-                  height: 29,
-                  padding: "0 13px",
-                  border: "1px solid #e3e0dd",
-                  background: "#eee",
-                  borderRadius: 0,
-                  fontSize: 9,
-                  fontWeight: 700,
-                  color: "#666",
-                },
-                ...(tab === "completed"
-                  ? {
-                      border: "1px solid #8a5a32",
-                      background: "#fff",
-                      color: "#6b4931",
-                    }
-                  : {}),
+                height: 29,
+                padding: "0 13px",
+                border:
+                  tab === "completed"
+                    ? "1px solid #8a5a32"
+                    : "1px solid #e3e0dd",
+                background: tab === "completed" ? "#F3EAE2" : "#eee",
+                borderRadius: "0 5px 5px 0",
+                fontSize: 9,
+                fontWeight: 700,
+                color: tab === "completed" ? "#6b4931" : "#666",
               }}
               onClick={() => setTab("completed")}
             >

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../../store/zustand/authStore";
 import { authService } from "../api/authApi";
 import {
   isValidEmail,
@@ -10,8 +9,6 @@ import {
 
 export function useLogin() {
   const navigate = useNavigate();
-
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
 
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
@@ -63,7 +60,7 @@ export function useLogin() {
     setError("");
 
     try {
-      //await authService.sendOtp({ email, mobile });
+      await authService.sendOtp({ email, mobile });
       setOtp(Array(6).fill(""));
       setTimer(RESEND_OTP_SECONDS);
       setOtpError("");
@@ -131,8 +128,7 @@ export function useLogin() {
     setOtpError("");
 
     try {
-      //await authService.verifyOtp({ email, mobile, otp: otp.join("") });
-      setAuthenticated(true);
+      await authService.verifyOtp({ email, mobile, otp: otp.join("") });
 
       navigate("/admin-dashboard", {
         replace: true,
