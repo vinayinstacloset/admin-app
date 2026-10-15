@@ -45,10 +45,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       {/* Fashion image collage */}
       <div className="absolute inset-x-0 top-0 z-0 flex h-[230px] overflow-hidden sm:h-[280px] md:h-[320px]">
         {collage.map((src) => (
-          <div
-            key={src}
-            className="h-full min-w-0 flex-1 overflow-hidden"
-          >
+          <div key={src} className="h-full min-w-0 flex-1 overflow-hidden">
             <img
               src={src}
               alt=""

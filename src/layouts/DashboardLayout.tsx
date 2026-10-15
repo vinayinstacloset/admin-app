@@ -52,8 +52,10 @@ export default function DashboardLayout() {
     window.scrollTo(0, 0);
     // Reset per-page chrome whenever the route changes so a stale
     // action button / breadcrumb from the previous screen doesn't linger.
-    setPageAction(null);
-    setExtraCrumbs([]);
+    // Functional updates return the same value when nothing is set, so React
+    // skips the extra re-render on first mount.
+    setPageAction((current) => (current === null ? current : null));
+    setExtraCrumbs((current) => (current.length === 0 ? current : []));
   }, [location.pathname]);
 
   const rootLabel = pathToLabel[location.pathname] ?? "Overview";
@@ -70,7 +72,10 @@ export default function DashboardLayout() {
     ? DRAWER_WIDTH_COLLAPSED
     : DRAWER_WIDTH_EXPANDED;
 
-  const SidebarContent = () => (
+  // An element, not an inline component: a component declared here would get
+  // a new identity on every render and remount the whole sidebar each time
+  // the layout state changes (e.g. when a screen sets its header action).
+  const sidebar = (
     <Sidebar
       isCollapsed={isSidebarCollapsed}
       onToggleCollapse={toggleSidebar}
@@ -101,7 +106,7 @@ export default function DashboardLayout() {
           },
         }}
       >
-        <SidebarContent />
+        {sidebar}
       </Drawer>
 
       <Drawer
@@ -127,7 +132,7 @@ export default function DashboardLayout() {
           },
         }}
       >
-        <SidebarContent />
+        {sidebar}
       </Drawer>
 
       <main

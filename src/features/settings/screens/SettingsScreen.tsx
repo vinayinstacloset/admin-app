@@ -133,7 +133,8 @@ export default function SettingsScreen() {
         >
           <img
             src={
-              settings.profile.pictureUrl || "https://picsum.photos/seed/admin-profile/64/64"
+              settings.profile.pictureUrl ||
+              "https://picsum.photos/seed/admin-profile/64/64"
             }
             alt="Profile"
             style={{

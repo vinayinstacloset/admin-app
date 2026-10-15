@@ -46,128 +46,133 @@ export default function App() {
     <Routes>
       {/* Public / auth routes */}
       <Route element={<PublicRoute />}>
-      <Route path="/" element={<LoginScreen />} />
+        <Route path="/" element={<LoginScreen />} />
 
-      <Route path="/login" element={<LoginScreen />} />
-
+        <Route path="/login" element={<LoginScreen />} />
       </Route>
 
       {/* Protected admin dashboard */}
       <Route element={<ProtectedRoute />}>
-      <Route path="/admin-dashboard" element={<DashboardLayout />}>
-        <Route index element={<OverviewScreen />} />
+        <Route path="/admin-dashboard" element={<DashboardLayout />}>
+          <Route index element={<OverviewScreen />} />
 
-        <Route path="store" element={<StoreScreen />} />
-        <Route path="store/:storeId" element={<StoreScreen />} />
-        <Route path="store/:storeId/orders" element={<StoreScreen />} />
-        <Route path="store/:storeId/skus" element={<StoreScreen />} />
-        <Route
-          path="store/:storeId/skus/:gender/:categoryId"
-          element={<StoreScreen />}
-        />
-        <Route path="store/:storeId/reviews" element={<StoreScreen />} />
+          <Route path="store" element={<StoreScreen />} />
+          <Route path="store/:storeId" element={<StoreScreen />} />
+          <Route path="store/:storeId/orders" element={<StoreScreen />} />
+          <Route path="store/:storeId/skus" element={<StoreScreen />} />
+          <Route
+            path="store/:storeId/skus/:gender/:categoryId"
+            element={<StoreScreen />}
+          />
+          <Route path="store/:storeId/reviews" element={<StoreScreen />} />
 
-        <Route path="orders" element={<OrdersScreen />} />
-        <Route path="orders/:orderId" element={<OrderDetailsScreen />} />
+          <Route path="orders" element={<OrdersScreen />} />
+          <Route path="orders/:orderId" element={<OrderDetailsScreen />} />
 
-        <Route path="catalogue" element={<CatalogueScreen />} />
-        <Route
-          path="catalogue/integration-status"
-          element={<CatalogueScreen />}
-        />
-        <Route path="catalogue/store/:storeId" element={<CatalogueScreen />} />
-        <Route
-          path="catalogue/store/:storeId/:gender/:categoryId"
-          element={<CatalogueScreen />}
-        />
-        <Route path="approvals" element={<ApprovalsScreen />} />
-        <Route
-          path="approvals/:approvalId"
-          element={<ApprovalDetailScreen />}
-        />
+          <Route path="catalogue" element={<CatalogueScreen />} />
+          <Route
+            path="catalogue/integration-status"
+            element={<CatalogueScreen />}
+          />
+          <Route
+            path="catalogue/store/:storeId"
+            element={<CatalogueScreen />}
+          />
+          <Route
+            path="catalogue/store/:storeId/:gender/:categoryId"
+            element={<CatalogueScreen />}
+          />
+          <Route path="approvals" element={<ApprovalsScreen />} />
+          <Route
+            path="approvals/:approvalId"
+            element={<ApprovalDetailScreen />}
+          />
 
-        <Route path="customers" element={<CustomersScreen />} />
-        <Route
-          path="customers/:customerId"
-          element={<CustomerDetailsScreen />}
-        />
-        <Route
-          path="customers/:customerId/orders/:orderId"
-          element={<OrderDetailsScreen />}
-        />
-        <Route
-          path="customers/:customerId/returns/:orderId"
-          element={<ReturnDetailsScreen customerContext />}
-        />
-        <Route
-          path="customers/:customerId/exchanges/:orderId"
-          element={<ExchangeDetailsScreen customerContext />}
-        />
+          <Route path="customers" element={<CustomersScreen />} />
+          <Route
+            path="customers/:customerId"
+            element={<CustomerDetailsScreen />}
+          />
+          <Route
+            path="customers/:customerId/orders/:orderId"
+            element={<OrderDetailsScreen />}
+          />
+          <Route
+            path="customers/:customerId/returns/:orderId"
+            element={<ReturnDetailsScreen customerContext />}
+          />
+          <Route
+            path="customers/:customerId/exchanges/:orderId"
+            element={<ExchangeDetailsScreen customerContext />}
+          />
 
-        <Route path="vendor" element={<VendorsScreen />} />
-        <Route path="vendor/:vendorId" element={<VendorDetailsScreen />} />
-        <Route
-          path="vendor/:vendorId/orders"
-          element={<VendorDetailsScreen />}
-        />
-        <Route path="vendor/:vendorId/skus" element={<VendorDetailsScreen />} />
-        <Route
-          path="vendor/:vendorId/skus/:gender/:categoryId"
-          element={<VendorDetailsScreen />}
-        />
-        <Route
-          path="vendor/:vendorId/chats"
-          element={<VendorDetailsScreen />}
-        />
-        <Route
-          path="vendor/:vendorId/reviews"
-          element={<VendorDetailsScreen />}
-        />
+          <Route path="vendor" element={<VendorsScreen />} />
+          <Route path="vendor/:vendorId" element={<VendorDetailsScreen />} />
+          <Route
+            path="vendor/:vendorId/orders"
+            element={<VendorDetailsScreen />}
+          />
+          <Route
+            path="vendor/:vendorId/skus"
+            element={<VendorDetailsScreen />}
+          />
+          <Route
+            path="vendor/:vendorId/skus/:gender/:categoryId"
+            element={<VendorDetailsScreen />}
+          />
+          <Route
+            path="vendor/:vendorId/chats"
+            element={<VendorDetailsScreen />}
+          />
+          <Route
+            path="vendor/:vendorId/reviews"
+            element={<VendorDetailsScreen />}
+          />
 
-        <Route path="riders" element={<RidersScreen />} />
-        <Route
-          path="riders/delivery-charges"
-          element={<DeliveryChargesScreen />}
-        />
-        <Route path="riders/:riderId" element={<RiderDetailsScreen />} />
-        <Route
-          path="riders/:riderId/orders/:orderId"
-          element={<RiderOrderDetailsScreen />}
-        />
+          <Route path="riders" element={<RidersScreen />} />
+          <Route
+            path="riders/delivery-charges"
+            element={<DeliveryChargesScreen />}
+          />
+          <Route path="riders/:riderId" element={<RiderDetailsScreen />} />
+          <Route
+            path="riders/:riderId/orders/:orderId"
+            element={<RiderOrderDetailsScreen />}
+          />
 
-        <Route path="live-delivery" element={<LiveDeliveryScreen />} />
-        <Route path="price-markup" element={<PriceMarkupScreen />} />
-        <Route
-          path="price-markup/add/:variantId"
-          element={<AddMarkupScreen />}
-        />
-        <Route path="offer-coupon" element={<OfferCouponScreen />} />
-        <Route path="brands" element={<BrandsScreen />} />
+          <Route path="live-delivery" element={<LiveDeliveryScreen />} />
+          <Route path="price-markup" element={<PriceMarkupScreen />} />
+          <Route
+            path="price-markup/add/:variantId"
+            element={<AddMarkupScreen />}
+          />
+          <Route path="offer-coupon" element={<OfferCouponScreen />} />
+          <Route path="brands" element={<BrandsScreen />} />
 
-        <Route path="finance" element={<FinanceScreen />} />
-        <Route
-          path="finance/transactions/:entity"
-          element={<TransactionHistoryScreen />}
-        />
-        <Route
-          path="finance/transactions/:entity/:transactionId/details"
-          element={<TransactionDetailsScreen />}
-        />
-        <Route path="finance/banks" element={<BankAccountsScreen />} />
-        <Route path="returns" element={<ReturnsScreen />} />
-        <Route path="returns/:storeId" element={<ReturnsScreen />} />
-        <Route
-          path="returns/:storeId/:returnId"
-          element={<ReturnDetailsScreen />}
-        />
-        <Route path="exchange" element={<ExchangeScreen />} />
-        <Route path="exchange/:storeId" element={<ExchangeScreen />} />
-        <Route
-          path="exchange/:storeId/:exchangeId"
-          element={<ExchangeScreen />}
-        />
-        <Route path="settings" element={<SettingsScreen />} />
-      </Route>
+          <Route path="finance" element={<FinanceScreen />} />
+          <Route
+            path="finance/transactions/:entity"
+            element={<TransactionHistoryScreen />}
+          />
+          <Route
+            path="finance/transactions/:entity/:transactionId/details"
+            element={<TransactionDetailsScreen />}
+          />
+          <Route path="finance/banks" element={<BankAccountsScreen />} />
+          <Route path="returns" element={<ReturnsScreen />} />
+          <Route path="returns/:storeId" element={<ReturnsScreen />} />
+          <Route
+            path="returns/:storeId/:returnId"
+            element={<ReturnDetailsScreen />}
+          />
+          <Route path="exchange" element={<ExchangeScreen />} />
+          <Route path="exchange/:storeId" element={<ExchangeScreen />} />
+          <Route
+            path="exchange/:storeId/:exchangeId"
+            element={<ExchangeScreen />}
+          />
+          <Route path="settings" element={<SettingsScreen />} />
+        </Route>
       </Route>
     </Routes>
   );

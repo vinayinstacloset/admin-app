@@ -19,18 +19,20 @@ export default function DeliveryTable({ items, onView, onTrack }: Props) {
     <div key="customer">
       <span className="block max-w-[170px] truncate">{item.customer}</span>
       <span className="mt-1 flex items-center gap-1 text-[8px] text-[#888]">
-  <MapPin size={10} className="shrink-0" />
-  <span className="truncate" title={item.customerAddress}>
-    {item.customerAddress}
-  </span>
-</span>
+        <MapPin size={10} className="shrink-0" />
+        <span className="truncate" title={item.customerAddress}>
+          {item.customerAddress}
+        </span>
+      </span>
     </div>,
     <div key="store">
       <span className="block max-w-[170px] truncate">{item.store}</span>
       <span className="block mt-1 text-[8px] text-[#888]">{item.city}</span>
     </div>,
     <div key="item">
-      <span title={item.item} className="block max-w-[140px] truncate">{item.item}</span>
+      <span title={item.item} className="block max-w-[140px] truncate">
+        {item.item}
+      </span>
       <span className="mt-1 block text-[8px] text-[#888]">
         <Package size={11} className="mr-1 inline align-middle" />
         {item.itemMeta}

@@ -24,12 +24,7 @@ const states: string[] = [
   "Maharashtra",
 ];
 
-const statusOptions: string[] = [
-  "All",
-  "Active",
-  "Suspended",
-  "Warning",
-];
+const statusOptions: string[] = ["All", "Active", "Suspended", "Warning"];
 
 const sortOptions: string[] = [
   "Name (A to Z)",
@@ -107,8 +102,7 @@ function Dropdown({
 export default function VendorsScreen() {
   const navigate = useNavigate();
 
-  const { setPageAction, setExtraCrumbs } =
-    useDashboardOutletContext();
+  const { setPageAction, setExtraCrumbs } = useDashboardOutletContext();
 
   const {
     filteredRows,
@@ -221,9 +215,7 @@ export default function VendorsScreen() {
             options={states}
             open={open === "state"}
             onToggle={() =>
-              setOpen((current) =>
-                current === "state" ? null : "state",
-              )
+              setOpen((current) => (current === "state" ? null : "state"))
             }
             onSelect={(value: string) => {
               setState(value);
@@ -232,32 +224,30 @@ export default function VendorsScreen() {
             width="w-[125px]"
           />
 
-                  {/*<button*/}
-                  {/*    type="button"*/}
-                  {/*    onClick={() =>*/}
-                  {/*        setOpen((current) =>*/}
-                  {/*            current === "status" ? null : "status",*/}
-                  {/*        )*/}
-                  {/*    }*/}
-                  {/*    className="flex h-9 w-9 items-center justify-center rounded-md bg-white text-ink/65 shadow-sm"*/}
-                  {/*    aria-label="Filter by status"*/}
-                  {/*    aria-expanded={open === "status"}*/}
-                  {/*>*/}
-                  {/*    <Filter size={15} />*/}
-                  {/*</button>*/}
+          {/*<button*/}
+          {/*    type="button"*/}
+          {/*    onClick={() =>*/}
+          {/*        setOpen((current) =>*/}
+          {/*            current === "status" ? null : "status",*/}
+          {/*        )*/}
+          {/*    }*/}
+          {/*    className="flex h-9 w-9 items-center justify-center rounded-md bg-white text-ink/65 shadow-sm"*/}
+          {/*    aria-label="Filter by status"*/}
+          {/*    aria-expanded={open === "status"}*/}
+          {/*>*/}
+          {/*    <Filter size={15} />*/}
+          {/*</button>*/}
 
-                  <span className="flex h-9 w-6 shrink-0 items-center justify-center text-ink/65">
-                      <Filter size={15} />
-                  </span>
+          <span className="flex h-9 w-6 shrink-0 items-center justify-center text-ink/65">
+            <Filter size={15} />
+          </span>
 
           <Dropdown
             value={status}
             options={statusOptions}
             open={open === "status"}
             onToggle={() =>
-              setOpen((current) =>
-                current === "status" ? null : "status",
-              )
+              setOpen((current) => (current === "status" ? null : "status"))
             }
             onSelect={(value: string) => {
               setStatus(value);
@@ -280,9 +270,9 @@ export default function VendorsScreen() {
           {/*  <SlidersHorizontal size={15} />*/}
           {/*        </button>*/}
 
-                  <span className="flex h-9 w-6 shrink-0 items-center justify-center text-ink/65">
-                      <SlidersHorizontal size={15} />
-                  </span>
+          <span className="flex h-9 w-6 shrink-0 items-center justify-center text-ink/65">
+            <SlidersHorizontal size={15} />
+          </span>
 
           {/* Sort dropdown */}
           <Dropdown
@@ -290,9 +280,7 @@ export default function VendorsScreen() {
             options={sortOptions}
             open={open === "sort"}
             onToggle={() =>
-              setOpen((current) =>
-                current === "sort" ? null : "sort",
-              )
+              setOpen((current) => (current === "sort" ? null : "sort"))
             }
             onSelect={(value: string) => {
               setSort(value);
@@ -321,14 +309,10 @@ export default function VendorsScreen() {
             row.owner,
             row.company,
             row.orders.toLocaleString("en-IN"),
-            <strong key={`revenue-${row.id}`}>
-              {row.revenue}
-            </strong>,
+            <strong key={`revenue-${row.id}`}>{row.revenue}</strong>,
             <span
               key={`rating-${row.id}`}
-              className={
-                row.rating < 3 ? "text-[#ef7171]" : ""
-              }
+              className={row.rating < 3 ? "text-[#ef7171]" : ""}
             >
               <Star size={11} className="mr-1 inline" />
               {row.rating.toFixed(1)}
@@ -350,9 +334,7 @@ export default function VendorsScreen() {
             <button
               key={`action-${row.id}`}
               type="button"
-              onClick={() =>
-                navigate(`/admin-dashboard/vendor/${row.id}`)
-              }
+              onClick={() => navigate(`/admin-dashboard/vendor/${row.id}`)}
               className="rounded-md border border-[#76533d] px-4 py-1.5 text-[9px] font-medium text-[#76533d] hover:bg-[#76533d] hover:text-white"
             >
               Manage

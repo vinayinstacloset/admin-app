@@ -183,6 +183,98 @@ export default function ApprovalDetail({ item }: { item: ApprovalItem }) {
           </section>
         )}
 
+        {isRider && item.riderDetail && (
+          <>
+            {(["bank", "emergencyContact"] as const).map((sectionKey) => {
+              const section = item.riderDetail?.[sectionKey];
+              if (!section || typeof section !== "object") return null;
+              const values = section as Record<string, unknown>;
+              const labels =
+                sectionKey === "bank"
+                  ? [
+                      ["Account holder", "accountHolderName"],
+                      ["Account number", "accountNumber"],
+                      ["IFSC", "ifscCode"],
+                      ["Bank name", "bankName"],
+                      ["UPI ID", "upiId"],
+                    ]
+                  : [
+                      ["Contact name", "contactName"],
+                      ["Relation", "relation"],
+                      ["Mobile", "mobile"],
+                      ["Alternate number", "alternateNumber"],
+                    ];
+              return (
+                <section key={sectionKey}>
+                  <h2 className="mb-3 text-[15px] font-semibold text-ink">
+                    {sectionKey === "bank"
+                      ? "Bank details"
+                      : "Emergency contact"}
+                  </h2>
+                  <div className="rounded-xl bg-white px-6 py-5 shadow-sm">
+                    <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+                      {labels.map(([label, key]) => (
+                        <Field
+                          key={key}
+                          label={`${label}:`}
+                          value={String(values[key] ?? "")}
+                        />
+                      ))}
+                      <div>
+                        <p className="text-[10px] text-ink/45">Status</p>
+                        <p className="text-[12px] font-semibold text-ink">
+                          {String(values.status ?? "PENDING")}
+                        </p>
+                      </div>
+                    </div>
+                    {values.rejectionReason ? (
+                      <p className="mt-3 rounded-md bg-[#fff1f1] p-2 text-xs text-[#c33]">
+                        Reason: {String(values.rejectionReason)}
+                      </p>
+                    ) : null}
+                  </div>
+                </section>
+              );
+            })}
+            {(["aadhaar", "pan", "drivingLicense"] as const).map(
+              (sectionKey) => {
+                const section = item.riderDetail?.[sectionKey];
+                if (!section || typeof section !== "object") return null;
+                const values = section as Record<string, unknown>;
+                return (
+                  <section key={sectionKey}>
+                    <h2 className="mb-3 text-[15px] font-semibold capitalize text-ink">
+                      {sectionKey === "drivingLicense"
+                        ? "Driving license"
+                        : sectionKey}
+                    </h2>
+                    <div className="rounded-xl bg-white px-5 py-3 shadow-sm">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <span className="text-xs text-ink/55">
+                          Document status
+                        </span>
+                        <span
+                          className={`rounded-full px-3 py-1 text-[10px] font-semibold ${String(values.status) === "APPROVED" ? "bg-[#e8f8ee] text-[#21834a]" : String(values.status) === "REJECTED" ? "bg-[#fff0f0] text-[#c33]" : "bg-[#fff7e6] text-[#9a6700]"}`}
+                        >
+                          {String(values.status ?? "NOT_UPLOADED").replaceAll(
+                            "_",
+                            " ",
+                          )}
+                        </span>
+                      </div>
+                      {values.rejectionReason ? (
+                        <p className="mt-2 text-xs text-[#c33]">
+                          Reason: {String(values.rejectionReason)}
+                        </p>
+                      ) : null}
+                    </div>
+                  </section>
+                );
+              },
+            )}
+          </>
+        )}
+
         <section>
           <h2 className="mb-3 text-[15px] font-semibold text-ink">
             Document details

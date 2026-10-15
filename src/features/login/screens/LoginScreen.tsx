@@ -75,9 +75,7 @@ export default function LoginScreen() {
         </div>
 
         <div>
-          <label className="mb-1.5 block text-xs text-ink">
-            Mobile No.
-          </label>
+          <label className="mb-1.5 block text-xs text-ink">Mobile No.</label>
 
           <div className="relative flex items-center rounded-lg border border-black/10 bg-white transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-100">
             <span className="select-none border-r border-black/10 py-2.5 pl-3.5 pr-2 text-sm text-ink/70">
@@ -157,12 +155,8 @@ export default function LoginScreen() {
                   inputsRef.current[index] = el;
                 }}
                 value={digit}
-                onChange={(event) =>
-                  updateOtpDigit(index, event.target.value)
-                }
-                onKeyDown={(event) =>
-                  handleOtpKeyDown(index, event.key)
-                }
+                onChange={(event) => updateOtpDigit(index, event.target.value)}
+                onKeyDown={(event) => handleOtpKeyDown(index, event.key)}
                 maxLength={1}
                 inputMode="numeric"
                 autoFocus={index === 0}
@@ -172,9 +166,7 @@ export default function LoginScreen() {
             ))}
           </div>
 
-          {otpError && (
-            <p className="text-xs text-red-500">{otpError}</p>
-          )}
+          {otpError && <p className="text-xs text-red-500">{otpError}</p>}
 
           <Button
             type="submit"

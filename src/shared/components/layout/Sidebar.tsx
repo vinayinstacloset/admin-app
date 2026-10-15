@@ -27,9 +27,7 @@ export default function Sidebar({
 
     if (!nav) return;
 
-    const activeItem = nav.querySelector<HTMLElement>(
-      'a[aria-current="page"]',
-    );
+    const activeItem = nav.querySelector<HTMLElement>('a[aria-current="page"]');
 
     if (!activeItem) return;
 
@@ -151,9 +149,8 @@ export default function Sidebar({
             <ul className="space-y-1">
               {section.items.map((item) => {
                 const IconComponent =
-                  (Icons as unknown as Record<string, LucideIcon>)[
-                    item.icon
-                  ] ?? Icons.Circle;
+                  (Icons as unknown as Record<string, LucideIcon>)[item.icon] ??
+                  Icons.Circle;
 
                 return (
                   <li key={item.key}>
@@ -181,9 +178,7 @@ export default function Sidebar({
                           <IconComponent
                             size={17}
                             className={
-                              isActive
-                                ? "text-brand-600"
-                                : "text-ink/40"
+                              isActive ? "text-brand-600" : "text-ink/40"
                             }
                           />
 

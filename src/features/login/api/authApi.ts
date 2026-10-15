@@ -38,10 +38,7 @@ function persistAdminDetails(data: VerifyLoginOtpResponse): void {
   }
 
   useAuthStore.getState().setAdmin({
-    id:
-      adminReferenceId == null
-        ? null
-        : String(adminReferenceId),
+    id: adminReferenceId == null ? null : String(adminReferenceId),
     name: name ?? null,
     email: email ?? null,
     role: role ?? null,
@@ -61,10 +58,7 @@ export const authService = {
       return data;
     } catch (error) {
       throw new Error(
-        getApiErrorMessage(
-          error,
-          "Failed to send OTP. Please try again.",
-        ),
+        getApiErrorMessage(error, "Failed to send OTP. Please try again."),
       );
     }
   },
@@ -126,6 +120,5 @@ export const authService = {
     }
   },
 
-  isAuthenticated: (): boolean =>
-    Boolean(useAuthStore.getState().accessToken),
+  isAuthenticated: (): boolean => Boolean(useAuthStore.getState().accessToken),
 };

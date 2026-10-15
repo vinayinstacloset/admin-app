@@ -1,73 +1,55 @@
-import { Eye } from "lucide-react";
+import { Eye, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "../../../shared/components/common/buttons";
 import CommonTable from "../../../shared/components/common/CommonTable";
 import type { ApprovalItem } from "../types/approvals.types";
-
 interface ApprovalTableProps {
   items: ApprovalItem[];
   onReject: (item: ApprovalItem) => void;
   onApprove: (item: ApprovalItem) => void;
 }
-
 const headers = [
   "Name",
-  "Email",
   "Contact",
   "Vehicle",
   "Vehicle No.",
   "City",
-  "State",
+  "Status",
   "Action",
 ];
-const widths = [
-  "1fr",
-  "1.35fr",
-  "1fr",
-  "1fr",
-  "1fr",
-  ".85fr",
-  ".85fr",
-  "1.5fr",
-];
-
-export default function ApprovalTable({
-  items,
-  onReject,
-  onApprove,
-}: ApprovalTableProps) {
+const widths = ["1.2fr", "1fr", "1fr", "1fr", ".85fr", ".9fr", "1.6fr"];
+export default function ApprovalTable({ items }: ApprovalTableProps) {
   const data = items.map((item) => [
-    <span key="name">{item.name}</span>,
-    <span key="email" className="truncate">
-      {item.email}
+    <span key="name" className="font-medium">
+      {item.name || "—"}
     </span>,
-    item.contact,
-    item.vehicle,
-    item.vehicleNumber,
-    item.city,
-    item.state,
+    item.contact || "—",
+    item.vehicle || "—",
+    item.vehicleNumber || "—",
+    item.city || "—",
+    <span
+      className={`rounded-full px-2.5 py-1 text-[10px] font-semibold ${item.status === "REJECTED" ? "bg-[#fff0f0] text-[#d94b4b]" : "bg-[#fff7e6] text-[#b7791f]"}`}
+    >
+      {item.status || "PENDING"}
+    </span>,
     <div key="actions" className="flex items-center gap-2">
-      <Button
-        variant="danger"
-        size="sm"
-        onClick={() => onReject(item)}
-        className="bg-[#ed7777]"
-      >
-        Reject
-      </Button>
-      <Button
-        variant="success"
-        size="sm"
-        onClick={() => onApprove(item)}
-        className="bg-[#2fbd66]"
-      >
-        Approve
-      </Button>
       <Link
-        to={`/admin-dashboard/approvals/${item.id}`}
-        className="inline-flex items-center gap-1 rounded-md border border-[#a99b8f] px-3 py-1.5 text-xs text-ink/70 hover:bg-cream"
+        to={`/admin-dashboard/approvals/${item.id}?type=rider`}
+        className="inline-flex items-center gap-1.5 rounded-md border border-[#a99b8f] px-3 py-1.5 text-xs font-medium text-ink/75 hover:bg-cream"
       >
+        <Eye size={13} />
         View
+        {item.rejectedCount ? (
+          <span className="ml-0.5 rounded-full bg-[#ed7777] px-1.5 py-0.5 text-[10px] font-bold text-white">
+            {item.rejectedCount}
+          </span>
+        ) : null}
+      </Link>
+      <Link
+        to={`/admin-dashboard/approvals/${item.id}?type=rider`}
+        className="inline-flex items-center gap-1.5 rounded-md bg-[#2fbd66] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#28aa5b]"
+      >
+        <CheckCircle2 size={13} />
+        Approve
       </Link>
     </div>,
   ]);
@@ -76,7 +58,7 @@ export default function ApprovalTable({
       headers={headers.map((header, i) => ({ header, width: widths[i] }))}
       data={data}
       rowKeys={items.map((item) => item.id)}
-      minWidth={1260}
+      minWidth={1050}
     />
   );
 }

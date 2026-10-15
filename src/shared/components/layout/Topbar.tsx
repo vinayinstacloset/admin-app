@@ -146,10 +146,7 @@ function DefaultHeaderActions() {
           <div
             className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 p-4"
             onMouseDown={(event) => {
-              if (
-                event.target === event.currentTarget &&
-                !isLoggingOut
-              ) {
+              if (event.target === event.currentTarget && !isLoggingOut) {
                 setLogoutModalOpen(false);
               }
             }}
@@ -235,10 +232,7 @@ export default function Topbar({
               className="flex min-w-0 max-w-full items-center gap-1.5"
             >
               {index > 0 && (
-                <ChevronRight
-                  size={13}
-                  className="shrink-0 text-ink/25"
-                />
+                <ChevronRight size={13} className="shrink-0 text-ink/25" />
               )}
 
               {crumb.to ? (
